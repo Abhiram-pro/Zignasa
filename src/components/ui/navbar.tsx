@@ -51,20 +51,20 @@ export function Navbar() {
       id="navbar"
       className={cn(
         "fixed top-4 left-1/2 transform -translate-x-1/2 z-50 transition-all duration-300 ease-in-out",
-        "rounded-full border border-white/20 backdrop-blur-md",
+        "rounded-full border border-white/20 backdrop-blur-md max-w-fit",
         isScrolled 
           ? "bg-black/60 shadow-lg shadow-black/25" 
           : "bg-gradient-to-r from-black/40 to-black/30"
       )}
     >
       {/* Desktop Navigation */}
-      <div className="hidden md:flex items-center justify-between px-6 py-3">
+      <div className="hidden md:flex items-center px-6 py-3 min-w-fit">
         {/* Logo and Brand */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 mr-6 flex-shrink-0">
           <img 
             src="/assets/img/hero-bg-light.png" 
             alt="ZIGNASA Logo" 
-            className="w-8 h-8 object-contain filter brightness-110"
+            className="w-8 h-8 object-contain filter brightness-110 flex-shrink-0"
           />
           <span className="text-white font-bold text-lg tracking-wide whitespace-nowrap">
             ZIGNASA <span className="text-cyan-400">2K25</span>
@@ -79,7 +79,7 @@ export function Navbar() {
               to={item.to}
               onClick={(e) => handleNavClick(e, item.to)}
               className={cn(
-                "px-4 py-2 text-sm font-medium text-white/90 rounded-full transition-all duration-200 whitespace-nowrap",
+                "px-2 py-2 text-sm font-medium text-white/90 rounded-full transition-all duration-200 whitespace-nowrap",
                 "hover:bg-white/10 hover:text-white hover:shadow-sm",
                 "focus:outline-none focus:ring-2 focus:ring-white/20"
               )}
@@ -91,13 +91,13 @@ export function Navbar() {
       </div>
 
       {/* Mobile Navigation */}
-      <div className="md:hidden flex items-center justify-between px-4 py-3">
+      <div className="md:hidden flex items-center justify-between px-4 py-3 min-w-fit">
         {/* Mobile Logo and Brand */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-shrink-0">
           <img 
             src="/assets/img/hero-bg-light.png" 
             alt="ZIGNASA Logo" 
-            className="w-6 h-6 object-contain filter brightness-110"
+            className="w-6 h-6 object-contain filter brightness-110 flex-shrink-0"
           />
           <span className="text-white font-bold text-base whitespace-nowrap">
             ZIGNASA <span className="text-cyan-400">2K25</span>
@@ -108,7 +108,7 @@ export function Navbar() {
           variant="ghost"
           size="icon"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="text-white hover:bg-white/10"
+          className="text-white hover:bg-white/10 flex-shrink-0 ml-4"
         >
           {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
         </Button>
