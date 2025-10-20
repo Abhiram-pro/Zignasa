@@ -58,26 +58,52 @@ export function Navbar() {
       )}
     >
       {/* Desktop Navigation */}
-      <div className="hidden md:flex items-center gap-1 px-6 py-3">
-        {navItems.map((item) => (
-          <Link
-            key={item.to}
-            to={item.to}
-            onClick={(e) => handleNavClick(e, item.to)}
-            className={cn(
-              "px-4 py-2 text-sm font-medium text-white/90 rounded-full transition-all duration-200",
-              "hover:bg-white/10 hover:text-white hover:shadow-sm",
-              "focus:outline-none focus:ring-2 focus:ring-white/20"
-            )}
-          >
-            {item.label}
-          </Link>
-        ))}
+      <div className="hidden md:flex items-center justify-between px-6 py-3">
+        {/* Logo and Brand */}
+        <div className="flex items-center gap-3">
+          <img 
+            src="/assets/img/hero-bg-light.png" 
+            alt="ZIGNASA Logo" 
+            className="w-8 h-8 object-contain filter brightness-110"
+          />
+          <span className="text-white font-bold text-lg tracking-wide whitespace-nowrap">
+            ZIGNASA <span className="text-cyan-400">2K25</span>
+          </span>
+        </div>
+        
+        {/* Navigation Links */}
+        <div className="flex items-center gap-1">
+          {navItems.map((item) => (
+            <Link
+              key={item.to}
+              to={item.to}
+              onClick={(e) => handleNavClick(e, item.to)}
+              className={cn(
+                "px-4 py-2 text-sm font-medium text-white/90 rounded-full transition-all duration-200",
+                "hover:bg-white/10 hover:text-white hover:shadow-sm",
+                "focus:outline-none focus:ring-2 focus:ring-white/20"
+              )}
+            >
+              {item.label}
+            </Link>
+          ))}
+        </div>
       </div>
 
       {/* Mobile Navigation */}
       <div className="md:hidden flex items-center justify-between px-4 py-3">
-        <div className="text-white font-bold text-lg">ZIGNASA 2K24</div>
+        {/* Mobile Logo and Brand */}
+        <div className="flex items-center gap-2">
+          <img 
+            src="/assets/img/hero-bg-light.png" 
+            alt="ZIGNASA Logo" 
+            className="w-6 h-6 object-contain filter brightness-110"
+          />
+          <span className="text-white font-bold text-base whitespace-nowrap">
+            ZIGNASA <span className="text-cyan-400">2K25</span>
+          </span>
+        </div>
+        
         <Button
           variant="ghost"
           size="icon"
