@@ -79,7 +79,7 @@ export function Navbar() {
               to={item.to}
               onClick={(e) => handleNavClick(e, item.to)}
               className={cn(
-                "px-4 py-2 text-sm font-medium text-white/90 rounded-full transition-all duration-200",
+                "px-4 py-2 text-sm font-medium text-white/90 rounded-full transition-all duration-200 whitespace-nowrap",
                 "hover:bg-white/10 hover:text-white hover:shadow-sm",
                 "focus:outline-none focus:ring-2 focus:ring-white/20"
               )}
