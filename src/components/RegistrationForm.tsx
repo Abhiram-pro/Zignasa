@@ -13,29 +13,19 @@ interface RegistrationFormProps {
   endpoint: string;
 }
 
+interface MemberData {
+  name: string;
+  email: string;
+  phone: string;
+  college: string;
+  role: 'Team Lead' | 'Member';
+}
+
 interface FormData {
-  team_name: string;
-  team_size: string;
-  team_lead_name: string;
-  team_lead_clg: string;
-  team_lead_email: string;
-  team_lead_phone: string;
-  team_member2_name: string;
-  team_member2_clg: string;
-  team_member2_email: string;
-  team_member2_phone: string;
-  team_member3_name: string;
-  team_member3_clg: string;
-  team_member3_email: string;
-  team_member3_phone: string;
-  team_member4_name: string;
-  team_member4_clg: string;
-  team_member4_email: string;
-  team_member4_phone: string;
-  team_member5_name: string;
-  team_member5_clg: string;
-  team_member5_email: string;
-  team_member5_phone: string;
+  teamName: string;
+  domain: string;
+  members: MemberData[];
+  team_size: string; // Keeping this for form state management
 }
 
 const teamSizeOptions = [
@@ -48,38 +38,43 @@ const teamSizeOptions = [
 
 const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endpoint }) => {
   const [formData, setFormData] = useState<FormData>({
-    team_name: '',
-    team_size: '',
-    team_lead_name: '',
-    team_lead_clg: '',
-    team_lead_email: '',
-    team_lead_phone: '',
-    team_member2_name: '',
-    team_member2_clg: '',
-    team_member2_email: '',
-    team_member2_phone: '',
-    team_member3_name: '',
-    team_member3_clg: '',
-    team_member3_email: '',
-    team_member3_phone: '',
-    team_member4_name: '',
-    team_member4_clg: '',
-    team_member4_email: '',
-    team_member4_phone: '',
-    team_member5_name: '',
-    team_member5_clg: '',
-    team_member5_email: '',
-    team_member5_phone: '',
+    teamName: '',
+    domain: domain,
+    members: [
+      { name: '', email: '', phone: '', college: '', role: 'Team Lead' },
+      { name: '', email: '', phone: '', college: '', role: 'Member' },
+      { name: '', email: '', phone: '', college: '', role: 'Member' },
+      { name: '', email: '', phone: '', college: '', role: 'Member' },
+      { name: '', email: '', phone: '', college: '', role: 'Member' },
+    ],
+    team_size: '1',
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    
+    // Handle member fields (member_0_name, member_1_email, etc.)
+    if (name.startsWith('member_')) {
+      const [_, index, field] = name.split('_');
+      const memberIndex = parseInt(index);
+      
+      setFormData(prev => {
+        const updatedMembers = [...prev.members];
+        updatedMembers[memberIndex] = {
+          ...updatedMembers[memberIndex],
+          [field]: value
+        };
+        return { ...prev, members: updatedMembers };
+      });
+    } else {
+      // Handle team name and other non-member fields
+      setFormData(prev => ({
+        ...prev,
+        [name]: value
+      }));
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -87,17 +82,74 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
     setIsSubmitting(true);
 
     try {
-      const response = await axios.post(`https://31ae63e17286.ngrok-free.app/registration`, formData);
+      // Prepare the data in the required format
+      const submissionData = {
+        teamName: formData.teamName,
+        domain: formData.domain,
+        members: formData.members
+          .slice(0, parseInt(formData.team_size)) // Only include members up to team size
+          .filter(member => member.name.trim() !== '') // Only include members with names
+          .map((member, index) => ({
+            ...member,
+            role: index === 0 ? 'Team Lead' : 'Member' // First member is always team lead
+          }))
+      };
+
+      console.log('Sending request to server with data:', JSON.stringify(submissionData, null, 2));
       
-      if (response.data.success) {
+      const response = await axios.post(
+        `http://localhost:5000/registration`, 
+        submissionData,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          timeout: 10000, // 10 second timeout
+        }
+      );
+      
+      console.log('Server response:', response);
+      
+      if (response.data && response.data.success) {
         alert('Registration successful! Redirecting to payment...');
-        window.location.href = response.data.paymentUrl;
+        if (response.data.paymentUrl) {
+          window.location.href = response.data.paymentUrl;
+        }
       } else {
+        console.error('Registration failed:', response.data);
         alert('Registration failed. Please try again.');
       }
     } catch (error) {
-      console.error('Registration error:', error);
-      alert('There was an error processing your registration. Please try again.');
+      if (axios.isAxiosError(error)) {
+        console.error('Axios error details:', {
+          message: error.message,
+          response: error.response?.data,
+          status: error.response?.status,
+          config: {
+            url: error.config?.url,
+            method: error.config?.method,
+            data: error.config?.data,
+            headers: error.config?.headers,
+          },
+        });
+        
+        if (error.response) {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          alert(`Error: ${error.response.status} - ${error.response.data?.message || 'Server error'}`);
+        } else if (error.request) {
+          // The request was made but no response was received
+          console.error('No response received:', error.request);
+          alert('No response from server. Please check your connection and try again.');
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          console.error('Request setup error:', error.message);
+          alert(`Request error: ${error.message}`);
+        }
+      } else {
+        console.error('Non-Axios error:', error);
+        alert('An unexpected error occurred. Please try again.');
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -105,28 +157,16 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
 
   const handleReset = () => {
     setFormData({
-      team_name: '',
-      team_size: '',
-      team_lead_name: '',
-      team_lead_clg: '',
-      team_lead_email: '',
-      team_lead_phone: '',
-      team_member2_name: '',
-      team_member2_clg: '',
-      team_member2_email: '',
-      team_member2_phone: '',
-      team_member3_name: '',
-      team_member3_clg: '',
-      team_member3_email: '',
-      team_member3_phone: '',
-      team_member4_name: '',
-      team_member4_clg: '',
-      team_member4_email: '',
-      team_member4_phone: '',
-      team_member5_name: '',
-      team_member5_clg: '',
-      team_member5_email: '',
-      team_member5_phone: '',
+      teamName: '',
+      domain: domain,
+      members: [
+        { name: '', email: '', phone: '', college: '', role: 'Team Lead' },
+        { name: '', email: '', phone: '', college: '', role: 'Member' },
+        { name: '', email: '', phone: '', college: '', role: 'Member' },
+        { name: '', email: '', phone: '', college: '', role: 'Member' },
+        { name: '', email: '', phone: '', college: '', role: 'Member' },
+      ],
+      team_size: '1',
     });
   };
 
@@ -196,8 +236,8 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
                     <Label className="text-gray-300 mb-3 block font-medium text-sm">Team Name *</Label>
                     <Input
                       type="text"
-                      name="team_name"
-                      value={formData.team_name}
+                      name="teamName"
+                      value={formData.teamName}
                       onChange={handleInputChange}
                       required
                       className="bg-white/[0.05] backdrop-blur-sm border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-white/30 focus:border-white/50 transition-all duration-300 rounded-xl h-12"
@@ -235,8 +275,8 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
                     <Label className="text-gray-300 mb-3 block font-medium text-sm">Full Name *</Label>
                     <Input
                       type="text"
-                      name="team_lead_name"
-                      value={formData.team_lead_name}
+                      name="member_0_name"
+                      value={formData.members[0].name}
                       onChange={handleInputChange}
                       required
                       className="bg-white/[0.05] backdrop-blur-sm border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-white/30 focus:border-white/50 transition-all duration-300 rounded-xl h-12"
@@ -247,8 +287,8 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
                     <Label className="text-gray-300 mb-3 block font-medium text-sm">College *</Label>
                     <Input
                       type="text"
-                      name="team_lead_clg"
-                      value={formData.team_lead_clg}
+                      name="member_0_college"
+                      value={formData.members[0].college}
                       onChange={handleInputChange}
                       required
                       className="bg-white/[0.05] backdrop-blur-sm border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-white/30 focus:border-white/50 transition-all duration-300 rounded-xl h-12"
@@ -259,8 +299,8 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
                     <Label className="text-gray-300 mb-3 block font-medium text-sm">Email Address *</Label>
                     <Input
                       type="email"
-                      name="team_lead_email"
-                      value={formData.team_lead_email}
+                      name="member_0_email"
+                      value={formData.members[0].email}
                       onChange={handleInputChange}
                       required
                       className="bg-white/[0.05] backdrop-blur-sm border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-white/30 focus:border-white/50 transition-all duration-300 rounded-xl h-12"
@@ -271,8 +311,8 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
                     <Label className="text-gray-300 mb-3 block font-medium text-sm">Phone Number *</Label>
                     <Input
                       type="tel"
-                      name="team_lead_phone"
-                      value={formData.team_lead_phone}
+                      name="member_0_phone"
+                      value={formData.members[0].phone}
                       onChange={handleInputChange}
                       required
                       className="bg-white/[0.05] backdrop-blur-sm border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-white/30 focus:border-white/50 transition-all duration-300 rounded-xl h-12"
@@ -284,13 +324,13 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
               
               {/* Team Members - Dynamic based on team size */}
               {formData.team_size && parseInt(formData.team_size) > 1 && 
-                Array.from({ length: parseInt(formData.team_size) - 1 }, (_, index) => {
-                  const memberNum = index + 2;
+                formData.members.slice(1, parseInt(formData.team_size)).map((_, index) => {
+                  const memberIndex = index + 1;
                   return (
-                    <div key={memberNum} className="bg-white/[0.03] backdrop-blur-xl border border-white/10 rounded-3xl p-8 hover:bg-white/[0.05] hover:border-white/15 transition-all duration-300">
+                    <div key={memberIndex} className="bg-white/[0.03] backdrop-blur-xl border border-white/10 rounded-3xl p-8 hover:bg-white/[0.05] hover:border-white/15 transition-all duration-300">
                       <h3 className="text-white font-semibold mb-8 text-2xl flex items-center gap-3">
                         <Building className="w-6 h-6 text-gray-400" />
-                        Team Member {memberNum}
+                        Team Member {memberIndex + 1}
                         <span className="text-sm text-gray-400 font-normal ml-3 bg-gray-400/10 px-3 py-1 rounded-full">
                           Optional
                         </span>
@@ -300,55 +340,50 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
                           <Label className="text-gray-300 mb-3 block font-medium text-sm">Full Name</Label>
                           <Input
                             type="text"
-                            name={`team_member${memberNum}_name`}
-                            value={formData[`team_member${memberNum}_name` as keyof FormData] as string}
+                            name={`member_${memberIndex}_name`}
+                            value={formData.members[memberIndex].name}
                             onChange={handleInputChange}
-                            required
                             className="bg-white/[0.05] backdrop-blur-sm border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-white/30 focus:border-white/50 transition-all duration-300 rounded-xl h-12"
-                            placeholder="Member's full name or N/A"
+                            placeholder={`Member ${memberIndex + 1} full name`}
                           />
                         </div>
                         <div>
                           <Label className="text-gray-300 mb-3 block font-medium text-sm">College</Label>
                           <Input
                             type="text"
-                            name={`team_member${memberNum}_clg`}
-                            value={formData[`team_member${memberNum}_clg` as keyof FormData] as string}
+                            name={`member_${memberIndex}_college`}
+                            value={formData.members[memberIndex].college}
                             onChange={handleInputChange}
-                            required
                             className="bg-white/[0.05] backdrop-blur-sm border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-white/30 focus:border-white/50 transition-all duration-300 rounded-xl h-12"
-                            placeholder="College name or N/A"
+                            placeholder={`Member ${memberIndex + 1} college`}
                           />
                         </div>
                         <div>
                           <Label className="text-gray-300 mb-3 block font-medium text-sm">Email Address</Label>
                           <Input
                             type="email"
-                            name={`team_member${memberNum}_email`}
-                            value={formData[`team_member${memberNum}_email` as keyof FormData] as string}
+                            name={`member_${memberIndex}_email`}
+                            value={formData.members[memberIndex].email}
                             onChange={handleInputChange}
-                            required
                             className="bg-white/[0.05] backdrop-blur-sm border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-white/30 focus:border-white/50 transition-all duration-300 rounded-xl h-12"
-                            placeholder="member@example.com or N/A"
+                            placeholder={`member${memberIndex + 1}@example.com`}
                           />
                         </div>
                         <div>
                           <Label className="text-gray-300 mb-3 block font-medium text-sm">Phone Number</Label>
                           <Input
                             type="tel"
-                            name={`team_member${memberNum}_phone`}
-                            value={formData[`team_member${memberNum}_phone` as keyof FormData] as string}
+                            name={`member_${memberIndex}_phone`}
+                            value={formData.members[memberIndex].phone}
                             onChange={handleInputChange}
-                            required
                             className="bg-white/[0.05] backdrop-blur-sm border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-white/30 focus:border-white/50 transition-all duration-300 rounded-xl h-12"
-                            placeholder="+91 1234567890 or N/A"
+                            placeholder="+91 1234567890"
                           />
                         </div>
                       </div>
                     </div>
                   );
-                })
-              }
+                })}
               
               {/* Submit Buttons */}
               <div className="bg-white/[0.03] backdrop-blur-xl border border-white/10 rounded-3xl p-8 hover:bg-white/[0.05] hover:border-white/15 transition-all duration-300">
