@@ -79,7 +79,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
     setIsSubmitting(true);
 
     try {
-      const response = await axios.post(`http://localhost:5000/api/${endpoint}`, formData);
+      const response = await axios.post(`https://31ae63e17286.ngrok-free.app/registration`, formData);
       
       if (response.data.success) {
         alert('Registration successful! Redirecting to payment...');

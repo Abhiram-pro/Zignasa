@@ -502,13 +502,6 @@ const Home: React.FC = () => {
           
           <div className="container mx-auto px-6 bg-black border-0 relative z-10" data-aos="fade-up">
             <div className="text-center mb-24 bg-black border-0">
-              <div className="inline-flex items-center gap-2 mb-6">
-                <div className="h-px w-8 bg-gradient-to-r from-transparent to-cyan-400"></div>
-                <span className="inline-flex items-center rounded-full border border-cyan-400/20 bg-cyan-400/10 px-4 py-2 text-xs font-medium text-cyan-400 backdrop-blur-sm">
-                  Visual Journey
-                </span>
-                <div className="h-px w-8 bg-gradient-to-l from-transparent to-cyan-400"></div>
-              </div>
               <h2 className="text-6xl md:text-7xl font-bold text-white mb-8 tracking-tight">
                 Gallery
               </h2>
@@ -771,121 +764,6 @@ const Home: React.FC = () => {
           </div>
         </section>
 
-        {/* Achievements Section */}
-        <section id="acheivements" className="py-40 bg-black border-0">
-          <div className="container mx-auto px-6 bg-black border-0" data-aos="fade-up">
-            <div className="text-center mb-32 bg-black border-0">
-              <h2 className="text-6xl md:text-7xl font-bold text-white mb-8 tracking-tight">Achievements</h2>
-              <p className="text-2xl text-gray-300 max-w-2xl mx-auto leading-relaxed">Our Recognition and Awards</p>
-              <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-blue-500 mx-auto mt-8 rounded-full"></div>
-            </div>
-          </div>
-
-          <div className="max-w-7xl mx-auto px-8 bg-black border-0" data-aos="fade-up" data-aos-delay="100">
-            <div className="swiper init-swiper bg-black border-0 py-16">
-              <script type="application/json" className="swiper-config">
-                {JSON.stringify({
-                  loop: true,
-                  speed: 600,
-                  autoplay: {
-                    delay: 3500,
-                    disableOnInteraction: false
-                  },
-                  slidesPerView: "auto",
-                  centeredSlides: true,
-                  spaceBetween: 40,
-                  pagination: {
-                    el: ".swiper-pagination",
-                    type: "bullets",
-                    clickable: true
-                  },
-                  navigation: {
-                    nextEl: ".swiper-button-next",
-                    prevEl: ".swiper-button-prev"
-                  },
-                  effect: "slide",
-                  grabCursor: true,
-                  breakpoints: {
-                    320: {
-                      slidesPerView: 1,
-                      spaceBetween: 20
-                    },
-                    768: {
-                      slidesPerView: 2,
-                      spaceBetween: 30
-                    },
-                    1024: {
-                      slidesPerView: 3,
-                      spaceBetween: 40
-                    }
-                  }
-                })}
-              </script>
-              
-              <div className="swiper-wrapper bg-black border-0">
-                <div className="swiper-slide bg-black border-0 w-80">
-                  <div className="bg-white/5 backdrop-blur-xl border-0 rounded-3xl p-8 hover:bg-white/10 transition-all duration-300 shadow-2xl group">
-                    <div className="flex justify-center mb-6">
-                      <div className="relative overflow-hidden rounded-2xl">
-                        <img src="/assets/img/award-1.jpg" className="w-full h-80 object-cover transition-transform duration-300 group-hover:scale-105" alt="Achievement 1" />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                      </div>
-                    </div>
-                    <div className="text-center">
-                      <h3 className="text-xl font-semibold text-white mb-2">Excellence Award</h3>
-                      <p className="text-gray-400 text-sm">Recognition for Outstanding Performance</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="swiper-slide bg-black border-0 w-80">
-                  <div className="bg-white/5 backdrop-blur-xl border-0 rounded-3xl p-8 hover:bg-white/10 transition-all duration-300 shadow-2xl group">
-                    <div className="flex justify-center mb-6">
-                      <div className="relative overflow-hidden rounded-2xl">
-                        <img src="/assets/img/award-2.jpg" className="w-full h-80 object-cover transition-transform duration-300 group-hover:scale-105" alt="Achievement 2" />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                      </div>
-                    </div>
-                    <div className="text-center">
-                      <h3 className="text-xl font-semibold text-white mb-2">Innovation Award</h3>
-                      <p className="text-gray-400 text-sm">Leading Technology Solutions</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="swiper-slide bg-black border-0 w-80">
-                  <div className="bg-white/5 backdrop-blur-xl border-0 rounded-3xl p-8 hover:bg-white/10 transition-all duration-300 shadow-2xl group">
-                    <div className="flex justify-center mb-6">
-                      <div className="relative overflow-hidden rounded-2xl">
-                        <img src="/assets/img/award-3.jpg" className="w-full h-80 object-cover transition-transform duration-300 group-hover:scale-105" alt="Achievement 3" />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                      </div>
-                    </div>
-                    <div className="text-center">
-                      <h3 className="text-xl font-semibold text-white mb-2">Leadership Award</h3>
-                      <p className="text-gray-400 text-sm">Excellence in Team Management</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="swiper-slide bg-black border-0 w-80">
-                  <div className="bg-white/5 backdrop-blur-xl border-0 rounded-3xl p-8 hover:bg-white/10 transition-all duration-300 shadow-2xl group">
-                    <div className="flex justify-center mb-6">
-                      <div className="relative overflow-hidden rounded-2xl">
-                        <img src="/assets/img/award-4.jpg" className="w-full h-80 object-cover transition-transform duration-300 group-hover:scale-105" alt="Achievement 4" />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                      </div>
-                    </div>
-                    <div className="text-center">
-                      <h3 className="text-xl font-semibold text-white mb-2">Community Award</h3>
-                      <p className="text-gray-400 text-sm">Outstanding Community Contribution</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="swiper-pagination mt-12"></div>
-              <div className="swiper-button-next text-cyan-400"></div>
-              <div className="swiper-button-prev text-cyan-400"></div>
-            </div>
-          </div>
-        </section>
 
 
         {/* FAQ Section */}
