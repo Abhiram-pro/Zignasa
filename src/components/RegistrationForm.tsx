@@ -22,15 +22,19 @@ interface FormData {
   team_lead_phone: string;
   team_member2_name: string;
   team_member2_clg: string;
+  team_member2_email: string;
   team_member2_phone: string;
   team_member3_name: string;
   team_member3_clg: string;
+  team_member3_email: string;
   team_member3_phone: string;
   team_member4_name: string;
   team_member4_clg: string;
+  team_member4_email: string;
   team_member4_phone: string;
   team_member5_name: string;
   team_member5_clg: string;
+  team_member5_email: string;
   team_member5_phone: string;
 }
 
@@ -52,15 +56,19 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
     team_lead_phone: '',
     team_member2_name: '',
     team_member2_clg: '',
+    team_member2_email: '',
     team_member2_phone: '',
     team_member3_name: '',
     team_member3_clg: '',
+    team_member3_email: '',
     team_member3_phone: '',
     team_member4_name: '',
     team_member4_clg: '',
+    team_member4_email: '',
     team_member4_phone: '',
     team_member5_name: '',
     team_member5_clg: '',
+    team_member5_email: '',
     team_member5_phone: '',
   });
 
@@ -105,15 +113,19 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
       team_lead_phone: '',
       team_member2_name: '',
       team_member2_clg: '',
+      team_member2_email: '',
       team_member2_phone: '',
       team_member3_name: '',
       team_member3_clg: '',
+      team_member3_email: '',
       team_member3_phone: '',
       team_member4_name: '',
       team_member4_clg: '',
+      team_member4_email: '',
       team_member4_phone: '',
       team_member5_name: '',
       team_member5_clg: '',
+      team_member5_email: '',
       team_member5_phone: '',
     });
   };
@@ -283,7 +295,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
                           Optional
                         </span>
                       </h3>
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                           <Label className="text-gray-300 mb-3 block font-medium text-sm">Full Name</Label>
                           <Input
@@ -306,6 +318,18 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
                             required
                             className="bg-white/[0.05] backdrop-blur-sm border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-white/30 focus:border-white/50 transition-all duration-300 rounded-xl h-12"
                             placeholder="College name or N/A"
+                          />
+                        </div>
+                        <div>
+                          <Label className="text-gray-300 mb-3 block font-medium text-sm">Email Address</Label>
+                          <Input
+                            type="email"
+                            name={`team_member${memberNum}_email`}
+                            value={formData[`team_member${memberNum}_email` as keyof FormData] as string}
+                            onChange={handleInputChange}
+                            required
+                            className="bg-white/[0.05] backdrop-blur-sm border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-white/30 focus:border-white/50 transition-all duration-300 rounded-xl h-12"
+                            placeholder="member@example.com or N/A"
                           />
                         </div>
                         <div>
