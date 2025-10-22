@@ -254,7 +254,7 @@ const Home: React.FC = () => {
             <div className="flex items-center justify-center gap-2 mb-8">
               <Calendar className="w-6 h-6 text-cyan-400" />
               <h2 className="text-2xl md:text-3xl font-semibold text-white">
-                November <span style={{color: '#ffffff', fontWeight: 'bold', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff'}}>28th & 29th</span
+                November <span style={{color: '#ffffff', fontWeight: 'bold', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff'}}>28th & 29th</span>
               </h2>
             </div>
             <Button 
