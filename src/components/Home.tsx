@@ -253,8 +253,8 @@ const Home: React.FC = () => {
             </p>
             <div className="flex items-center justify-center gap-2 mb-8">
               <Calendar className="w-6 h-6 text-cyan-400" />
-              <h2 className="text-2xl md:text-3xl font-semibold bg-gradient-to-r from-teal-300 via-cyan-300 to-teal-400 bg-clip-text text-transparent">
-                December 5th & 6th
+              <h2 className="text-2xl md:text-3xl font-semibold text-white">
+                November <span style={{color: '#ffffff', fontWeight: 'bold', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff'}}>28th & 29th</span
               </h2>
             </div>
             <Button 
@@ -284,7 +284,7 @@ const Home: React.FC = () => {
                 </div>
                 <div className="px-2">
                   <p className="text-gray-300 text-lg leading-relaxed">
-                    Anybody, from any college or state can join this hackathon
+                   Participants from any college or state are welcome to join this hackathon.
                   </p>
                 </div>
               </div>
@@ -302,7 +302,7 @@ const Home: React.FC = () => {
                 </div>
                 <div className="px-2">
                   <p className="text-gray-300 text-lg leading-relaxed">
-                    Will be taught about the basic fundamentals of the domains
+                    Participants will be introduced to the fundamental concepts and basics of each domain.
                   </p>
                 </div>
               </div>
@@ -434,7 +434,7 @@ const Home: React.FC = () => {
         {/* Zignasa2K23 Section */}
         <section id="zignasa2k23" className="zignasa2k23 section">
           <div className="container section-title bg-black border-0" data-aos="fade-up">
-            <h2>ZIGNASA - 2K23</h2>
+            <h2>ZIGNASA - 2K24</h2>
           </div>
 
           <div className="container bg-black border-0">
