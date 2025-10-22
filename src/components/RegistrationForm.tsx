@@ -4,7 +4,8 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from './ui/
 import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { Button } from './ui/button';
-import { Users, User, Mail, Phone, Building, Sparkles, Crown, Zap } from 'lucide-react';
+import { Users, User, Mail, Phone, Building, ArrowLeft } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 interface RegistrationFormProps {
   title: string;
@@ -139,6 +140,17 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
           <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
           
           <CardHeader className="mb-12 relative z-10">
+            {/* Back Button */}
+            <div className="absolute top-0 left-0">
+              <Link 
+                to="/"
+                className="inline-flex items-center gap-2 text-white/70 hover:text-white bg-white/5 hover:bg-white/10 px-4 py-2 rounded-xl border border-white/10 hover:border-white/20 backdrop-blur-sm transition-all duration-300"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                <span className="text-sm font-medium">Back to Home</span>
+              </Link>
+            </div>
+            
             <div className="text-center">
               <div className="mb-8">
                 <span className="text-white text-sm font-semibold tracking-wider uppercase bg-white/10 px-4 py-2 rounded-full border border-white/20 backdrop-blur-sm">
