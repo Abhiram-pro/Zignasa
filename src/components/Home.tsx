@@ -180,7 +180,7 @@ const Home: React.FC = () => {
         const translateX = Math.sin(scrollProgress * Math.PI) * 20;
         
         // Dynamic opacity with breathing effect
-        const baseOpacity = 0.15 + (scrollProgress * 0.3);
+        const baseOpacity = 0.25 + (scrollProgress * 0.3);
         const breathingEffect = Math.sin(Date.now() * 0.002) * 0.05;
         const opacity = baseOpacity + breathingEffect;
         
@@ -200,7 +200,7 @@ const Home: React.FC = () => {
           rotateZ(${rotateZ}deg)
           translateZ(0)
         `;
-        bgElement.style.opacity = Math.max(0.1, Math.min(0.5, opacity)).toString();
+        bgElement.style.opacity = Math.max(0.2, Math.min(0.6, opacity)).toString();
       }
     };
 
@@ -228,15 +228,15 @@ const Home: React.FC = () => {
           {/* 3D Animated Logo Background */}
           <div 
             id="hero-bg"
-            className="absolute inset-0 z-0 opacity-15"
+            className="absolute inset-0 z-0 opacity-25"
             style={{
               backgroundImage: 'url(/assets/img/logo.png)',
-              backgroundSize: '65%',
+              backgroundSize: '60%',
               backgroundPosition: 'center center',
               backgroundRepeat: 'no-repeat',
               transform: 'translateZ(0)',
               willChange: 'transform, opacity',
-              filter: 'brightness(0.9) contrast(1.3) drop-shadow(0 0 50px rgba(0, 255, 255, 0.3))',
+              filter: 'brightness(1.1) contrast(1.5) drop-shadow(0 0 50px rgba(0, 255, 255, 0.4))',
               transformStyle: 'preserve-3d'
             }}
           ></div>
@@ -245,16 +245,16 @@ const Home: React.FC = () => {
           <div className="absolute inset-0 z-5 bg-gradient-to-b from-black/30 via-transparent to-black/50"></div>
           
           <div className="relative z-10 text-center px-4 max-w-4xl mx-auto" data-aos="fade-up" data-aos-delay="300">
-            <h1 className="text-6xl md:text-8xl font-bold text-white mb-6 tracking-tight">
-              ZIGNASA<span style={{color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff'}}> 2K25</span>
+            <h1 className="text-6xl md:text-8xl font-bold mb-6 tracking-tight bg-gradient-to-r from-cyan-400 via-teal-300 to-cyan-500 bg-clip-text text-transparent">
+              ZIGNASA 2K25
             </h1>
-            <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto leading-relaxed bg-gradient-to-r from-gray-300 via-cyan-200 to-teal-200 bg-clip-text text-transparent">
               A 24HR NATIONAL-LEVEL HACKATHON WITH BOOTCAMP
             </p>
             <div className="flex items-center justify-center gap-2 mb-8">
               <Calendar className="w-6 h-6 text-cyan-400" />
               <h2 className="text-2xl md:text-3xl font-semibold text-white">
-                November <span style={{color: '#ffffff', fontWeight: 'bold', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff'}}>28th & 29th</span>
+                November <span style={{color: '#ffffff', fontWeight: 'bold', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff'}}>28th & 29th</span
               </h2>
             </div>
             <Button 
