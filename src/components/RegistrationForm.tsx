@@ -4,7 +4,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from './ui/
 import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { Button } from './ui/button';
-import { Users, User, Mail, Phone, Building, ArrowLeft } from 'lucide-react';
+import { Users, User, Building, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 interface RegistrationFormProps {
@@ -57,7 +57,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
     
     // Handle member fields (member_0_name, member_1_email, etc.)
     if (name.startsWith('member_')) {
-      const [_, index, field] = name.split('_');
+      const [, index, field] = name.split('_');
       const memberIndex = parseInt(index);
       
       setFormData(prev => {
@@ -98,7 +98,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
       console.log('Sending request to server with data:', JSON.stringify(submissionData, null, 2));
       
       const response = await axios.post(
-        `http://localhost:5000/registration`, 
+        `https://6b76c5c45cfc.ngrok-free.app/registration`, 
         submissionData,
         {
           headers: {
@@ -324,7 +324,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
               
               {/* Team Members - Dynamic based on team size */}
               {formData.team_size && parseInt(formData.team_size) > 1 && 
-                formData.members.slice(1, parseInt(formData.team_size)).map((_, index) => {
+                formData.members.slice(1, parseInt(formData.team_size)).map((member, index) => {
                   const memberIndex = index + 1;
                   return (
                     <div key={memberIndex} className="bg-white/[0.03] backdrop-blur-xl border border-white/10 rounded-3xl p-8 hover:bg-white/[0.05] hover:border-white/15 transition-all duration-300">

@@ -5,8 +5,8 @@ const WebDevRegistration: React.FC = () => {
   return (
     <div>
       <RegistrationForm 
-        title="Web Development Using AI"
-        domain="UI/UX"
+        title="Web Development"
+        domain="Web Dev"
         endpoint="/api/webdev"
       />
     </div>

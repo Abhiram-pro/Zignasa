@@ -1,12 +1,12 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import emailjs from '@emailjs/browser';
 import '../assets/main.css';
 import { Navbar } from './ui/navbar';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
+import { Card, CardContent, CardDescription } from './ui/card';
 import { Button } from './ui/button';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './ui/accordion';
-import { Briefcase, BarChart3, CheckCircle, Calendar, Users, MapPin, Phone, Mail } from 'lucide-react';
+import { Briefcase, BarChart3, CheckCircle, Calendar, MapPin, Phone, Mail } from 'lucide-react';
 import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
 

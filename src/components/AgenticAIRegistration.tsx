@@ -1,16 +1,16 @@
 import React from 'react';
 import RegistrationForm from './RegistrationForm';
 
-const MernRegistration: React.FC = () => {
+const AgenticAIRegistration: React.FC = () => {
   return (
     <div>
       <RegistrationForm 
-        title="Full Stack Development Using MERN"
+        title="Agentic AI Development"
         domain="Agentic AI"
-        endpoint="/api/mern"
+        endpoint="/api/AgenticAI"
       />
     </div>
   );
 };
 
-export default MernRegistration;
+export default AgenticAIRegistration;

@@ -5,9 +5,9 @@ import './App.css';
 // Import components
 import Home from './components/Home';
 import Domains from './components/Domains';
-import DataScienceRegistration from './components/DataScienceRegistration';
-import MernRegistration from './components/MernRegistration';
+import AgenticAIRegistration from './components/AgenticAIRegistration';
 import WebDevRegistration from './components/WebDevRegistration';
+import UX from './components/UX';
 
 function App() {
   return (
@@ -16,9 +16,9 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/domains" element={<Domains />} />
-          <Route path="/ds" element={<DataScienceRegistration />} />
-          <Route path="/mern" element={<MernRegistration />} />
+          <Route path="/AgenticAI" element={<AgenticAIRegistration />} />
           <Route path="/webdev" element={<WebDevRegistration />} />
+          <Route path="/UX" element={<UX />} />
         </Routes>
       </div>
     </Router>

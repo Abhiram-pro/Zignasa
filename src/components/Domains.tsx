@@ -55,7 +55,7 @@ const Domains: React.FC = () => {
                     </div>
                   </div>
                   <Button asChild className="w-full bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white font-medium py-4 rounded-2xl transition-all duration-300 border border-white/20 hover:border-white/30">
-                    <Link to="/ds">Explore Domain</Link>
+                    <Link to="/webdev">Explore Domain</Link>
                   </Button>
                 </div>
               </div>
@@ -91,7 +91,7 @@ const Domains: React.FC = () => {
                     </div>
                   </div>
                   <Button asChild className="w-full bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white font-medium py-4 rounded-2xl transition-all duration-300 border border-white/20 hover:border-white/30">
-                    <Link to="/mern">Explore Domain</Link>
+                    <Link to="/AgenticAI">Explore Domain</Link>
                   </Button>
                 </div>
               </div>
@@ -127,7 +127,7 @@ const Domains: React.FC = () => {
                     </div>
                   </div>
                   <Button asChild className="w-full bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white font-medium py-4 rounded-2xl transition-all duration-300 border border-white/20 hover:border-white/30">
-                    <Link to="/webdev">Explore Domain</Link>
+                    <Link to="/UX">Explore Domain</Link>
                   </Button>
                 </div>
               </div>
