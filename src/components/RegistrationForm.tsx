@@ -4,6 +4,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from './ui/
 import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { Button } from './ui/button';
+import { Users, User, Mail, Phone, Building, Sparkles, Crown, Zap } from 'lucide-react';
 
 interface RegistrationFormProps {
   title: string;
@@ -13,6 +14,7 @@ interface RegistrationFormProps {
 
 interface FormData {
   team_name: string;
+  team_size: string;
   team_lead_name: string;
   team_lead_clg: string;
   team_lead_email: string;
@@ -31,9 +33,18 @@ interface FormData {
   team_member5_phone: string;
 }
 
+const teamSizeOptions = [
+  { value: '1', label: '1 Member (Solo)' },
+  { value: '2', label: '2 Members' },
+  { value: '3', label: '3 Members' },
+  { value: '4', label: '4 Members' },
+  { value: '5', label: '5 Members (Max)' }
+];
+
 const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endpoint }) => {
   const [formData, setFormData] = useState<FormData>({
     team_name: '',
+    team_size: '',
     team_lead_name: '',
     team_lead_clg: '',
     team_lead_email: '',
@@ -86,6 +97,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
   const handleReset = () => {
     setFormData({
       team_name: '',
+      team_size: '',
       team_lead_name: '',
       team_lead_clg: '',
       team_lead_email: '',
@@ -105,167 +117,234 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
     });
   };
 
+  const handleSelectChange = (name: string, value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
   return (
-    <div className="min-h-screen bg-black py-20 px-4">
-      <div className="max-w-4xl mx-auto">
-        <Card className="bg-white/5 backdrop-blur-xl border-0 rounded-3xl p-8 transition-all duration-300 hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 shadow-2xl">
-          <CardHeader className="mb-8">
-            <CardTitle className="text-3xl font-bold text-white text-center">
-              ZIGNASA <span className="text-cyan-400">2K25</span> | {title}
-            </CardTitle>
-            <CardDescription className="text-gray-400 text-center text-lg">
-              Register your team for <span className="text-cyan-400">{domain}</span> domain
-            </CardDescription>
+    <div className="min-h-screen bg-black py-20 px-4 relative overflow-hidden">
+      {/* Enhanced Background Effects */}
+      <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900/20 to-black pointer-events-none"></div>
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-white/5 rounded-full blur-3xl pointer-events-none animate-pulse"></div>
+      <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-white/3 rounded-full blur-3xl pointer-events-none animate-pulse delay-1000"></div>
+      
+      <div className="max-w-5xl mx-auto relative z-10">
+        <Card className="bg-white/[0.02] backdrop-blur-2xl border border-white/10 rounded-3xl p-10 transition-all duration-500 hover:bg-white/[0.05] hover:border-white/20 hover:shadow-2xl hover:shadow-white/10 shadow-2xl relative overflow-hidden">
+          {/* Liquid Glass Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-br from-white/[0.08] via-transparent to-white/[0.03] pointer-events-none rounded-3xl"></div>
+          <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+          <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+          
+          <CardHeader className="mb-12 relative z-10">
+            <div className="text-center">
+              <div className="mb-8">
+                <span className="text-white text-sm font-semibold tracking-wider uppercase bg-white/10 px-4 py-2 rounded-full border border-white/20 backdrop-blur-sm">
+                  Registration Portal
+                </span>
+              </div>
+              <CardTitle className="text-4xl font-bold text-white mb-4">
+                ZIGNASA <span className="text-white">2K25</span>
+              </CardTitle>
+              <CardDescription className="text-gray-300 text-xl mb-6">
+                {title} | <span className="text-white font-semibold">{domain}</span> Domain
+              </CardDescription>
+              <div className="flex items-center justify-center gap-2">
+                <div className="w-24 h-px bg-gradient-to-r from-transparent to-white/40"></div>
+                <div className="w-2 h-2 bg-white/60 rounded-full"></div>
+                <div className="w-24 h-px bg-gradient-to-l from-transparent to-white/40"></div>
+              </div>
+            </div>
           </CardHeader>
           
-          <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-8">
+          <CardContent className="relative z-10">
+            <form onSubmit={handleSubmit} className="space-y-10">
               {/* Team Information */}
-              <div className="bg-white/5 backdrop-blur-sm border-0 rounded-2xl p-6">
-                <h3 className="text-white font-semibold mb-6 text-xl flex items-center gap-2">
-                  <span className="w-2 h-2 bg-cyan-400 rounded-full"></span>
+              <div className="bg-white/[0.03] backdrop-blur-xl border border-white/10 rounded-3xl p-8 hover:bg-white/[0.05] hover:border-white/15 transition-all duration-300">
+                <h3 className="text-white font-semibold mb-8 text-2xl flex items-center gap-3">
+                  <Users className="w-6 h-6 text-white/70" />
                   Team Information
                 </h3>
-                <div className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <Label className="text-gray-300 mb-2 block font-medium">Team Name *</Label>
+                    <Label className="text-gray-300 mb-3 block font-medium text-sm">Team Name *</Label>
                     <Input
                       type="text"
                       name="team_name"
                       value={formData.team_name}
                       onChange={handleInputChange}
                       required
-                      className="bg-white/10 border-0 text-white placeholder-gray-400 focus:ring-2 focus:ring-cyan-400 transition-all duration-300"
+                      className="bg-white/[0.05] backdrop-blur-sm border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-white/30 focus:border-white/50 transition-all duration-300 rounded-xl h-12"
                       placeholder="Enter your team name"
                     />
+                  </div>
+                  <div>
+                    <Label className="text-gray-300 mb-3 block font-medium text-sm">Team Size *</Label>
+                    <select
+                      name="team_size"
+                      value={formData.team_size}
+                      onChange={(e) => handleSelectChange('team_size', e.target.value)}
+                      required
+                      className="w-full bg-white/[0.05] backdrop-blur-sm border border-white/20 text-white rounded-xl h-12 px-4 focus:ring-2 focus:ring-white/30 focus:border-white/50 transition-all duration-300"
+                    >
+                      <option value="" className="bg-gray-900 text-gray-300">Select team size</option>
+                      {teamSizeOptions.map(option => (
+                        <option key={option.value} value={option.value} className="bg-gray-900 text-white">
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                 </div>
               </div>
               
               {/* Team Lead */}
-              <div className="bg-white/5 backdrop-blur-sm border-0 rounded-2xl p-6">
-                <h3 className="text-white font-semibold mb-6 text-xl flex items-center gap-2">
-                  <span className="w-2 h-2 bg-cyan-400 rounded-full"></span>
+              <div className="bg-white/[0.03] backdrop-blur-xl border border-white/10 rounded-3xl p-8 hover:bg-white/[0.05] hover:border-white/15 transition-all duration-300">
+                <h3 className="text-white font-semibold mb-8 text-2xl flex items-center gap-3">
+                  <User className="w-6 h-6 text-white/70" />
                   Team Lead Information
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <Label className="text-gray-300 mb-2 block font-medium">Full Name *</Label>
+                    <Label className="text-gray-300 mb-3 block font-medium text-sm">Full Name *</Label>
                     <Input
                       type="text"
                       name="team_lead_name"
                       value={formData.team_lead_name}
                       onChange={handleInputChange}
                       required
-                      className="bg-white/10 border-0 text-white placeholder-gray-400 focus:ring-2 focus:ring-cyan-400 transition-all duration-300"
+                      className="bg-white/[0.05] backdrop-blur-sm border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-white/30 focus:border-white/50 transition-all duration-300 rounded-xl h-12"
                       placeholder="Team lead's full name"
                     />
                   </div>
                   <div>
-                    <Label className="text-gray-300 mb-2 block font-medium">College *</Label>
+                    <Label className="text-gray-300 mb-3 block font-medium text-sm">College *</Label>
                     <Input
                       type="text"
                       name="team_lead_clg"
                       value={formData.team_lead_clg}
                       onChange={handleInputChange}
                       required
-                      className="bg-white/10 border-0 text-white placeholder-gray-400 focus:ring-2 focus:ring-cyan-400 transition-all duration-300"
-                      placeholder="College name"
+                      className="bg-white/[0.05] backdrop-blur-sm border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-white/30 focus:border-white/50 transition-all duration-300 rounded-xl h-12"
+                      placeholder="Enter your college name"
                     />
                   </div>
                   <div>
-                    <Label className="text-gray-300 mb-2 block font-medium">Email Address *</Label>
+                    <Label className="text-gray-300 mb-3 block font-medium text-sm">Email Address *</Label>
                     <Input
                       type="email"
                       name="team_lead_email"
                       value={formData.team_lead_email}
                       onChange={handleInputChange}
                       required
-                      className="bg-white/10 border-0 text-white placeholder-gray-400 focus:ring-2 focus:ring-cyan-400 transition-all duration-300"
+                      className="bg-white/[0.05] backdrop-blur-sm border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-white/30 focus:border-white/50 transition-all duration-300 rounded-xl h-12"
                       placeholder="team.lead@example.com"
                     />
                   </div>
                   <div>
-                    <Label className="text-gray-300 mb-2 block font-medium">Phone Number *</Label>
+                    <Label className="text-gray-300 mb-3 block font-medium text-sm">Phone Number *</Label>
                     <Input
                       type="tel"
                       name="team_lead_phone"
                       value={formData.team_lead_phone}
                       onChange={handleInputChange}
                       required
-                      className="bg-white/10 border-0 text-white placeholder-gray-400 focus:ring-2 focus:ring-cyan-400 transition-all duration-300"
+                      className="bg-white/[0.05] backdrop-blur-sm border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-white/30 focus:border-white/50 transition-all duration-300 rounded-xl h-12"
                       placeholder="+91 1234567890"
                     />
                   </div>
                 </div>
               </div>
               
-              {/* Team Members */}
-              {[2, 3, 4, 5].map(memberNum => (
-                <div key={memberNum} className="bg-white/5 backdrop-blur-sm border-0 rounded-2xl p-6">
-                  <h3 className="text-white font-semibold mb-6 text-xl flex items-center gap-2">
-                    <span className="w-2 h-2 bg-gray-400 rounded-full"></span>
-                    Team Member {memberNum}
-                    <span className="text-sm text-gray-400 font-normal ml-2">(Optional - Enter "N/A" if not present)</span>
-                  </h3>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div>
-                      <Label className="text-gray-300 mb-2 block font-medium">Full Name</Label>
-                      <Input
-                        type="text"
-                        name={`team_member${memberNum}_name`}
-                        value={formData[`team_member${memberNum}_name` as keyof FormData] as string}
-                        onChange={handleInputChange}
-                        required
-                        className="bg-white/10 border-0 text-white placeholder-gray-400 focus:ring-2 focus:ring-cyan-400 transition-all duration-300"
-                        placeholder="Member's full name or N/A"
-                      />
+              {/* Team Members - Dynamic based on team size */}
+              {formData.team_size && parseInt(formData.team_size) > 1 && 
+                Array.from({ length: parseInt(formData.team_size) - 1 }, (_, index) => {
+                  const memberNum = index + 2;
+                  return (
+                    <div key={memberNum} className="bg-white/[0.03] backdrop-blur-xl border border-white/10 rounded-3xl p-8 hover:bg-white/[0.05] hover:border-white/15 transition-all duration-300">
+                      <h3 className="text-white font-semibold mb-8 text-2xl flex items-center gap-3">
+                        <Building className="w-6 h-6 text-gray-400" />
+                        Team Member {memberNum}
+                        <span className="text-sm text-gray-400 font-normal ml-3 bg-gray-400/10 px-3 py-1 rounded-full">
+                          Optional
+                        </span>
+                      </h3>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div>
+                          <Label className="text-gray-300 mb-3 block font-medium text-sm">Full Name</Label>
+                          <Input
+                            type="text"
+                            name={`team_member${memberNum}_name`}
+                            value={formData[`team_member${memberNum}_name` as keyof FormData] as string}
+                            onChange={handleInputChange}
+                            required
+                            className="bg-white/[0.05] backdrop-blur-sm border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-white/30 focus:border-white/50 transition-all duration-300 rounded-xl h-12"
+                            placeholder="Member's full name or N/A"
+                          />
+                        </div>
+                        <div>
+                          <Label className="text-gray-300 mb-3 block font-medium text-sm">College</Label>
+                          <Input
+                            type="text"
+                            name={`team_member${memberNum}_clg`}
+                            value={formData[`team_member${memberNum}_clg` as keyof FormData] as string}
+                            onChange={handleInputChange}
+                            required
+                            className="bg-white/[0.05] backdrop-blur-sm border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-white/30 focus:border-white/50 transition-all duration-300 rounded-xl h-12"
+                            placeholder="College name or N/A"
+                          />
+                        </div>
+                        <div>
+                          <Label className="text-gray-300 mb-3 block font-medium text-sm">Phone Number</Label>
+                          <Input
+                            type="tel"
+                            name={`team_member${memberNum}_phone`}
+                            value={formData[`team_member${memberNum}_phone` as keyof FormData] as string}
+                            onChange={handleInputChange}
+                            required
+                            className="bg-white/[0.05] backdrop-blur-sm border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-white/30 focus:border-white/50 transition-all duration-300 rounded-xl h-12"
+                            placeholder="+91 1234567890 or N/A"
+                          />
+                        </div>
+                      </div>
                     </div>
-                    <div>
-                      <Label className="text-gray-300 mb-2 block font-medium">College</Label>
-                      <Input
-                        type="text"
-                        name={`team_member${memberNum}_clg`}
-                        value={formData[`team_member${memberNum}_clg` as keyof FormData] as string}
-                        onChange={handleInputChange}
-                        required
-                        className="bg-white/10 border-0 text-white placeholder-gray-400 focus:ring-2 focus:ring-cyan-400 transition-all duration-300"
-                        placeholder="College name or N/A"
-                      />
-                    </div>
-                    <div>
-                      <Label className="text-gray-300 mb-2 block font-medium">Phone Number</Label>
-                      <Input
-                        type="tel"
-                        name={`team_member${memberNum}_phone`}
-                        value={formData[`team_member${memberNum}_phone` as keyof FormData] as string}
-                        onChange={handleInputChange}
-                        required
-                        className="bg-white/10 border-0 text-white placeholder-gray-400 focus:ring-2 focus:ring-cyan-400 transition-all duration-300"
-                        placeholder="+91 1234567890 or N/A"
-                      />
-                    </div>
-                  </div>
-                </div>
-              ))}
+                  );
+                })
+              }
               
               {/* Submit Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4 justify-center pt-6">
-                <Button 
-                  type="submit" 
-                  disabled={isSubmitting}
-                  className="bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-semibold py-3 px-8 rounded-full hover:from-cyan-600 hover:to-blue-600 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {isSubmitting ? "Submitting..." : "Register Team"}
-                </Button>
-                <Button 
-                  type="button" 
-                  onClick={handleReset}
-                  variant="outline"
-                  className="border-white/20 text-white hover:bg-white/10 py-3 px-8 rounded-full transition-all duration-300"
-                >
-                  Reset Form
-                </Button>
+              <div className="bg-white/[0.03] backdrop-blur-xl border border-white/10 rounded-3xl p-8 hover:bg-white/[0.05] hover:border-white/15 transition-all duration-300">
+                <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+                  <Button 
+                    type="submit" 
+                    disabled={isSubmitting}
+                    className="bg-gradient-to-r from-white/20 to-white/10 hover:from-white/30 hover:to-white/20 text-white font-semibold py-4 px-12 rounded-2xl transition-all duration-300 shadow-lg hover:shadow-2xl hover:shadow-white/20 disabled:opacity-50 disabled:cursor-not-allowed min-w-[200px] h-14 backdrop-blur-sm border border-white/20"
+                  >
+                    {isSubmitting ? (
+                      <div className="flex items-center gap-2">
+                        <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                        Submitting...
+                      </div>
+                    ) : (
+                      "Register Team"
+                    )}
+                  </Button>
+                  <Button 
+                    type="button" 
+                    onClick={handleReset}
+                    variant="outline"
+                    className="border-white/30 text-white hover:bg-white/10 hover:border-white/50 py-4 px-12 rounded-2xl transition-all duration-300 backdrop-blur-sm min-w-[200px] h-14"
+                  >
+                    Reset Form
+                  </Button>
+                </div>
+                <div className="text-center mt-6">
+                  <p className="text-gray-400 text-sm">
+                    By registering, you agree to participate in ZIGNASA 2K25 competition
+                  </p>
+                </div>
               </div>
             </form>
           </CardContent>
