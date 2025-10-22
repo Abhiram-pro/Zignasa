@@ -29,16 +29,10 @@ body{
   text-align: center;
   font-size: 35px;
   font-weight: 600;
-  background: -webkit-linear-gradient(right, #56d8e4, #51bbc9 );
-  -webkit-background-clip: text;
-  
-  -webkit-text-fill-color: transparent;
+  color: #fff;
 }
 span{
-  background: -webkit-linear-gradient(right, #2196f3, #f44336, #0052D4);
-  -webkit-background-clip: text;
-  
-  -webkit-text-fill-color: transparent;
+  color: #fff;
 }
 .container form{
   padding: 30px 0 0 0;
@@ -119,7 +113,7 @@ form .form-row .textarea{
   width: 300%;
   position: absolute;
   left: -100%;
-  background: -webkit-linear-gradient(right, #56d8e4, #2f4b66, #56d8e4, #01deea);
+  background: #51bbc9;
   transition: all 0.4s;
 }
 .submit-btn .input-data:hover .inner{

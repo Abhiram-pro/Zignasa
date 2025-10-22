@@ -16,7 +16,7 @@ const navItems: NavItem[] = [
   { to: '#gallery', label: 'Gallery' },
   { to: '#acheivements', label: 'Achievements' },
   { to: '#contact', label: 'Contact' },
-  { to: '#domains', label: 'Register Now' }
+  { to: '/domains', label: 'Register Now' }
 ];
 
 export function Navbar() {
@@ -33,7 +33,24 @@ export function Navbar() {
   }, []);
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    // If it's a route (starts with '/'), let React Router handle it
+    if (id.startsWith('/')) {
+      setIsMobileMenuOpen(false);
+      return;
+    }
+    
+    // For anchor links, check if we're on the main page or need to navigate there
     e.preventDefault();
+    const currentPath = window.location.pathname;
+    
+    // If we're not on the main page, navigate to main page with the hash
+    if (currentPath !== '/') {
+      window.location.href = `/${id}`;
+      setIsMobileMenuOpen(false);
+      return;
+    }
+    
+    // Otherwise, handle as anchor link for smooth scrolling on the same page
     const target = document.querySelector(id) as HTMLElement | null;
     if (!target) return;
     
@@ -66,8 +83,8 @@ export function Navbar() {
             alt="ZIGNASA Logo" 
             className="w-8 h-8 object-contain filter brightness-110 flex-shrink-0"
           />
-          <span className="text-white font-bold text-lg tracking-wide whitespace-nowrap">
-            ZIGNASA <span className="text-cyan-400">2K25</span>
+          <span className="font-bold text-lg tracking-wide whitespace-nowrap" style={{color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff'}}>
+            ZIGNASA <span style={{color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff'}}>2K25</span>
           </span>
         </div>
         
@@ -99,8 +116,8 @@ export function Navbar() {
             alt="ZIGNASA Logo" 
             className="w-6 h-6 object-contain filter brightness-110 flex-shrink-0"
           />
-          <span className="text-white font-bold text-base whitespace-nowrap">
-            ZIGNASA <span className="text-cyan-400">2K25</span>
+          <span className="font-bold text-base whitespace-nowrap" style={{color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff'}}>
+            ZIGNASA <span style={{color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff'}}>2K25</span>
           </span>
         </div>
         

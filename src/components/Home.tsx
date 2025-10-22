@@ -246,7 +246,7 @@ const Home: React.FC = () => {
           
           <div className="relative z-10 text-center px-4 max-w-4xl mx-auto" data-aos="fade-up" data-aos-delay="300">
             <h1 className="text-6xl md:text-8xl font-bold text-white mb-6 tracking-tight">
-              ZIGNASA<span className="text-cyan-400"> 2K25</span>
+              ZIGNASA<span style={{color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff'}}> 2K25</span>
             </h1>
             <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
               A 24HR NATIONAL-LEVEL HACKATHON WITH BOOTCAMP
@@ -254,24 +254,15 @@ const Home: React.FC = () => {
             <div className="flex items-center justify-center gap-2 mb-8">
               <Calendar className="w-6 h-6 text-cyan-400" />
               <h2 className="text-2xl md:text-3xl font-semibold text-white">
-                December <span className="text-cyan-400 font-bold">5th & 6th</span>
+                December <span style={{color: '#ffffff', fontWeight: 'bold', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff'}}>5th & 6th</span>
               </h2>
             </div>
             <Button 
               size="lg" 
               className="bg-cyan-500 hover:bg-cyan-600 text-white px-8 py-3 text-lg font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
-              onClick={(e) => {
-                e.preventDefault();
-                const target = document.querySelector('#domains') as HTMLElement | null;
-                if (target) {
-                  const header = document.querySelector('#navbar') as HTMLElement | null;
-                  const offset = (header?.offsetHeight ?? 80) + 8;
-                  const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
-                  window.scrollTo({ top, behavior: 'smooth' });
-                }
-              }}
+              asChild
             >
-              Register Now
+              <Link to="/domains">Register Now</Link>
             </Button>
           </div>
         </section>
@@ -326,7 +317,7 @@ const Home: React.FC = () => {
               <div className="bg-white/5 backdrop-blur-xl border-0 rounded-3xl p-8 transition-all duration-300 hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 shadow-2xl" data-aos="fade-up" data-aos-delay="100">
                 <div className="space-y-6">
                   <div className="space-y-4">
-                    <p className="text-cyan-400 font-semibold text-sm uppercase tracking-wider">Who Are We</p>
+                    <p className="font-semibold text-sm uppercase tracking-wider" style={{color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff'}}>Who Are We</p>
                     <h3 className="text-4xl font-bold text-white">ZIGNASA</h3>
                     <p className="text-gray-300 text-lg leading-relaxed">
                       A technical event conducted by the CSE department of MLR Institute of Technology
@@ -344,7 +335,7 @@ const Home: React.FC = () => {
                     ].map((feature, index) => (
                       <div key={index} className="flex items-center gap-3">
                         <CheckCircle className="w-5 h-5 text-cyan-400 flex-shrink-0" />
-                        <span className="text-white">{feature}</span>
+                        <span style={{color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff'}}>{feature}</span>
                       </div>
                     ))}
                   </div>
@@ -504,54 +495,276 @@ const Home: React.FC = () => {
         </section>
 
         {/* Gallery Section */}
-        <section id="gallery" className="py-28 bg-black border-0">
-          <div className="container mx-auto px-6 bg-black border-0" data-aos="fade-up">
-            <div className="text-center mb-20 bg-black border-0">
-              <h2 className="text-5xl md:text-6xl font-bold text-white mb-6">Gallery</h2>
-              <p className="text-xl text-gray-300">Finest Art Pieces...</p>
+        <section id="gallery" className="py-32 bg-black border-0 relative overflow-hidden">
+          {/* Background Elements */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black via-gray-900/20 to-black pointer-events-none"></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none"></div>
+          
+          <div className="container mx-auto px-6 bg-black border-0 relative z-10" data-aos="fade-up">
+            <div className="text-center mb-24 bg-black border-0">
+              <div className="inline-flex items-center gap-2 mb-6">
+                <div className="h-px w-8 bg-gradient-to-r from-transparent to-cyan-400"></div>
+                <span className="inline-flex items-center rounded-full border border-cyan-400/20 bg-cyan-400/10 px-4 py-2 text-xs font-medium text-cyan-400 backdrop-blur-sm">
+                  Visual Journey
+                </span>
+                <div className="h-px w-8 bg-gradient-to-l from-transparent to-cyan-400"></div>
+              </div>
+              <h2 className="text-6xl md:text-7xl font-bold text-white mb-8 tracking-tight">
+                Gallery
+              </h2>
+              <p className="text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed mb-8">
+                Capturing moments of innovation, creativity, and excellence from our journey
+              </p>
+              <div className="flex items-center justify-center gap-4 mb-8">
+                <div className="h-px w-16 bg-gradient-to-r from-transparent to-cyan-400"></div>
+                <div className="w-3 h-3 rounded-full bg-cyan-400 animate-pulse"></div>
+                <div className="h-px w-16 bg-gradient-to-l from-transparent to-cyan-400"></div>
+              </div>
             </div>
           </div>
 
-          <div className="container mx-auto px-6 bg-black border-0">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 bg-black border-0">
-              <div className="bg-black border-0" data-aos="fade-up" data-aos-delay="100">
-                <div className="bg-white/5 backdrop-blur-xl border-0 rounded-2xl p-4 hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 transition-all duration-300 shadow-2xl">
-                  <img src="/assets/img/pic4.jpg" alt="" className="w-full h-48 object-cover rounded-xl" />
+          <div className="container mx-auto px-6 bg-black border-0 relative z-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 bg-black border-0">
+              <div className="bg-black border-0 group cursor-pointer" data-aos="fade-up" data-aos-delay="100">
+                <div className="relative overflow-hidden rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/20 hover:scale-[1.02]">
+                  <div className="aspect-[4/5] relative overflow-hidden">
+                    <img src="/assets/img/pic4.jpg" alt="Innovation Workshop" className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    
+                    {/* Floating Action Button */}
+                    <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                      <button className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center hover:bg-white/30 transition-colors">
+                        <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                      </button>
+                    </div>
+
+                    {/* Bottom Info Panel */}
+                    <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+                      <div className="bg-white/10 backdrop-blur-md rounded-xl border border-white/20 p-3">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <h4 className="text-white font-medium text-sm">Innovation Workshop</h4>
+                            <p className="text-white/70 text-xs">Tech Excellence</p>
+                          </div>
+                          <span className="inline-flex items-center rounded-full bg-cyan-400/20 px-2 py-1 text-xs font-medium text-cyan-400 border border-cyan-400/30">
+                            2024
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div className="bg-black border-0" data-aos="fade-up" data-aos-delay="200">
-                <div className="bg-white/5 backdrop-blur-xl border-0 rounded-2xl p-4 hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 transition-all duration-300 shadow-2xl">
-                  <img src="/assets/img/pic1.jpg" alt="" className="w-full h-48 object-cover rounded-xl" />
+              <div className="bg-black border-0 group cursor-pointer" data-aos="fade-up" data-aos-delay="200">
+                <div className="relative overflow-hidden rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/20 hover:scale-[1.02]">
+                  <div className="aspect-[4/5] relative overflow-hidden">
+                    <img src="/assets/img/pic1.jpg" alt="Team Collaboration" className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    
+                    <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                      <button className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center hover:bg-white/30 transition-colors">
+                        <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                      </button>
+                    </div>
+
+                    <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+                      <div className="bg-white/10 backdrop-blur-md rounded-xl border border-white/20 p-3">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <h4 className="text-white font-medium text-sm">Team Collaboration</h4>
+                            <p className="text-white/70 text-xs">Project Development</p>
+                          </div>
+                          <span className="inline-flex items-center rounded-full bg-cyan-400/20 px-2 py-1 text-xs font-medium text-cyan-400 border border-cyan-400/30">
+                            2024
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div className="bg-black border-0" data-aos="fade-up" data-aos-delay="300">
-                <div className="bg-white/5 backdrop-blur-xl border-0 rounded-2xl p-4 hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 transition-all duration-300 shadow-2xl">
-                  <img src="/assets/img/pic8.jpg" alt="" className="w-full h-48 object-cover rounded-xl" />
+              <div className="bg-black border-0 group cursor-pointer" data-aos="fade-up" data-aos-delay="300">
+                <div className="relative overflow-hidden rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/20 hover:scale-[1.02]">
+                  <div className="aspect-[4/5] relative overflow-hidden">
+                    <img src="/assets/img/pic8.jpg" alt="Creative Session" className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    
+                    <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                      <button className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center hover:bg-white/30 transition-colors">
+                        <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                      </button>
+                    </div>
+
+                    <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+                      <div className="bg-white/10 backdrop-blur-md rounded-xl border border-white/20 p-3">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <h4 className="text-white font-medium text-sm">Creative Session</h4>
+                            <p className="text-white/70 text-xs">Design Thinking</p>
+                          </div>
+                          <span className="inline-flex items-center rounded-full bg-cyan-400/20 px-2 py-1 text-xs font-medium text-cyan-400 border border-cyan-400/30">
+                            2024
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div className="bg-black border-0" data-aos="fade-up" data-aos-delay="400">
-                <div className="bg-white/5 backdrop-blur-xl border-0 rounded-2xl p-4 hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 transition-all duration-300 shadow-2xl">
-                  <img src="/assets/img/pic2.jpg" alt="" className="w-full h-48 object-cover rounded-xl" />
+              <div className="bg-black border-0 group cursor-pointer" data-aos="fade-up" data-aos-delay="400">
+                <div className="relative overflow-hidden rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/20 hover:scale-[1.02]">
+                  <div className="aspect-[4/5] relative overflow-hidden">
+                    <img src="/assets/img/pic2.jpg" alt="Tech Showcase" className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    
+                    <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                      <button className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center hover:bg-white/30 transition-colors">
+                        <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                      </button>
+                    </div>
+
+                    <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+                      <div className="bg-white/10 backdrop-blur-md rounded-xl border border-white/20 p-3">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <h4 className="text-white font-medium text-sm">Tech Showcase</h4>
+                            <p className="text-white/70 text-xs">Product Demo</p>
+                          </div>
+                          <span className="inline-flex items-center rounded-full bg-cyan-400/20 px-2 py-1 text-xs font-medium text-cyan-400 border border-cyan-400/30">
+                            2024
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div className="bg-black border-0" data-aos="fade-up" data-aos-delay="500">
-                <div className="bg-white/5 backdrop-blur-xl border-0 rounded-2xl p-4 hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 transition-all duration-300 shadow-2xl">
-                  <img src="/assets/img/pic3.jpg" alt="" className="w-full h-48 object-cover rounded-xl" />
+              <div className="bg-black border-0 group cursor-pointer" data-aos="fade-up" data-aos-delay="500">
+                <div className="relative overflow-hidden rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/20 hover:scale-[1.02]">
+                  <div className="aspect-[4/5] relative overflow-hidden">
+                    <img src="/assets/img/pic3.jpg" alt="Learning Hub" className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    
+                    <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                      <button className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center hover:bg-white/30 transition-colors">
+                        <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                      </button>
+                    </div>
+
+                    <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+                      <div className="bg-white/10 backdrop-blur-md rounded-xl border border-white/20 p-3">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <h4 className="text-white font-medium text-sm">Learning Hub</h4>
+                            <p className="text-white/70 text-xs">Knowledge Sharing</p>
+                          </div>
+                          <span className="inline-flex items-center rounded-full bg-cyan-400/20 px-2 py-1 text-xs font-medium text-cyan-400 border border-cyan-400/30">
+                            2024
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div className="bg-black border-0" data-aos="fade-up" data-aos-delay="600">
-                <div className="bg-white/5 backdrop-blur-xl border-0 rounded-2xl p-4 hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 transition-all duration-300 shadow-2xl">
-                  <img src="/assets/img/pic6.jpg" alt="" className="w-full h-48 object-cover rounded-xl" />
+              <div className="bg-black border-0 group cursor-pointer" data-aos="fade-up" data-aos-delay="600">
+                <div className="relative overflow-hidden rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/20 hover:scale-[1.02]">
+                  <div className="aspect-[4/5] relative overflow-hidden">
+                    <img src="/assets/img/pic6.jpg" alt="Event Highlights" className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    
+                    <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                      <button className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center hover:bg-white/30 transition-colors">
+                        <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                      </button>
+                    </div>
+
+                    <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+                      <div className="bg-white/10 backdrop-blur-md rounded-xl border border-white/20 p-3">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <h4 className="text-white font-medium text-sm">Event Highlights</h4>
+                            <p className="text-white/70 text-xs">Community Gathering</p>
+                          </div>
+                          <span className="inline-flex items-center rounded-full bg-cyan-400/20 px-2 py-1 text-xs font-medium text-cyan-400 border border-cyan-400/30">
+                            2024
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div className="bg-black border-0" data-aos="fade-up" data-aos-delay="700">
-                <div className="bg-white/5 backdrop-blur-xl border-0 rounded-2xl p-4 hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 transition-all duration-300 shadow-2xl">
-                  <img src="/assets/img/pic5.jpg" alt="" className="w-full h-48 object-cover rounded-xl" />
+              <div className="bg-black border-0 group cursor-pointer" data-aos="fade-up" data-aos-delay="700">
+                <div className="relative overflow-hidden rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/20 hover:scale-[1.02]">
+                  <div className="aspect-[4/5] relative overflow-hidden">
+                    <img src="/assets/img/pic5.jpg" alt="Achievement Moments" className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    
+                    <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                      <button className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center hover:bg-white/30 transition-colors">
+                        <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                      </button>
+                    </div>
+
+                    <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+                      <div className="bg-white/10 backdrop-blur-md rounded-xl border border-white/20 p-3">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <h4 className="text-white font-medium text-sm">Achievement Moments</h4>
+                            <p className="text-white/70 text-xs">Success Stories</p>
+                          </div>
+                          <span className="inline-flex items-center rounded-full bg-cyan-400/20 px-2 py-1 text-xs font-medium text-cyan-400 border border-cyan-400/30">
+                            2024
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div className="bg-black border-0" data-aos="fade-up" data-aos-delay="800">
-                <div className="bg-white/5 backdrop-blur-xl border-0 rounded-2xl p-4 hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 transition-all duration-300 shadow-2xl">
-                  <img src="/assets/img/pic7.jpg" alt="" className="w-full h-48 object-cover rounded-xl" />
+              <div className="bg-black border-0 group cursor-pointer" data-aos="fade-up" data-aos-delay="800">
+                <div className="relative overflow-hidden rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/20 hover:scale-[1.02]">
+                  <div className="aspect-[4/5] relative overflow-hidden">
+                    <img src="/assets/img/pic7.jpg" alt="Future Vision" className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    
+                    <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                      <button className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center hover:bg-white/30 transition-colors">
+                        <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                      </button>
+                    </div>
+
+                    <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+                      <div className="bg-white/10 backdrop-blur-md rounded-xl border border-white/20 p-3">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <h4 className="text-white font-medium text-sm">Future Vision</h4>
+                            <p className="text-white/70 text-xs">Next Generation</p>
+                          </div>
+                          <span className="inline-flex items-center rounded-full bg-cyan-400/20 px-2 py-1 text-xs font-medium text-cyan-400 border border-cyan-400/30">
+                            2024
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -674,99 +887,6 @@ const Home: React.FC = () => {
           </div>
         </section>
 
-        {/* Domains Section */}
-        <section id="domains" className="py-28 bg-black border-0">
-          <div className="container mx-auto px-6 bg-black border-0">
-            <div className="text-center mb-20 bg-black border-0" data-aos="fade-up">
-              <h2 className="text-5xl md:text-6xl font-bold text-white mb-6">
-                Domains For ZIGNASA - 2K25
-              </h2>
-              <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-                Choose your domains among the three to LIT the FIRE
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10 max-w-7xl mx-auto bg-black border-0">
-              <div className="bg-white/5 backdrop-blur-xl border-0 rounded-3xl p-8 transition-all duration-300 group hover:scale-105 hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 shadow-2xl flex flex-col h-full" data-aos="zoom-in" data-aos-delay="100">
-                <div className="text-center pb-6 flex-grow">
-                  <h3 className="text-2xl font-bold text-white mb-4">
-                    Data Science With Cloud
-                  </h3>
-                  <p className="text-gray-300 text-base leading-relaxed">
-                    "Unlock the potential of Data Science with Cloud technology!"
-                  </p>
-                </div>
-                <div className="text-center space-y-6 mt-auto">
-                  <div className="text-3xl font-bold text-white">
-                    <span className="text-lg align-top">₹</span>499
-                    <span className="text-lg font-normal text-gray-400"> / head</span>
-                  </div>
-                  <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-4 border-0">
-                    <div className="flex items-center justify-center gap-2 text-gray-300">
-                      <Users className="w-4 h-4 text-cyan-400" />
-                      <span>Team Size: 1 - 5 persons</span>
-                    </div>
-                  </div>
-                  <Button asChild className="w-full bg-cyan-500/80 backdrop-blur-sm hover:bg-cyan-600/80 text-white font-semibold py-3 rounded-2xl transition-all duration-300 border-0">
-                    <Link to="/ds">REGISTER NOW</Link>
-                  </Button>
-                </div>
-              </div>
-
-              <div className="bg-white/5 backdrop-blur-xl border-0 rounded-3xl p-8 transition-all duration-300 group hover:scale-105 hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 shadow-2xl flex flex-col h-full" data-aos="zoom-in" data-aos-delay="200">
-                <div className="text-center pb-6 flex-grow">
-                  <h3 className="text-2xl font-bold text-white mb-4">
-                    Full Stack Using MERN
-                  </h3>
-                  <p className="text-gray-300 text-base leading-relaxed">
-                    "Create intelligent websites by bringing your wildest ideas to life in ways you never thought possible."
-                  </p>
-                </div>
-                <div className="text-center space-y-6 mt-auto">
-                  <div className="text-3xl font-bold text-white">
-                    <span className="text-lg align-top">₹</span>499
-                    <span className="text-lg font-normal text-gray-400"> / head</span>
-                  </div>
-                  <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-4 border-0">
-                    <div className="flex items-center justify-center gap-2 text-gray-300">
-                      <Users className="w-4 h-4 text-cyan-400" />
-                      <span>Team Size: 1 - 5 persons</span>
-                    </div>
-                  </div>
-                  <Button asChild className="w-full bg-cyan-500/80 backdrop-blur-sm hover:bg-cyan-600/80 text-white font-semibold py-3 rounded-2xl transition-all duration-300 border-0">
-                    <Link to="/mern">REGISTER NOW</Link>
-                  </Button>
-                </div>
-              </div>
-
-              <div className="bg-white/5 backdrop-blur-xl border-0 rounded-3xl p-8 transition-all duration-300 group hover:scale-105 hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 shadow-2xl md:col-span-2 lg:col-span-1 flex flex-col h-full" data-aos="zoom-in" data-aos-delay="300">
-                <div className="text-center pb-6 flex-grow">
-                  <h3 className="text-2xl font-bold text-white mb-4">
-                    AI-Driven Web Development
-                  </h3>
-                  <p className="text-gray-300 text-base leading-relaxed">
-                    "Build dynamic web applications using MongoDB, Express.js, React, and Node.js."
-                  </p>
-                </div>
-                <div className="text-center space-y-6 mt-auto">
-                  <div className="text-3xl font-bold text-white">
-                    <span className="text-lg align-top">₹</span>499
-                    <span className="text-lg font-normal text-gray-400"> / head</span>
-                  </div>
-                  <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-4 border-0">
-                    <div className="flex items-center justify-center gap-2 text-gray-300">
-                      <Users className="w-4 h-4 text-cyan-400" />
-                      <span>Team Size: 1 - 5 persons</span>
-                    </div>
-                  </div>
-                  <Button asChild className="w-full bg-cyan-500/80 backdrop-blur-sm hover:bg-cyan-600/80 text-white font-semibold py-3 rounded-2xl transition-all duration-300 border-0">
-                    <Link to="/webdev">REGISTER NOW</Link>
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
 
         {/* FAQ Section */}
         <section id="faq" className="py-28 bg-black border-0">
@@ -1082,7 +1202,7 @@ const Home: React.FC = () => {
       <footer className="py-8 bg-black border-0">
         <div className="container mx-auto px-4 text-center bg-black border-0">
           <p className="text-gray-300">
-            © <span className="text-cyan-400 font-semibold">ZIGNASA - 2K25</span> All Rights Reserved
+            © <span className="font-semibold" style={{color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff'}}>ZIGNASA - 2K25</span> All Rights Reserved
           </p>
         </div>
       </footer>

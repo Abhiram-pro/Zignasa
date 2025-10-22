@@ -86,10 +86,7 @@ code {
   margin: 0;
   font-size: 18px;
   letter-spacing: 0.4px;
-  background: linear-gradient(90deg, #51bbc9 0%, #9be6f0 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #fff;
 }
 
 /* Space for floating navbar so it doesn't overlap hero */
