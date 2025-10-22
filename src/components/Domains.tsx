@@ -27,7 +27,7 @@ const Domains: React.FC = () => {
               <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-12 transition-all duration-300 group hover:bg-white/8 hover:border-white/20 shadow-2xl flex flex-col min-h-[400px]" data-aos="zoom-in" data-aos-delay="100">
                 <div className="text-left pb-8 flex-grow">
                   <h3 className="text-3xl font-bold text-white mb-6" style={{color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff'}}>
-                    Data Science With Cloud
+                    Web Dev
                   </h3>
                   <p className="text-white text-lg leading-relaxed mb-6" style={{color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff'}}>
                     Dive deep into the world of data analytics, machine learning, and cloud computing. Learn to extract meaningful insights from complex datasets using modern cloud platforms and cutting-edge tools.
@@ -63,7 +63,7 @@ const Domains: React.FC = () => {
               <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-12 transition-all duration-300 group hover:bg-white/8 hover:border-white/20 shadow-2xl flex flex-col min-h-[400px]" data-aos="zoom-in" data-aos-delay="200">
                 <div className="text-left pb-8 flex-grow">
                   <h3 className="text-3xl font-bold text-white mb-6" style={{color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff'}}>
-                    Full Stack Using MERN
+                    Agentic AI
                   </h3>
                   <p className="text-white text-lg leading-relaxed mb-6" style={{color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff'}}>
                     Master the complete web development stack with MongoDB, Express.js, React, and Node.js. Build scalable, modern web applications from database to user interface.
@@ -99,7 +99,7 @@ const Domains: React.FC = () => {
               <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-12 transition-all duration-300 group hover:bg-white/8 hover:border-white/20 shadow-2xl md:col-span-1 lg:col-span-2 xl:col-span-1 flex flex-col min-h-[400px]" data-aos="zoom-in" data-aos-delay="300">
                 <div className="text-left pb-8 flex-grow">
                   <h3 className="text-3xl font-bold text-white mb-6" style={{color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff'}}>
-                    AI-Driven Web Development
+                    UI/UX
                   </h3>
                   <p className="text-white text-lg leading-relaxed mb-6" style={{color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff'}}>
                     Combine artificial intelligence with modern web development. Create intelligent applications that leverage AI APIs, machine learning models, and smart automation.

@@ -6,7 +6,7 @@ const MernRegistration: React.FC = () => {
     <div>
       <RegistrationForm 
         title="Full Stack Development Using MERN"
-        domain="mern"
+        domain="Agentic AI"
         endpoint="/api/mern"
       />
     </div>

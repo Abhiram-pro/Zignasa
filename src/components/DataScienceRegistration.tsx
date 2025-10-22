@@ -6,7 +6,7 @@ const DataScienceRegistration: React.FC = () => {
     <div>
       <RegistrationForm 
         title="Data Science With Cloud"
-        domain="ds"
+        domain="Web Dev"
         endpoint="/api/ds"
       />
     </div>

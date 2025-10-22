@@ -347,12 +347,12 @@ const Home: React.FC = () => {
                   <Card className="bg-white/10 backdrop-blur-sm border-0 rounded-2xl overflow-hidden hover:bg-white/15 transition-all duration-300 shadow-lg">
                     <CardContent className="p-0">
                       <img 
-                        src="/assets/img/about-company-1.jpg" 
-                        className="w-full h-70 object-cover" 
+                        src="/assets/img/UPIMG/IMG_5453.JPG" 
+                        className="w-full h-[28rem] object-cover" 
                         alt="Zignasa Event - Main Venue" 
                       />
-                      <div className="p-4">
-                        <CardDescription className="text-gray-400 text-xs font-normal">
+                      <div className="px-2 py-0.5">
+                        <CardDescription className="text-gray-400 text-[11px] font-normal text-center leading-tight">
                           Main Event Venue
                         </CardDescription>
                       </div>
@@ -413,19 +413,19 @@ const Home: React.FC = () => {
                 <img src="/assets/img/clients/mlrit.webp" className="w-full h-16 object-contain filter brightness-90 hover:brightness-100 transition-all duration-300" alt="MLR Institute of Technology" />
               </div>
               <div className="bg-white/5 backdrop-blur-xl border-0 rounded-3xl p-6 transition-all duration-300 hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 shadow-2xl flex items-center justify-center">
-                <img src="/assets/img/clients/aicte.png" className="w-full h-16 object-contain filter brightness-90 hover:brightness-100 transition-all duration-300" alt="AICTE" />
+                <img src="" className="w-full h-16 object-contain filter brightness-90 hover:brightness-100 transition-all duration-300" alt="" />
               </div>
               <div className="bg-white/5 backdrop-blur-xl border-0 rounded-3xl p-6 transition-all duration-300 hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 shadow-2xl flex items-center justify-center">
                 <img src="/assets/img/clients/csi.png" className="w-full h-16 object-contain filter brightness-90 hover:brightness-100 transition-all duration-300" alt="Computer Society of India" />
               </div>
               <div className="bg-white/5 backdrop-blur-xl border-0 rounded-3xl p-6 transition-all duration-300 hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 shadow-2xl flex items-center justify-center">
-                <img src="/assets/img/clients/brainovision.png" className="w-full h-16 object-contain filter brightness-90 hover:brightness-100 transition-all duration-300" alt="Brainovision" />
+                <img src="" className="w-full h-16 object-contain filter brightness-90 hover:brightness-100 transition-all duration-300" alt="" />
               </div>
               <div className="bg-white/5 backdrop-blur-xl border-0 rounded-3xl p-6 transition-all duration-300 hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 shadow-2xl flex items-center justify-center">
                 <img src="/assets/img/clients/iic.png" className="w-full h-16 object-contain filter brightness-90 hover:brightness-100 transition-all duration-300" alt="Institution's Innovation Council" />
               </div>
               <div className="bg-white/5 backdrop-blur-xl border-0 rounded-3xl p-6 transition-all duration-300 hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 shadow-2xl flex items-center justify-center">
-                <img src="/assets/img/clients/CSE.png" className="w-full h-16 object-contain filter brightness-90 hover:brightness-100 transition-all duration-300" alt="Computer Science & Engineering Department" />
+                <img src="" className="w-full h-16 object-contain filter brightness-90 hover:brightness-100 transition-all duration-300" alt="" />
               </div>
             </div>
           </div>
