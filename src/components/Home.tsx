@@ -436,69 +436,6 @@ const Home: React.FC = () => {
           </div>
         </section>
 
-        {/* Zignasa2K23 Section */}
-        <section id="zignasa2k23" className="zignasa2k23 section">
-          <div className="container section-title bg-black border-0" data-aos="fade-up">
-            <h2>ZIGNASA - 2K24</h2>
-          </div>
-
-          <div className="container bg-black border-0">
-            <div className="row justify-content-between">
-              <div className="col-lg-5 d-flex align-items-center">
-                <div className="flex flex-col space-y-8" data-aos="fade-up" data-aos-delay="100">
-                  <div className="bg-white/5 backdrop-blur-xl border-0 rounded-2xl p-6 hover:bg-white/10 transition-all duration-300">
-                    <div className="flex items-start gap-4">
-                      <i className="bi bi-binoculars text-cyan-400 text-xl mt-1"></i>
-                      <div>
-                        <p className="text-white leading-relaxed">
-                          Zignasa 2K23 was a transformative three-day tech event (December 27-29, 2023) that offered specialized tracks in Python Full Stack, Data Science, and Machine Learning, providing participants with in-depth technical knowledge and practical skills.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="bg-white/5 backdrop-blur-xl border-0 rounded-2xl p-6 hover:bg-white/10 transition-all duration-300">
-                    <div className="flex items-start gap-4">
-                      <i className="bi bi-people text-cyan-400 text-xl mt-1"></i>
-                      <div>
-                        <p className="text-white leading-relaxed">
-                          Beyond the technical learning, the event featured engaging activities like campfire sessions, live music performances, and refreshments, creating a perfect balance between intensive learning and enjoyable networking opportunities.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="bg-white/5 backdrop-blur-xl border-0 rounded-2xl p-6 hover:bg-white/10 transition-all duration-300">
-                    <div className="flex items-start gap-4">
-                      <i className="bi bi-award text-cyan-400 text-xl mt-1"></i>
-                      <div>
-                        <p className="text-white leading-relaxed">
-                          The event was strengthened by collaboration with industry leaders like CSI, AICTE, and Brainovision, ensuring participants received valuable certificates that would enhance their resumes and career prospects.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="col-lg-6 flex justify-center items-center">
-                <div className="bg-white/5 backdrop-blur-xl border-0 rounded-2xl p-6 hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 transition-all duration-300 shadow-2xl w-full" data-aos="fade-up" data-aos-delay="200">
-                  <div className="flex justify-center">
-                    <iframe 
-                      className="w-full rounded-xl" 
-                      height="350" 
-                      src="https://www.youtube.com/embed/67z94dRglkQ?si=FEdnznrjViFSMrvpn"
-                      title="Zignasa 2K23 Video"
-                      style={{border: 0}}
-                      allowFullScreen
-                    ></iframe>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
         {/* Gallery Section */}
         <section id="gallery" className="py-32 bg-black border-0 relative overflow-hidden">
           {/* Background Elements */}
