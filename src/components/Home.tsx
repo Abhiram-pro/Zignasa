@@ -1,16 +1,49 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import emailjs from '@emailjs/browser';
 import '../assets/main.css';
 import { Navbar } from './ui/navbar';
-import { Card, CardContent, CardDescription } from './ui/card';
 import { Button } from './ui/button';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './ui/accordion';
-import { Briefcase, BarChart3, CheckCircle, Calendar, MapPin, Phone, Mail } from 'lucide-react';
+import { Briefcase, BarChart3, Calendar, MapPin, Phone, Mail } from 'lucide-react';
 import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
 
 const Home: React.FC = () => {
+  const [videoRotation, setVideoRotation] = useState(30);
+
+  useEffect(() => {
+    // Scroll handler for video straightening effect
+    const handleScroll = () => {
+      const videoSection = document.getElementById('about');
+      if (videoSection) {
+        const rect = videoSection.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+        
+        // Calculate scroll progress based on section position
+        // When section is below viewport: rotation = 30deg (full lean)
+        // When section reaches center: rotation = 0deg (straight)
+        // When section goes above viewport: rotation = 30deg (lean again)
+        
+        const sectionCenter = rect.top + rect.height / 2;
+        const viewportCenter = windowHeight / 2;
+        const distanceFromCenter = Math.abs(sectionCenter - viewportCenter);
+        const maxDistance = windowHeight;
+        
+        // Calculate rotation: 0 at center, 30 at edges
+        const scrollProgress = Math.min(1, distanceFromCenter / maxDistance);
+        const newRotation = 30 * scrollProgress;
+        
+        setVideoRotation(newRotation);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Initial call
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   useEffect(() => {
     // Wait for DOM to be ready
     const initializeApp = () => {
@@ -231,7 +264,7 @@ const Home: React.FC = () => {
             className="absolute inset-0 z-0 opacity-25"
             style={{
               backgroundImage: 'url(/assets/img/logo.png)',
-              backgroundSize: '60%',
+              backgroundSize: '55%',
               backgroundPosition: 'center center',
               backgroundRepeat: 'no-repeat',
               transform: 'translateZ(0)',
@@ -278,7 +311,7 @@ const Home: React.FC = () => {
                       <Briefcase className="w-7 h-7 text-cyan-400" />
                     </div>
                     <h3 className="text-white text-2xl font-bold">
-                      24Hr. National Level Hackathon
+                      24Hr National Level Hackathon
                     </h3>
                   </div>
                 </div>
@@ -310,94 +343,40 @@ const Home: React.FC = () => {
           </div>
         </section>
 
-        {/* About Section */}
-        <section id="about" className="py-28 bg-black border-0">
-          <div className="container mx-auto px-6 bg-black border-0">
-            <div className="grid lg:grid-cols-2 gap-16 items-center max-w-7xl mx-auto bg-black border-0">
-              <div className="bg-white/5 backdrop-blur-xl border-0 rounded-3xl p-8 transition-all duration-300 hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 shadow-2xl" data-aos="fade-up" data-aos-delay="100">
-                <div className="space-y-6">
-                  <div className="space-y-4">
-                    <p className="font-semibold text-sm uppercase tracking-wider" style={{color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff'}}>Who Are We</p>
-                    <h3 className="text-4xl font-bold text-white">ZIGNASA</h3>
-                    <p className="text-gray-300 text-lg leading-relaxed">
-                      A technical event conducted by the CSE department of MLR Institute of Technology
-                    </p>
-                  </div>
-                  
-                  <div className="space-y-4">
-                    {[
-                      '24-hour intensive hackathon',
-                      'Pre-event bootcamp for preparation',
-                      'Mentorship throughout the event',
-                      'Exciting prizes and recognition',
-                      'Industry expert sessions',
-                      'Networking opportunities'
-                    ].map((feature, index) => (
-                      <div key={index} className="flex items-center gap-3">
-                        <CheckCircle className="w-5 h-5 text-cyan-400 flex-shrink-0" />
-                        <span style={{color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff'}}>{feature}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-white/5 backdrop-blur-xl border-0 rounded-3xl p-6 transition-all duration-300 hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 shadow-2xl" data-aos="fade-up" data-aos-delay="200">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <Card className="bg-white/10 backdrop-blur-sm border-0 rounded-2xl overflow-hidden hover:bg-white/15 transition-all duration-300 shadow-lg">
-                    <CardContent className="p-0">
-                      <img 
-                        src="/assets/img/UPIMG/IMG_5453.JPG" 
-                        className="w-full h-[28rem] object-cover" 
-                        alt="Zignasa Event - Main Venue" 
-                      />
-                      <div className="px-2 py-0.5">
-                        <CardDescription className="text-gray-400 text-[11px] font-normal text-center leading-tight">
-                          Main Event Venue
-                        </CardDescription>
-                      </div>
-                    </CardContent>
-                  </Card>
-                  
-                  <div className="grid grid-rows-2 gap-4">
-                    <Card className="bg-white/10 backdrop-blur-sm border-0 rounded-2xl overflow-hidden hover:bg-white/15 transition-all duration-300 shadow-lg">
-                      <CardContent className="p-0">
-                        <img 
-                          src="/assets/img/about-company-2.jpg" 
-                          className="w-full h-30 object-cover" 
-                          alt="Zignasa Event - Team Collaboration" 
-                        />
-                        <div className="p-3">
-                          <CardDescription className="text-gray-400 text-xs font-normal">
-                            Team Collaboration
-                          </CardDescription>
-                        </div>
-                      </CardContent>
-                    </Card>
-                    
-                    <Card className="bg-white/10 backdrop-blur-sm border-0 rounded-2xl overflow-hidden hover:bg-white/15 transition-all duration-300 shadow-lg">
-                      <CardContent className="p-0">
-                        <img 
-                          src="/assets/img/about-company-3.jpg" 
-                          className="w-full h-30 object-cover" 
-                          alt="Zignasa Event - Innovation Hub" 
-                        />
-                        <div className="p-3">
-                          <CardDescription className="text-gray-400 text-xs font-normal">
-                            Innovation Hub
-                          </CardDescription>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </div>
-                </div>
-              </div>
-            </div>
+        {/* About Section - Video */}
+        <section id="about" className="relative w-full h-screen bg-black border-0 overflow-hidden flex items-center justify-center">
+          <div 
+            className="framer-w5j4lp-container relative w-[90%] h-[80%] bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl overflow-hidden shadow-2xl shadow-white/5"
+            data-aos="fade-up"
+            data-aos-duration="1500"
+            style={{ 
+              transform: `perspective(1500px) rotateX(${videoRotation}deg) scale(0.95)`,
+              transition: 'transform 0.1s ease-out'
+            }}
+          >
+            <video 
+              src="https://dj2sofb25vegx.cloudfront.net/feature_modal/LandingPageVideo+(1).mp4" 
+              loop 
+              autoPlay
+              muted
+              playsInline
+              className="w-full h-full"
+              style={{ 
+                cursor: 'auto', 
+                width: '100%', 
+                height: '100%', 
+                borderRadius: '24px', 
+                display: 'block', 
+                objectFit: 'cover', 
+                backgroundColor: 'rgba(0, 0, 0, 0)', 
+                objectPosition: '50% 50%' 
+              }}
+            />
           </div>
         </section>
 
         {/* Clients Section */}
-        <section id="clients" className="py-28 bg-black border-0">
+        <section id="clients" className="py-28 bg-black border-0 overflow-hidden">
           <div className="container mx-auto px-6 bg-black border-0">
             <div className="text-center mb-20 bg-black border-0" data-aos="fade-up">
               <h2 className="text-5xl md:text-6xl font-bold text-white mb-6">
@@ -408,85 +387,48 @@ const Home: React.FC = () => {
               </p>
             </div>
             
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 max-w-7xl mx-auto bg-black border-0" data-aos="fade-up" data-aos-delay="100">
-              <div className="bg-white/5 backdrop-blur-xl border-0 rounded-3xl p-6 transition-all duration-300 hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 shadow-2xl flex items-center justify-center">
-                <img src="/assets/img/clients/mlrit.webp" className="w-full h-16 object-contain filter brightness-90 hover:brightness-100 transition-all duration-300" alt="MLR Institute of Technology" />
-              </div>
-              <div className="bg-white/5 backdrop-blur-xl border-0 rounded-3xl p-6 transition-all duration-300 hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 shadow-2xl flex items-center justify-center">
-                <img src="" className="w-full h-16 object-contain filter brightness-90 hover:brightness-100 transition-all duration-300" alt="" />
-              </div>
-              <div className="bg-white/5 backdrop-blur-xl border-0 rounded-3xl p-6 transition-all duration-300 hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 shadow-2xl flex items-center justify-center">
-                <img src="/assets/img/clients/csi.png" className="w-full h-16 object-contain filter brightness-90 hover:brightness-100 transition-all duration-300" alt="Computer Society of India" />
-              </div>
-              <div className="bg-white/5 backdrop-blur-xl border-0 rounded-3xl p-6 transition-all duration-300 hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 shadow-2xl flex items-center justify-center">
-                <img src="" className="w-full h-16 object-contain filter brightness-90 hover:brightness-100 transition-all duration-300" alt="" />
-              </div>
-              <div className="bg-white/5 backdrop-blur-xl border-0 rounded-3xl p-6 transition-all duration-300 hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 shadow-2xl flex items-center justify-center">
-                <img src="/assets/img/clients/iic.png" className="w-full h-16 object-contain filter brightness-90 hover:brightness-100 transition-all duration-300" alt="Institution's Innovation Council" />
-              </div>
-              <div className="bg-white/5 backdrop-blur-xl border-0 rounded-3xl p-6 transition-all duration-300 hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 shadow-2xl flex items-center justify-center">
-                <img src="" className="w-full h-16 object-contain filter brightness-90 hover:brightness-100 transition-all duration-300" alt="" />
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Zignasa2K23 Section */}
-        <section id="zignasa2k23" className="zignasa2k23 section">
-          <div className="container section-title bg-black border-0" data-aos="fade-up">
-            <h2>ZIGNASA - 2K24</h2>
-          </div>
-
-          <div className="container bg-black border-0">
-            <div className="row justify-content-between">
-              <div className="col-lg-5 d-flex align-items-center">
-                <div className="flex flex-col space-y-8" data-aos="fade-up" data-aos-delay="100">
-                  <div className="bg-white/5 backdrop-blur-xl border-0 rounded-2xl p-6 hover:bg-white/10 transition-all duration-300">
-                    <div className="flex items-start gap-4">
-                      <i className="bi bi-binoculars text-cyan-400 text-xl mt-1"></i>
-                      <div>
-                        <p className="text-white leading-relaxed">
-                          Zignasa 2K23 was a transformative three-day tech event (December 27-29, 2023) that offered specialized tracks in Python Full Stack, Data Science, and Machine Learning, providing participants with in-depth technical knowledge and practical skills.
-                        </p>
-                      </div>
-                    </div>
+            <div className="relative w-full overflow-hidden">
+              <style>{`
+                @keyframes scroll-left {
+                  0% { transform: translateX(0); }
+                  100% { transform: translateX(-50%); }
+                }
+                .animate-scroll-left {
+                  animation: scroll-left 30s linear infinite;
+                }
+                .animate-scroll-left:hover {
+                  animation-play-state: paused;
+                }
+              `}</style>
+              
+              {/* Fade overlays on corners */}
+              <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-black to-transparent z-10 pointer-events-none"></div>
+              <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-black to-transparent z-10 pointer-events-none"></div>
+              
+              <div className="flex animate-scroll-left">
+                {/* First set of logos */}
+                <div className="flex gap-8 min-w-max">
+                  <div className="bg-white/5 backdrop-blur-xl border-0 rounded-3xl p-6 w-48 h-32 flex items-center justify-center shadow-2xl">
+                    <img src="/assets/img/clients/mlrit.webp" className="w-full h-16 object-contain filter brightness-90" alt="MLR Institute of Technology" />
                   </div>
-                  
-                  <div className="bg-white/5 backdrop-blur-xl border-0 rounded-2xl p-6 hover:bg-white/10 transition-all duration-300">
-                    <div className="flex items-start gap-4">
-                      <i className="bi bi-people text-cyan-400 text-xl mt-1"></i>
-                      <div>
-                        <p className="text-white leading-relaxed">
-                          Beyond the technical learning, the event featured engaging activities like campfire sessions, live music performances, and refreshments, creating a perfect balance between intensive learning and enjoyable networking opportunities.
-                        </p>
-                      </div>
-                    </div>
+                  <div className="bg-white/5 backdrop-blur-xl border-0 rounded-3xl p-6 w-48 h-32 flex items-center justify-center shadow-2xl">
+                    <img src="/assets/img/clients/csi.png" className="w-full h-16 object-contain filter brightness-90" alt="Computer Society of India" />
                   </div>
-                  
-                  <div className="bg-white/5 backdrop-blur-xl border-0 rounded-2xl p-6 hover:bg-white/10 transition-all duration-300">
-                    <div className="flex items-start gap-4">
-                      <i className="bi bi-award text-cyan-400 text-xl mt-1"></i>
-                      <div>
-                        <p className="text-white leading-relaxed">
-                          The event was strengthened by collaboration with industry leaders like CSI, AICTE, and Brainovision, ensuring participants received valuable certificates that would enhance their resumes and career prospects.
-                        </p>
-                      </div>
-                    </div>
+                  <div className="bg-white/5 backdrop-blur-xl border-0 rounded-3xl p-6 w-48 h-32 flex items-center justify-center shadow-2xl">
+                    <img src="/assets/img/clients/iic.png" className="w-full h-16 object-contain filter brightness-90" alt="Institution's Innovation Council" />
                   </div>
                 </div>
-              </div>
-
-              <div className="col-lg-6 flex justify-center items-center">
-                <div className="bg-white/5 backdrop-blur-xl border-0 rounded-2xl p-6 hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 transition-all duration-300 shadow-2xl w-full" data-aos="fade-up" data-aos-delay="200">
-                  <div className="flex justify-center">
-                    <iframe 
-                      className="w-full rounded-xl" 
-                      height="350" 
-                      src="https://www.youtube.com/embed/67z94dRglkQ?si=FEdnznrjViFSMrvpn"
-                      title="Zignasa 2K23 Video"
-                      style={{border: 0}}
-                      allowFullScreen
-                    ></iframe>
+                
+                {/* Duplicate set for seamless loop */}
+                <div className="flex gap-8 min-w-max ml-8">
+                  <div className="bg-white/5 backdrop-blur-xl border-0 rounded-3xl p-6 w-48 h-32 flex items-center justify-center shadow-2xl">
+                    <img src="/assets/img/clients/mlrit.webp" className="w-full h-16 object-contain filter brightness-90" alt="MLR Institute of Technology" />
+                  </div>
+                  <div className="bg-white/5 backdrop-blur-xl border-0 rounded-3xl p-6 w-48 h-32 flex items-center justify-center shadow-2xl">
+                    <img src="/assets/img/clients/csi.png" className="w-full h-16 object-contain filter brightness-90" alt="Computer Society of India" />
+                  </div>
+                  <div className="bg-white/5 backdrop-blur-xl border-0 rounded-3xl p-6 w-48 h-32 flex items-center justify-center shadow-2xl">
+                    <img src="/assets/img/clients/iic.png" className="w-full h-16 object-contain filter brightness-90" alt="Institution's Innovation Council" />
                   </div>
                 </div>
               </div>
@@ -775,60 +717,130 @@ const Home: React.FC = () => {
               </h2>
             </div>
 
-            <div className="max-w-5xl mx-auto bg-black border-0" data-aos="fade-up" data-aos-delay="100">
-              <Accordion type="single" collapsible className="space-y-6 bg-black border-0">
-                <AccordionItem value="item-1" className="bg-white/5 backdrop-blur-xl border-0 rounded-2xl px-8 py-4 hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 transition-all duration-300 shadow-2xl">
-                  <AccordionTrigger className="text-white hover:text-cyan-400 text-left font-semibold">
-                    How is Zignasa different from other hackathons?
-                  </AccordionTrigger>
-                  <AccordionContent className="text-gray-300 leading-relaxed">
+            <div className="max-w-6xl mx-auto bg-black border-0" data-aos="fade-up" data-aos-delay="100">
+              <Accordion type="single" collapsible className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 bg-black border-0">
+                <AccordionItem value="item-1" className="group relative w-full min-h-[160px] py-5 px-4 overflow-hidden rounded-lg shadow-lg cursor-pointer flex flex-col items-start bg-gradient-to-br from-[#6BA3D8]/20 via-[#7FB5E5]/15 to-[#9bc8ff]/20 backdrop-blur-xl border-0 hover:shadow-2xl transition-all duration-300">
+                  <div className="flex items-center gap-3 mb-3 w-full">
+                    <div className="rounded-full w-[60px] h-[60px] p-[15px] bg-gradient-to-br from-cyan-500/30 to-blue-600/30 backdrop-blur-sm flex justify-center items-center flex-shrink-0">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-cyan-300">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                      </svg>
+                    </div>
+                    <AccordionTrigger className="text-[18px] font-semibold text-white hover:text-cyan-300 transition-colors duration-200 flex-1 leading-tight text-left">
+                      How is Zignasa different from other hackathons?
+                    </AccordionTrigger>
+                  </div>
+                  <AccordionContent className="text-[14px] text-gray-300 leading-relaxed w-full">
                     Zignasa differed from other hackathons by combining in-depth technical tracks with social activities and industry-backed certification, creating a balanced experience of learning, networking, and career enhancement.
                   </AccordionContent>
+                  <div className="absolute bottom-0 right-0 w-[170px] opacity-20">
+                    <div className="w-full h-full bg-gradient-to-tl from-white/30 to-transparent rounded-tl-[100px]"></div>
+                  </div>
                 </AccordionItem>
 
-                <AccordionItem value="item-2" className="bg-white/5 backdrop-blur-xl border-0 rounded-2xl px-8 py-4 hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 transition-all duration-300 shadow-2xl">
-                  <AccordionTrigger className="text-white hover:text-cyan-400 text-left font-semibold">
-                    Will there be any fun activities during the hackathon?
-                  </AccordionTrigger>
-                  <AccordionContent className="text-gray-300 leading-relaxed">
+                <AccordionItem value="item-2" className="group relative w-full min-h-[160px] py-5 px-4 overflow-hidden rounded-lg shadow-lg cursor-pointer flex flex-col items-start bg-gradient-to-br from-[#C8A8E9]/20 via-[#D4B5F0]/15 to-[#E0C3F7]/20 backdrop-blur-xl border-0 hover:shadow-2xl transition-all duration-300">
+                  <div className="flex items-center gap-3 mb-3 w-full">
+                    <div className="rounded-full w-[60px] h-[60px] p-[15px] bg-gradient-to-br from-purple-500/30 to-pink-600/30 backdrop-blur-sm flex justify-center items-center flex-shrink-0">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-purple-300">
+                        <path d="M12 2v20M2 12h20"></path>
+                        <circle cx="12" cy="12" r="4"></circle>
+                      </svg>
+                    </div>
+                    <AccordionTrigger className="text-[18px] font-semibold text-white hover:text-purple-300 transition-colors duration-200 flex-1 leading-tight text-left">
+                      Will there be any fun activities during the hackathon?
+                    </AccordionTrigger>
+                  </div>
+                  <AccordionContent className="text-[14px] text-gray-300 leading-relaxed w-full">
                     Yes, Zignasa 2K23 featured exciting activities like Tug-Of-War and a midnight campfire. The fun activities planned for Zignasa 2K25, however, remain a mystery.
                   </AccordionContent>
+                  <div className="absolute bottom-0 right-0 w-[170px] opacity-20">
+                    <div className="w-full h-full bg-gradient-to-tl from-white/30 to-transparent rounded-tl-[100px]"></div>
+                  </div>
                 </AccordionItem>
 
-                <AccordionItem value="item-3" className="bg-white/5 backdrop-blur-xl border-0 rounded-2xl px-8 py-4 hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 transition-all duration-300 shadow-2xl">
-                  <AccordionTrigger className="text-white hover:text-cyan-400 text-left font-semibold">
-                    What are we going to learn?
-                  </AccordionTrigger>
-                  <AccordionContent className="text-gray-300 leading-relaxed">
+                <AccordionItem value="item-3" className="group relative w-full min-h-[160px] py-5 px-4 overflow-hidden rounded-lg shadow-lg cursor-pointer flex flex-col items-start bg-gradient-to-br from-[#FFD89B]/20 via-[#FFE4B5]/15 to-[#FFF0D1]/20 backdrop-blur-xl border-0 hover:shadow-2xl transition-all duration-300">
+                  <div className="flex items-center gap-3 mb-3 w-full">
+                    <div className="rounded-full w-[60px] h-[60px] p-[15px] bg-gradient-to-br from-yellow-500/30 to-orange-600/30 backdrop-blur-sm flex justify-center items-center flex-shrink-0">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-yellow-300">
+                        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                      </svg>
+                    </div>
+                    <AccordionTrigger className="text-[18px] font-semibold text-white hover:text-yellow-300 transition-colors duration-200 flex-1 leading-tight text-left">
+                      What are we going to learn?
+                    </AccordionTrigger>
+                  </div>
+                  <AccordionContent className="text-[14px] text-gray-300 leading-relaxed w-full">
                     AWS cloud services, UI/UX design principles, and Web Development using modern frameworks.
                   </AccordionContent>
+                  <div className="absolute bottom-0 right-0 w-[170px] opacity-20">
+                    <div className="w-full h-full bg-gradient-to-tl from-white/30 to-transparent rounded-tl-[100px]"></div>
+                  </div>
                 </AccordionItem>
 
-                <AccordionItem value="item-4" className="bg-white/5 backdrop-blur-xl border-0 rounded-2xl px-8 py-4 hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 transition-all duration-300 shadow-2xl">
-                  <AccordionTrigger className="text-white hover:text-cyan-400 text-left font-semibold">
-                    How do I attend online workshops?
-                  </AccordionTrigger>
-                  <AccordionContent className="text-gray-300 leading-relaxed">
+                <AccordionItem value="item-4" className="group relative w-full min-h-[160px] py-5 px-4 overflow-hidden rounded-lg shadow-lg cursor-pointer flex flex-col items-start bg-gradient-to-br from-[#A8E6CF]/20 via-[#B8F0D8]/15 to-[#C8FAE1]/20 backdrop-blur-xl border-0 hover:shadow-2xl transition-all duration-300">
+                  <div className="flex items-center gap-3 mb-3 w-full">
+                    <div className="rounded-full w-[60px] h-[60px] p-[15px] bg-gradient-to-br from-green-500/30 to-emerald-600/30 backdrop-blur-sm flex justify-center items-center flex-shrink-0">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-green-300">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                      </svg>
+                    </div>
+                    <AccordionTrigger className="text-[18px] font-semibold text-white hover:text-green-300 transition-colors duration-200 flex-1 leading-tight text-left">
+                      How do I attend online workshops?
+                    </AccordionTrigger>
+                  </div>
+                  <AccordionContent className="text-[14px] text-gray-300 leading-relaxed w-full">
                     Meeting links and access credentials will be shared to your registered email 24 hours before each session.
                   </AccordionContent>
+                  <div className="absolute bottom-0 right-0 w-[170px] opacity-20">
+                    <div className="w-full h-full bg-gradient-to-tl from-white/30 to-transparent rounded-tl-[100px]"></div>
+                  </div>
                 </AccordionItem>
 
-                <AccordionItem value="item-5" className="bg-white/5 backdrop-blur-xl border-0 rounded-2xl px-8 py-4 hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 transition-all duration-300 shadow-2xl">
-                  <AccordionTrigger className="text-white hover:text-cyan-400 text-left font-semibold">
-                    Will there be anyone to guide the participants?
-                  </AccordionTrigger>
-                  <AccordionContent className="text-gray-300 leading-relaxed">
+                <AccordionItem value="item-5" className="group relative w-full min-h-[160px] py-5 px-4 overflow-hidden rounded-lg shadow-lg cursor-pointer flex flex-col items-start bg-gradient-to-br from-[#B8B8FF]/20 via-[#C8C8FF]/15 to-[#D8D8FF]/20 backdrop-blur-xl border-0 hover:shadow-2xl transition-all duration-300">
+                  <div className="flex items-center gap-3 mb-3 w-full">
+                    <div className="rounded-full w-[60px] h-[60px] p-[15px] bg-gradient-to-br from-indigo-500/30 to-blue-600/30 backdrop-blur-sm flex justify-center items-center flex-shrink-0">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-indigo-300">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                      </svg>
+                    </div>
+                    <AccordionTrigger className="text-[18px] font-semibold text-white hover:text-indigo-300 transition-colors duration-200 flex-1 leading-tight text-left">
+                      Will there be anyone to guide the participants?
+                    </AccordionTrigger>
+                  </div>
+                  <AccordionContent className="text-[14px] text-gray-300 leading-relaxed w-full">
                     Yes, dedicated mentors with expertise in AWS, UI/UX, and Web Development will provide hands-on guidance throughout.
                   </AccordionContent>
+                  <div className="absolute bottom-0 right-0 w-[170px] opacity-20">
+                    <div className="w-full h-full bg-gradient-to-tl from-white/30 to-transparent rounded-tl-[100px]"></div>
+                  </div>
                 </AccordionItem>
 
-                <AccordionItem value="item-6" className="bg-white/5 backdrop-blur-xl border-0 rounded-2xl px-8 py-4 hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 transition-all duration-300 shadow-2xl">
-                  <AccordionTrigger className="text-white hover:text-cyan-400 text-left font-semibold">
-                    Why do we have to join this hackathon?
-                  </AccordionTrigger>
-                  <AccordionContent className="text-gray-300 leading-relaxed">
+                <AccordionItem value="item-6" className="group relative w-full min-h-[160px] py-5 px-4 overflow-hidden rounded-lg shadow-lg cursor-pointer flex flex-col items-start bg-gradient-to-br from-[#FFB3BA]/20 via-[#FFC3C8]/15 to-[#FFD3D6]/20 backdrop-blur-xl border-0 hover:shadow-2xl transition-all duration-300">
+                  <div className="flex items-center gap-3 mb-3 w-full">
+                    <div className="rounded-full w-[60px] h-[60px] p-[15px] bg-gradient-to-br from-rose-500/30 to-pink-600/30 backdrop-blur-sm flex justify-center items-center flex-shrink-0">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-rose-300">
+                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                      </svg>
+                    </div>
+                    <AccordionTrigger className="text-[18px] font-semibold text-white hover:text-rose-300 transition-colors duration-200 flex-1 leading-tight text-left">
+                      Why do we have to join this hackathon?
+                    </AccordionTrigger>
+                  </div>
+                  <AccordionContent className="text-[14px] text-gray-300 leading-relaxed w-full">
                     It offers real-world experience in trending technologies (AWS, UI/UX, Web Dev), with industry certifications and networking opportunities.
                   </AccordionContent>
+                  <div className="absolute bottom-0 right-0 w-[170px] opacity-20">
+                    <div className="w-full h-full bg-gradient-to-tl from-white/30 to-transparent rounded-tl-[100px]"></div>
+                  </div>
                 </AccordionItem>
               </Accordion>
             </div>
