@@ -6,6 +6,9 @@
 * License: https://bootstrapmade.com/license/
 */
 
+/* Import Mobile Responsive Styles */
+@import './responsive-mobile.css';
+
 /*--------------------------------------------------------------
 # Font & Color Variables
 # Help: https://bootstrapmade.com/color-system/
