@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from './ui/card';
 import { Input } from './ui/input';
@@ -28,6 +28,26 @@ interface FormData {
   team_size: string; // Keeping this for form state management
 }
 
+interface PaymentDetails {
+  orderId: string;
+  amount: number;
+  amountInPaise: number;
+  currency: string;
+  chargePerMember: number;
+}
+
+interface RegistrationResponse {
+  success: boolean;
+  message: string;
+  data: {
+    teamId: number;
+    teamName: string;
+    domain: string;
+    memberCount: number;
+    paymentDetails: PaymentDetails;
+  };
+}
+
 const teamSizeOptions = [
   { value: '1', label: '1 Member (Solo)' },
   { value: '2', label: '2 Members' },
@@ -51,6 +71,93 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Load Razorpay script
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+    script.async = true;
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+
+  const handlePaymentSuccess = async (response: any, paymentDetails: PaymentDetails) => {
+    console.log('Payment successful:', response);
+    
+    try {
+      // Verify payment with backend
+      const verifyResponse = await axios.post(
+        `http://localhost:5000/verify-payment`,
+        {
+          razorpay_order_id: paymentDetails.orderId,
+          razorpay_payment_id: response.razorpay_payment_id,
+          razorpay_signature: response.razorpay_signature,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        }
+      );
+
+      if (verifyResponse.data.success) {
+        alert('Registration and payment completed successfully!');
+        // Optionally redirect to a success page
+        window.location.href = '/';
+      } else {
+        alert('Payment verification failed. Please contact support.');
+      }
+    } catch (error) {
+      console.error('Payment verification error:', error);
+      alert('Payment completed but verification failed. Please contact support with payment ID: ' + response.razorpay_payment_id);
+    }
+  };
+
+  const handlePaymentFailure = (error: any) => {
+    console.error('Payment failed:', error);
+    if (error.error && error.error.description) {
+      alert('Payment failed: ' + error.error.description);
+    } else {
+      alert('Payment cancelled or failed. Please try again.');
+    }
+  };
+
+  const initiatePayment = (paymentDetails: PaymentDetails, teamName: string) => {
+    if (!window.Razorpay) {
+      alert('Payment gateway is not loaded. Please refresh the page and try again.');
+      return;
+    }
+
+    const options = {
+      key: 'rzp_test_RYQHuUpnWD0cOK', // Replace with your actual Razorpay key
+      amount: paymentDetails.amountInPaise,
+      currency: paymentDetails.currency,
+      name: 'ZIGNASA 2K25',
+      description: `Registration for ${teamName}`,
+      order_id: paymentDetails.orderId,
+      handler: (response: any) => handlePaymentSuccess(response, paymentDetails),
+      prefill: {
+        name: formData.members[0].name,
+        email: formData.members[0].email,
+        contact: formData.members[0].phone,
+      },
+      theme: {
+        color: '#000000'
+      },
+      modal: {
+        ondismiss: () => {
+          console.log('Payment modal closed');
+        }
+      }
+    };
+
+    const razorpay = new window.Razorpay(options);
+    razorpay.on('payment.failed', handlePaymentFailure);
+    razorpay.open();
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -98,7 +205,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
       console.log('Sending request to server with data:', JSON.stringify(submissionData, null, 2));
       
       const response = await axios.post(
-        `https://6b76c5c45cfc.ngrok-free.app/registration`, 
+        `http://localhost:5000/registration`, 
         submissionData,
         {
           headers: {
@@ -111,10 +218,11 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
       console.log('Server response:', response);
       
       if (response.data && response.data.success) {
-        alert('Registration successful! Redirecting to payment...');
-        if (response.data.paymentUrl) {
-          window.location.href = response.data.paymentUrl;
-        }
+        const registrationData = response.data as RegistrationResponse;
+        console.log('Registration successful! Opening payment gateway...');
+        
+        // Initiate Razorpay payment
+        initiatePayment(registrationData.data.paymentDetails, registrationData.data.teamName);
       } else {
         console.error('Registration failed:', response.data);
         alert('Registration failed. Please try again.');
