@@ -10,7 +10,7 @@ const Domains: React.FC = () => {
     <div className="min-h-screen bg-black">
       <Navbar />
       
-      <main className="main bg-black pt-20 md:pt-24 lg:pt-28">
+      <main className="main bg-black pt-12 sm:pt-16 md:pt-20 lg:pt-28">
         {/* Domains Section */}
         <section id="domains" className="py-8 sm:py-12 md:py-16 lg:py-28 bg-black border-0">
           <div className="container mx-auto px-4 sm:px-6 md:px-8 bg-transparent border-0">
@@ -24,7 +24,7 @@ const Domains: React.FC = () => {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 md:gap-10 lg:gap-12 max-w-full mx-auto bg-transparent border-0">
-              <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl sm:rounded-2xl md:rounded-3xl p-6 sm:p-8 md:p-10 lg:p-12 transition-all duration-300 group hover:bg-white/8 hover:border-white/20 shadow-2xl flex flex-col min-h-[350px] sm:min-h-[380px] md:min-h-[420px]" data-aos="zoom-in" data-aos-delay="100">
+              <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl sm:rounded-2xl md:rounded-3xl p-6 sm:p-8 md:p-10 lg:p-12 transition-all duration-300 group hover:bg-white/8 hover:border-white/20 shadow-2xl flex flex-col" data-aos="zoom-in" data-aos-delay="100">
                 <div className="text-left pb-6 sm:pb-8 flex-grow">
                   <h3 className="text-2xl sm:text-2xl md:text-3xl font-bold text-white mb-4 sm:mb-6 leading-tight" style={{color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff'}}>
                     Web Dev
@@ -60,7 +60,7 @@ const Domains: React.FC = () => {
                 </div>
               </div>
 
-              <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl sm:rounded-2xl md:rounded-3xl p-6 sm:p-8 md:p-10 lg:p-12 transition-all duration-300 group hover:bg-white/8 hover:border-white/20 shadow-2xl flex flex-col min-h-[350px] sm:min-h-[380px] md:min-h-[420px]" data-aos="zoom-in" data-aos-delay="200">
+              <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl sm:rounded-2xl md:rounded-3xl p-6 sm:p-8 md:p-10 lg:p-12 transition-all duration-300 group hover:bg-white/8 hover:border-white/20 shadow-2xl flex flex-col" data-aos="zoom-in" data-aos-delay="200">
                 <div className="text-left pb-6 sm:pb-8 flex-grow">
                   <h3 className="text-2xl sm:text-2xl md:text-3xl font-bold text-white mb-4 sm:mb-6 leading-tight" style={{color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff'}}>
                     Agentic AI
@@ -96,7 +96,7 @@ const Domains: React.FC = () => {
                 </div>
               </div>
 
-              <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl sm:rounded-2xl md:rounded-3xl p-6 sm:p-8 md:p-10 lg:p-12 transition-all duration-300 group hover:bg-white/8 hover:border-white/20 shadow-2xl md:col-span-1 lg:col-span-1 flex flex-col min-h-[350px] sm:min-h-[380px] md:min-h-[420px]" data-aos="zoom-in" data-aos-delay="300">
+              <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl sm:rounded-2xl md:rounded-3xl p-6 sm:p-8 md:p-10 lg:p-12 transition-all duration-300 group hover:bg-white/8 hover:border-white/20 shadow-2xl md:col-span-1 lg:col-span-1 flex flex-col" data-aos="zoom-in" data-aos-delay="300">
                 <div className="text-left pb-6 sm:pb-8 flex-grow">
                   <h3 className="text-2xl sm:text-2xl md:text-3xl font-bold text-white mb-4 sm:mb-6 leading-tight" style={{color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff'}}>
                     UI/UX
