@@ -3,6 +3,7 @@ declare global {
   interface Window {
     AOS: any;
     Swiper: any;
+    Razorpay: any;
   }
 }
 
