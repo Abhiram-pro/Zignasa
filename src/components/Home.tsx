@@ -301,40 +301,40 @@ const Home: React.FC = () => {
         </section>
 
         {/* Featured Section */}
-        <section id="featured-gallery" className="py-24 bg-black border-0">
-          <div className="container mx-auto px-6 bg-black border-0">
-            <div className="grid md:grid-cols-2 gap-12 max-w-5xl mx-auto bg-black border-0">
-              <div className="bg-white/5 backdrop-blur-xl border-0 rounded-3xl p-8 transition-all duration-300 group hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 shadow-2xl" data-aos="fade-up" data-aos-delay="100">
-                <div className="pb-6">
-                  <div className="flex items-center gap-6">
-                    <div className="p-4 bg-cyan-500/20 backdrop-blur-sm rounded-2xl group-hover:bg-cyan-500/30 transition-colors duration-300 border-0">
-                      <Briefcase className="w-7 h-7 text-cyan-400" />
+        <section id="featured-gallery" className="py-12 md:py-16 bg-black">
+          <div className="container mx-auto px-4 md:px-6 h-auto overflow-hidden">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 lg:gap-10 max-w-5xl mx-auto">
+              <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-6 md:p-8 transition-all duration-300 group hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 shadow-2xl" data-aos="fade-up" data-aos-delay="100">
+                <div className="pb-4 md:pb-6">
+                  <div className="flex items-center gap-4 md:gap-6">
+                    <div className="p-3 md:p-4 bg-cyan-500/20 backdrop-blur-sm rounded-xl md:rounded-2xl group-hover:bg-cyan-500/30 transition-colors duration-300">
+                      <Briefcase className="w-6 h-6 md:w-7 md:h-7 text-cyan-400" />
                     </div>
-                    <h3 className="text-white text-2xl font-bold">
+                    <h3 className="text-white text-xl md:text-2xl font-bold">
                       24Hr National Level Hackathon
                     </h3>
                   </div>
                 </div>
-                <div className="px-2">
-                  <p className="text-gray-300 text-lg leading-relaxed">
+                <div className="px-1 md:px-2">
+                  <p className="text-gray-300 text-base md:text-lg leading-relaxed">
                    Participants from any college or state are welcome to join this hackathon.
                   </p>
                 </div>
               </div>
 
-              <div className="bg-white/5 backdrop-blur-xl border-0 rounded-3xl p-8 transition-all duration-300 group hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 shadow-2xl" data-aos="fade-up" data-aos-delay="300">
-                <div className="pb-6">
-                  <div className="flex items-center gap-6">
-                    <div className="p-4 bg-cyan-500/20 backdrop-blur-sm rounded-2xl group-hover:bg-cyan-500/30 transition-colors duration-300 border-0">
-                      <BarChart3 className="w-7 h-7 text-cyan-400" />
+              <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-6 md:p-8 transition-all duration-300 group hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 shadow-2xl" data-aos="fade-up" data-aos-delay="300">
+                <div className="pb-4 md:pb-6">
+                  <div className="flex items-center gap-4 md:gap-6">
+                    <div className="p-3 md:p-4 bg-cyan-500/20 backdrop-blur-sm rounded-xl md:rounded-2xl group-hover:bg-cyan-500/30 transition-colors duration-300">
+                      <BarChart3 className="w-6 h-6 md:w-7 md:h-7 text-cyan-400" />
                     </div>
-                    <h3 className="text-white text-2xl font-bold">
+                    <h3 className="text-white text-xl md:text-2xl font-bold">
                       5-Day Online Bootcamp
                     </h3>
                   </div>
                 </div>
-                <div className="px-2">
-                  <p className="text-gray-300 text-lg leading-relaxed">
+                <div className="px-1 md:px-2">
+                  <p className="text-gray-300 text-base md:text-lg leading-relaxed">
                     Participants will be introduced to the fundamental concepts and basics of each domain.
                   </p>
                 </div>
@@ -376,25 +376,25 @@ const Home: React.FC = () => {
         </section>
 
         {/* Clients Section */}
-        <section id="clients" className="py-28 bg-black border-0 overflow-hidden">
-          <div className="container mx-auto px-6 bg-black border-0">
-            <div className="text-center mb-20 bg-black border-0" data-aos="fade-up">
-              <h2 className="text-5xl md:text-6xl font-bold text-white mb-6">
+        <section id="clients" className="py-12 md:py-16 bg-black overflow-hidden">
+          <div className="container mx-auto px-4 md:px-6 h-auto">
+            <div className="text-center mb-8 md:mb-12" data-aos="fade-up">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 md:mb-6">
                 Our Partners
               </h2>
-              <p className="text-xl text-gray-300">
+              <p className="text-base md:text-lg lg:text-xl text-gray-300">
                 Trusted organizations supporting ZIGNASA 2K25
               </p>
             </div>
             
-            <div className="relative w-full overflow-hidden">
+            <div className="relative w-full overflow-hidden h-auto">
               <style>{`
                 @keyframes scroll-left {
                   0% { transform: translateX(0); }
-                  100% { transform: translateX(-50%); }
+                  100% { transform: translateX(calc(-100% / 3)); }
                 }
                 .animate-scroll-left {
-                  animation: scroll-left 30s linear infinite;
+                  animation: scroll-left 20s linear infinite;
                 }
                 .animate-scroll-left:hover {
                   animation-play-state: paused;
@@ -402,33 +402,46 @@ const Home: React.FC = () => {
               `}</style>
               
               {/* Fade overlays on corners */}
-              <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-black to-transparent z-10 pointer-events-none"></div>
-              <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-black to-transparent z-10 pointer-events-none"></div>
+              <div className="absolute left-0 top-0 h-full w-24 md:w-32 bg-gradient-to-r from-black to-transparent z-10 pointer-events-none"></div>
+              <div className="absolute right-0 top-0 h-full w-24 md:w-32 bg-gradient-to-l from-black to-transparent z-10 pointer-events-none"></div>
               
-              <div className="flex animate-scroll-left">
+              <div className="flex animate-scroll-left py-4">
                 {/* First set of logos */}
-                <div className="flex gap-8 min-w-max">
-                  <div className="bg-white/5 backdrop-blur-xl border-0 rounded-3xl p-6 w-48 h-32 flex items-center justify-center shadow-2xl">
-                    <img src="/assets/img/clients/mlrit.webp" className="w-full h-16 object-contain filter brightness-90" alt="MLR Institute of Technology" />
+                <div className="flex gap-4 md:gap-6 lg:gap-8 min-w-max pr-4 md:pr-6 lg:pr-8">
+                  <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
+                    <img src="/assets/img/clients/mlrit.webp" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="MLR Institute of Technology" />
                   </div>
-                  <div className="bg-white/5 backdrop-blur-xl border-0 rounded-3xl p-6 w-48 h-32 flex items-center justify-center shadow-2xl">
-                    <img src="/assets/img/clients/csi.png" className="w-full h-16 object-contain filter brightness-90" alt="Computer Society of India" />
+                  <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
+                    <img src="/assets/img/clients/csi.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="Computer Society of India" />
                   </div>
-                  <div className="bg-white/5 backdrop-blur-xl border-0 rounded-3xl p-6 w-48 h-32 flex items-center justify-center shadow-2xl">
-                    <img src="/assets/img/clients/iic.png" className="w-full h-16 object-contain filter brightness-90" alt="Institution's Innovation Council" />
+                  <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
+                    <img src="/assets/img/clients/iic.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="Institution's Innovation Council" />
                   </div>
                 </div>
                 
-                {/* Duplicate set for seamless loop */}
-                <div className="flex gap-8 min-w-max ml-8">
-                  <div className="bg-white/5 backdrop-blur-xl border-0 rounded-3xl p-6 w-48 h-32 flex items-center justify-center shadow-2xl">
-                    <img src="/assets/img/clients/mlrit.webp" className="w-full h-16 object-contain filter brightness-90" alt="MLR Institute of Technology" />
+                {/* Second set for seamless loop */}
+                <div className="flex gap-4 md:gap-6 lg:gap-8 min-w-max pr-4 md:pr-6 lg:pr-8">
+                  <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
+                    <img src="/assets/img/clients/mlrit.webp" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="MLR Institute of Technology" />
                   </div>
-                  <div className="bg-white/5 backdrop-blur-xl border-0 rounded-3xl p-6 w-48 h-32 flex items-center justify-center shadow-2xl">
-                    <img src="/assets/img/clients/csi.png" className="w-full h-16 object-contain filter brightness-90" alt="Computer Society of India" />
+                  <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
+                    <img src="/assets/img/clients/csi.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="Computer Society of India" />
                   </div>
-                  <div className="bg-white/5 backdrop-blur-xl border-0 rounded-3xl p-6 w-48 h-32 flex items-center justify-center shadow-2xl">
-                    <img src="/assets/img/clients/iic.png" className="w-full h-16 object-contain filter brightness-90" alt="Institution's Innovation Council" />
+                  <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
+                    <img src="/assets/img/clients/iic.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="Institution's Innovation Council" />
+                  </div>
+                </div>
+                
+                {/* Third set for seamless loop */}
+                <div className="flex gap-4 md:gap-6 lg:gap-8 min-w-max pr-4 md:pr-6 lg:pr-8">
+                  <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
+                    <img src="/assets/img/clients/mlrit.webp" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="MLR Institute of Technology" />
+                  </div>
+                  <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
+                    <img src="/assets/img/clients/csi.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="Computer Society of India" />
+                  </div>
+                  <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
+                    <img src="/assets/img/clients/iic.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="Institution's Innovation Council" />
                   </div>
                 </div>
               </div>
@@ -437,33 +450,31 @@ const Home: React.FC = () => {
         </section>
 
         {/* Gallery Section */}
-        <section id="gallery" className="py-32 bg-black border-0 relative overflow-hidden">
+        <section id="gallery" className="pt-12 pb-6 md:pt-16 md:pb-12 bg-black relative overflow-hidden">
           {/* Background Elements */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black via-gray-900/20 to-black pointer-events-none"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-black to-black pointer-events-none"></div>
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none"></div>
           
-          <div className="container mx-auto px-6 bg-black border-0 relative z-10" data-aos="fade-up">
-            <div className="text-center mb-24 bg-black border-0">
-              <h2 className="text-6xl md:text-7xl font-bold text-white mb-8 tracking-tight">
+          <div className="container mx-auto px-4 md:px-6 relative z-10">
+            <div className="text-center mb-6 md:mb-10" data-aos="fade-up">
+              <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-3 md:mb-5 tracking-tight">
                 Gallery
               </h2>
-              <p className="text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed mb-8">
+              <p className="text-base md:text-xl lg:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed mb-3 md:mb-5 px-4">
                 Capturing moments of innovation, creativity, and excellence from our journey
               </p>
-              <div className="flex items-center justify-center gap-4 mb-8">
-                <div className="h-px w-16 bg-gradient-to-r from-transparent to-cyan-400"></div>
-                <div className="w-3 h-3 rounded-full bg-cyan-400 animate-pulse"></div>
-                <div className="h-px w-16 bg-gradient-to-l from-transparent to-cyan-400"></div>
+              <div className="flex items-center justify-center gap-4">
+                <div className="h-px w-12 md:w-16 bg-gradient-to-r from-transparent to-cyan-400"></div>
+                <div className="w-2 h-2 md:w-3 md:h-3 rounded-full bg-cyan-400 animate-pulse"></div>
+                <div className="h-px w-12 md:w-16 bg-gradient-to-l from-transparent to-cyan-400"></div>
               </div>
             </div>
-          </div>
 
-          <div className="container mx-auto px-6 bg-black border-0 relative z-10">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 bg-black border-0">
-              <div className="bg-black border-0 group cursor-pointer" data-aos="fade-up" data-aos-delay="100">
-                <div className="relative overflow-hidden rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/20 hover:scale-[1.02]">
+            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-8 mb-0">
+              <div className="group cursor-pointer" data-aos="fade-up" data-aos-delay="100">
+                <div className="relative overflow-hidden rounded-2xl md:rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/20 hover:scale-[1.02]">
                   <div className="aspect-[4/5] relative overflow-hidden">
-                    <img src="/assets/img/pic4.jpg" alt="Innovation Workshop" className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110" />
+                    <img src="/assets/img/pic4.jpg" alt="Innovation Workshop" loading="lazy" className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     
                     {/* Floating Action Button */}
@@ -492,10 +503,10 @@ const Home: React.FC = () => {
                   </div>
                 </div>
               </div>
-              <div className="bg-black border-0 group cursor-pointer" data-aos="fade-up" data-aos-delay="200">
-                <div className="relative overflow-hidden rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/20 hover:scale-[1.02]">
+              <div className="group cursor-pointer" data-aos="fade-up" data-aos-delay="200">
+                <div className="relative overflow-hidden rounded-2xl md:rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/20 hover:scale-[1.02]">
                   <div className="aspect-[4/5] relative overflow-hidden">
-                    <img src="/assets/img/pic1.jpg" alt="Team Collaboration" className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110" />
+                    <img src="/assets/img/pic1.jpg" alt="Team Collaboration" loading="lazy" className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     
                     <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
@@ -522,10 +533,10 @@ const Home: React.FC = () => {
                   </div>
                 </div>
               </div>
-              <div className="bg-black border-0 group cursor-pointer" data-aos="fade-up" data-aos-delay="300">
-                <div className="relative overflow-hidden rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/20 hover:scale-[1.02]">
+              <div className="group cursor-pointer" data-aos="fade-up" data-aos-delay="300">
+                <div className="relative overflow-hidden rounded-2xl md:rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/20 hover:scale-[1.02]">
                   <div className="aspect-[4/5] relative overflow-hidden">
-                    <img src="/assets/img/pic8.jpg" alt="Creative Session" className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110" />
+                    <img src="/assets/img/pic8.jpg" alt="Creative Session" loading="lazy" className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     
                     <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
@@ -552,10 +563,10 @@ const Home: React.FC = () => {
                   </div>
                 </div>
               </div>
-              <div className="bg-black border-0 group cursor-pointer" data-aos="fade-up" data-aos-delay="400">
-                <div className="relative overflow-hidden rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/20 hover:scale-[1.02]">
+              <div className="group cursor-pointer" data-aos="fade-up" data-aos-delay="400">
+                <div className="relative overflow-hidden rounded-2xl md:rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/20 hover:scale-[1.02]">
                   <div className="aspect-[4/5] relative overflow-hidden">
-                    <img src="/assets/img/pic2.jpg" alt="Tech Showcase" className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110" />
+                    <img src="/assets/img/pic2.jpg" alt="Tech Showcase" loading="lazy" className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     
                     <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
@@ -582,10 +593,10 @@ const Home: React.FC = () => {
                   </div>
                 </div>
               </div>
-              <div className="bg-black border-0 group cursor-pointer" data-aos="fade-up" data-aos-delay="500">
-                <div className="relative overflow-hidden rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/20 hover:scale-[1.02]">
+              <div className="group cursor-pointer" data-aos="fade-up" data-aos-delay="500">
+                <div className="relative overflow-hidden rounded-2xl md:rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/20 hover:scale-[1.02]">
                   <div className="aspect-[4/5] relative overflow-hidden">
-                    <img src="/assets/img/pic3.jpg" alt="Learning Hub" className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110" />
+                    <img src="/assets/img/pic3.jpg" alt="Learning Hub" loading="lazy" className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     
                     <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
@@ -612,10 +623,10 @@ const Home: React.FC = () => {
                   </div>
                 </div>
               </div>
-              <div className="bg-black border-0 group cursor-pointer" data-aos="fade-up" data-aos-delay="600">
-                <div className="relative overflow-hidden rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/20 hover:scale-[1.02]">
+              <div className="group cursor-pointer" data-aos="fade-up" data-aos-delay="600">
+                <div className="relative overflow-hidden rounded-2xl md:rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/20 hover:scale-[1.02]">
                   <div className="aspect-[4/5] relative overflow-hidden">
-                    <img src="/assets/img/pic6.jpg" alt="Event Highlights" className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110" />
+                    <img src="/assets/img/pic6.jpg" alt="Event Highlights" loading="lazy" className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     
                     <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
@@ -642,10 +653,10 @@ const Home: React.FC = () => {
                   </div>
                 </div>
               </div>
-              <div className="bg-black border-0 group cursor-pointer" data-aos="fade-up" data-aos-delay="700">
-                <div className="relative overflow-hidden rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/20 hover:scale-[1.02]">
+              <div className="group cursor-pointer" data-aos="fade-up" data-aos-delay="700">
+                <div className="relative overflow-hidden rounded-2xl md:rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/20 hover:scale-[1.02]">
                   <div className="aspect-[4/5] relative overflow-hidden">
-                    <img src="/assets/img/pic5.jpg" alt="Achievement Moments" className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110" />
+                    <img src="/assets/img/pic5.jpg" alt="Achievement Moments" loading="lazy" className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     
                     <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
@@ -672,10 +683,10 @@ const Home: React.FC = () => {
                   </div>
                 </div>
               </div>
-              <div className="bg-black border-0 group cursor-pointer" data-aos="fade-up" data-aos-delay="800">
-                <div className="relative overflow-hidden rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/20 hover:scale-[1.02]">
+              <div className="group cursor-pointer" data-aos="fade-up" data-aos-delay="800">
+                <div className="relative overflow-hidden rounded-2xl md:rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/20 hover:scale-[1.02]">
                   <div className="aspect-[4/5] relative overflow-hidden">
-                    <img src="/assets/img/pic7.jpg" alt="Future Vision" className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110" />
+                    <img src="/assets/img/pic7.jpg" alt="Future Vision" loading="lazy" className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     
                     <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
