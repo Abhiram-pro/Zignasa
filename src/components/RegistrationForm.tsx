@@ -326,21 +326,24 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
                 className="inline-flex items-center gap-2 text-white/70 hover:text-white bg-white/5 hover:bg-white/10 px-3 sm:px-4 py-2 rounded-lg sm:rounded-xl border border-white/10 hover:border-white/20 backdrop-blur-sm transition-all duration-300 text-xs sm:text-sm"
               >
                 <ArrowLeft className="w-3 h-3 sm:w-4 sm:h-4" />
-                <span className="font-medium">Back</span>
+               <span className="font-medium !text-white !bg-none !bg-transparent !bg-clip-border ![background-clip:unset] ![-webkit-text-fill-color:white]">
+  Back
+</span>
+
               </Link>
             </div>
             
             <div className="text-center">
               <div className="mb-4 sm:mb-8">
-                <span className="text-white text-xs sm:text-sm font-semibold tracking-wider uppercase bg-white/10 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border border-white/20 backdrop-blur-sm inline-block">
+                <span className="!text-white !bg-none !bg-transparent !bg-clip-border ![background-clip:unset] ![-webkit-text-fill-color:white] text-xs sm:text-sm font-semibold tracking-wider uppercase bg-white/10 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border border-white/20 backdrop-blur-sm inline-block">
                   Registration Portal
                 </span>
               </div>
               <CardTitle className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-2 sm:mb-4 leading-tight">
-                ZIGNASA <span className="text-white">2K25</span>
+                ZIGNASA 
               </CardTitle>
               <CardDescription className="text-gray-300 text-base sm:text-lg md:text-xl mb-4 sm:mb-6 line-clamp-2">
-                {title} | <span className="text-white font-semibold">{domain}</span> Domain
+                {title} | <span className="!text-white !bg-none !bg-transparent !bg-clip-border ![background-clip:unset] ![-webkit-text-fill-color:white] font-semibold">{domain}</span> Domain
               </CardDescription>
               <div className="flex items-center justify-center gap-2">
                 <div className="w-16 sm:w-24 h-px bg-gradient-to-r from-transparent to-white/40"></div>
@@ -356,7 +359,10 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
               <div className="bg-white/[0.03] backdrop-blur-lg border border-white/10 rounded-2xl sm:rounded-3xl p-6 sm:p-8 hover:bg-white/[0.05] hover:border-white/15 transition-all duration-300">
                 <h3 className="text-white font-semibold mb-6 sm:mb-8 text-lg sm:text-2xl flex items-center gap-3">
                   <Users className="w-5 h-5 sm:w-6 sm:h-6 text-white/70 flex-shrink-0" />
-                  <span>Team Information</span>
+                 <span className="!text-white !bg-none !bg-transparent !bg-clip-border ![background-clip:unset] ![-webkit-text-fill-color:white]">
+                      Team Information
+                </span>
+
                 </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                   <div>
@@ -395,7 +401,10 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
               <div className="bg-white/[0.03] backdrop-blur-lg border border-white/10 rounded-2xl sm:rounded-3xl p-6 sm:p-8 hover:bg-white/[0.05] hover:border-white/15 transition-all duration-300">
                 <h3 className="text-white font-semibold mb-6 sm:mb-8 text-lg sm:text-2xl flex items-center gap-3">
                   <User className="w-5 h-5 sm:w-6 sm:h-6 text-white/70 flex-shrink-0" />
-                  <span>Team Lead Information</span>
+                 <span className="!text-white !bg-none !bg-transparent !bg-clip-border ![background-clip:unset] ![-webkit-text-fill-color:white]">
+  Team Lead Information
+</span>
+
                 </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                   <div>
@@ -457,10 +466,10 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
                     <div key={memberIndex} className="bg-white/[0.03] backdrop-blur-lg border border-white/10 rounded-2xl sm:rounded-3xl p-6 sm:p-8 hover:bg-white/[0.05] hover:border-white/15 transition-all duration-300">
                       <h3 className="text-white font-semibold mb-6 sm:mb-8 text-lg sm:text-2xl flex items-center gap-3 flex-wrap">
                         <Building className="w-5 h-5 sm:w-6 sm:h-6 text-gray-400 flex-shrink-0" />
-                        <span>Team Member {memberIndex}</span>
-                        <span className="text-xs sm:text-sm text-gray-400 font-normal bg-gray-400/10 px-2 sm:px-3 py-1 rounded-full">
-                          Optional
-                        </span>
+                        <span className="!text-white !bg-none !bg-transparent !bg-clip-border ![background-clip:unset] ![-webkit-text-fill-color:white]">
+  Team Member {memberIndex}
+</span>
+
                       </h3>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                         <div>
