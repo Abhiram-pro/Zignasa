@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from './ui/card';
 import { Input } from './ui/input';
@@ -72,16 +72,26 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Load Razorpay script
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.src = 'https://checkout.razorpay.com/v1/checkout.js';
-    script.async = true;
-    document.body.appendChild(script);
-
-    return () => {
-      document.body.removeChild(script);
-    };
+  // Lazy load Razorpay script only when needed (on payment)
+  const loadRazorpayScript = useCallback(async () => {
+    if (window.Razorpay) {
+      return Promise.resolve();
+    }
+    
+    return new Promise((resolve, reject) => {
+      const script = document.createElement('script');
+      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+      script.defer = true; // Only use defer, not async
+      script.onload = () => {
+        console.log('Razorpay script loaded');
+        resolve(null);
+      };
+      script.onerror = () => {
+        console.error('Failed to load Razorpay script');
+        reject(new Error('Razorpay script failed to load'));
+      };
+      document.body.appendChild(script);
+    });
   }, []);
 
   const handlePaymentSuccess = async (response: any, paymentDetails: PaymentDetails) => {
@@ -125,38 +135,46 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
     }
   };
 
-  const initiatePayment = (paymentDetails: PaymentDetails, teamName: string) => {
-    if (!window.Razorpay) {
-      alert('Payment gateway is not loaded. Please refresh the page and try again.');
-      return;
-    }
-
-    const options = {
-      key: 'rzp_test_RYQHuUpnWD0cOK', // Replace with your actual Razorpay key
-      amount: paymentDetails.amountInPaise,
-      currency: paymentDetails.currency,
-      name: 'ZIGNASA 2K25',
-      description: `Registration for ${teamName}`,
-      order_id: paymentDetails.orderId,
-      handler: (response: any) => handlePaymentSuccess(response, paymentDetails),
-      prefill: {
-        name: formData.members[0].name,
-        email: formData.members[0].email,
-        contact: formData.members[0].phone,
-      },
-      theme: {
-        color: '#000000'
-      },
-      modal: {
-        ondismiss: () => {
-          console.log('Payment modal closed');
-        }
+  const initiatePayment = async (paymentDetails: PaymentDetails, teamName: string) => {
+    try {
+      // Load Razorpay script only when payment is initiated
+      await loadRazorpayScript();
+      
+      if (!window.Razorpay) {
+        alert('Payment gateway is not loaded. Please refresh the page and try again.');
+        return;
       }
-    };
 
-    const razorpay = new window.Razorpay(options);
-    razorpay.on('payment.failed', handlePaymentFailure);
-    razorpay.open();
+      const options = {
+        key: 'rzp_test_RYQHuUpnWD0cOK', // Replace with your actual Razorpay key
+        amount: paymentDetails.amountInPaise,
+        currency: paymentDetails.currency,
+        name: 'ZIGNASA 2K25',
+        description: `Registration for ${teamName}`,
+        order_id: paymentDetails.orderId,
+        handler: (response: any) => handlePaymentSuccess(response, paymentDetails),
+        prefill: {
+          name: formData.members[0].name,
+          email: formData.members[0].email,
+          contact: formData.members[0].phone,
+        },
+        theme: {
+          color: '#000000'
+        },
+        modal: {
+          ondismiss: () => {
+            console.log('Payment modal closed');
+          }
+        }
+      };
+
+      const razorpay = new window.Razorpay(options);
+      razorpay.on('payment.failed', handlePaymentFailure);
+      razorpay.open();
+    } catch (error) {
+      console.error('Failed to load payment gateway:', error);
+      alert('Failed to load payment gateway. Please try again.');
+    }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -286,80 +304,81 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
   };
 
   return (
-    <div className="min-h-screen bg-black py-20 px-4 relative overflow-hidden">
-      {/* Enhanced Background Effects */}
+    <div className="min-h-screen bg-black py-8 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-6 relative overflow-hidden">
+      {/* Optimized Background Effects - Reduced for performance */}
       <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900/20 to-black pointer-events-none"></div>
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-white/5 rounded-full blur-3xl pointer-events-none animate-pulse"></div>
-      <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-white/3 rounded-full blur-3xl pointer-events-none animate-pulse delay-1000"></div>
+      {/* Hide blur effects on mobile/tablet, only show on lg screens */}
+      <div className="hidden lg:block absolute top-1/4 left-1/4 w-96 h-96 bg-white/5 rounded-full blur-lg pointer-events-none"></div>
+      <div className="hidden 2xl:block absolute bottom-1/4 right-1/4 w-80 h-80 bg-white/3 rounded-full blur-lg pointer-events-none"></div>
       
       <div className="max-w-5xl mx-auto relative z-10">
-        <Card className="bg-white/[0.02] backdrop-blur-2xl border border-white/10 rounded-3xl p-10 transition-all duration-500 hover:bg-white/[0.05] hover:border-white/20 hover:shadow-2xl hover:shadow-white/10 shadow-2xl relative overflow-hidden">
-          {/* Liquid Glass Overlay */}
+        <Card className="bg-white/[0.02] backdrop-blur-lg border border-white/10 rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 transition-all duration-500 hover:bg-white/[0.05] hover:border-white/20 hover:shadow-2xl hover:shadow-white/10 shadow-2xl relative overflow-hidden">
+          {/* Liquid Glass Overlay - Optimized */}
           <div className="absolute inset-0 bg-gradient-to-br from-white/[0.08] via-transparent to-white/[0.03] pointer-events-none rounded-3xl"></div>
           <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
           <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
           
-          <CardHeader className="mb-12 relative z-10">
+          <CardHeader className="mb-8 sm:mb-10 md:mb-12 relative z-10">
             {/* Back Button */}
-            <div className="absolute top-0 left-0">
+            <div className="mb-4 sm:mb-0">
               <Link 
                 to="/"
-                className="inline-flex items-center gap-2 text-white/70 hover:text-white bg-white/5 hover:bg-white/10 px-4 py-2 rounded-xl border border-white/10 hover:border-white/20 backdrop-blur-sm transition-all duration-300"
+                className="inline-flex items-center gap-2 text-white/70 hover:text-white bg-white/5 hover:bg-white/10 px-3 sm:px-4 py-2 rounded-lg sm:rounded-xl border border-white/10 hover:border-white/20 backdrop-blur-sm transition-all duration-300 text-xs sm:text-sm"
               >
-                <ArrowLeft className="w-4 h-4" />
-                <span className="text-sm font-medium">Back to Home</span>
+                <ArrowLeft className="w-3 h-3 sm:w-4 sm:h-4" />
+                <span className="font-medium">Back</span>
               </Link>
             </div>
             
             <div className="text-center">
-              <div className="mb-8">
-                <span className="text-white text-sm font-semibold tracking-wider uppercase bg-white/10 px-4 py-2 rounded-full border border-white/20 backdrop-blur-sm">
+              <div className="mb-4 sm:mb-8">
+                <span className="text-white text-xs sm:text-sm font-semibold tracking-wider uppercase bg-white/10 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border border-white/20 backdrop-blur-sm inline-block">
                   Registration Portal
                 </span>
               </div>
-              <CardTitle className="text-4xl font-bold text-white mb-4">
+              <CardTitle className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-2 sm:mb-4 leading-tight">
                 ZIGNASA <span className="text-white">2K25</span>
               </CardTitle>
-              <CardDescription className="text-gray-300 text-xl mb-6">
+              <CardDescription className="text-gray-300 text-base sm:text-lg md:text-xl mb-4 sm:mb-6 line-clamp-2">
                 {title} | <span className="text-white font-semibold">{domain}</span> Domain
               </CardDescription>
               <div className="flex items-center justify-center gap-2">
-                <div className="w-24 h-px bg-gradient-to-r from-transparent to-white/40"></div>
+                <div className="w-16 sm:w-24 h-px bg-gradient-to-r from-transparent to-white/40"></div>
                 <div className="w-2 h-2 bg-white/60 rounded-full"></div>
-                <div className="w-24 h-px bg-gradient-to-l from-transparent to-white/40"></div>
+                <div className="w-16 sm:w-24 h-px bg-gradient-to-l from-transparent to-white/40"></div>
               </div>
             </div>
           </CardHeader>
           
           <CardContent className="relative z-10">
-            <form onSubmit={handleSubmit} className="space-y-10">
+            <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8 md:space-y-10">
               {/* Team Information */}
-              <div className="bg-white/[0.03] backdrop-blur-xl border border-white/10 rounded-3xl p-8 hover:bg-white/[0.05] hover:border-white/15 transition-all duration-300">
-                <h3 className="text-white font-semibold mb-8 text-2xl flex items-center gap-3">
-                  <Users className="w-6 h-6 text-white/70" />
-                  Team Information
+              <div className="bg-white/[0.03] backdrop-blur-lg border border-white/10 rounded-2xl sm:rounded-3xl p-6 sm:p-8 hover:bg-white/[0.05] hover:border-white/15 transition-all duration-300">
+                <h3 className="text-white font-semibold mb-6 sm:mb-8 text-lg sm:text-2xl flex items-center gap-3">
+                  <Users className="w-5 h-5 sm:w-6 sm:h-6 text-white/70 flex-shrink-0" />
+                  <span>Team Information</span>
                 </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                   <div>
-                    <Label className="text-gray-300 mb-3 block font-medium text-sm">Team Name *</Label>
+                    <Label className="text-gray-300 mb-2 sm:mb-3 block font-medium text-xs sm:text-sm">Team Name *</Label>
                     <Input
                       type="text"
                       name="teamName"
                       value={formData.teamName}
                       onChange={handleInputChange}
                       required
-                      className="bg-white/[0.05] backdrop-blur-sm border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-white/30 focus:border-white/50 transition-all duration-300 rounded-xl h-12"
+                      className="bg-white/[0.05] backdrop-blur-sm border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-white/30 focus:border-white/50 transition-all duration-300 rounded-lg sm:rounded-xl h-10 sm:h-12 text-sm"
                       placeholder="Enter your team name"
                     />
                   </div>
                   <div>
-                    <Label className="text-gray-300 mb-3 block font-medium text-sm">Team Size *</Label>
+                    <Label className="text-gray-300 mb-2 sm:mb-3 block font-medium text-xs sm:text-sm">Team Size *</Label>
                     <select
                       name="team_size"
                       value={formData.team_size}
                       onChange={(e) => handleSelectChange('team_size', e.target.value)}
                       required
-                      className="w-full bg-white/[0.05] backdrop-blur-sm border border-white/20 text-white rounded-xl h-12 px-4 focus:ring-2 focus:ring-white/30 focus:border-white/50 transition-all duration-300"
+                      className="w-full bg-white/[0.05] backdrop-blur-sm border border-white/20 text-white rounded-lg sm:rounded-xl h-10 sm:h-12 px-3 sm:px-4 focus:ring-2 focus:ring-white/30 focus:border-white/50 transition-all duration-300 text-sm"
                     >
                       <option value="" className="bg-gray-900 text-gray-300">Select team size</option>
                       {teamSizeOptions.map(option => (
@@ -373,57 +392,57 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
               </div>
               
               {/* Team Lead */}
-              <div className="bg-white/[0.03] backdrop-blur-xl border border-white/10 rounded-3xl p-8 hover:bg-white/[0.05] hover:border-white/15 transition-all duration-300">
-                <h3 className="text-white font-semibold mb-8 text-2xl flex items-center gap-3">
-                  <User className="w-6 h-6 text-white/70" />
-                  Team Lead Information
+              <div className="bg-white/[0.03] backdrop-blur-lg border border-white/10 rounded-2xl sm:rounded-3xl p-6 sm:p-8 hover:bg-white/[0.05] hover:border-white/15 transition-all duration-300">
+                <h3 className="text-white font-semibold mb-6 sm:mb-8 text-lg sm:text-2xl flex items-center gap-3">
+                  <User className="w-5 h-5 sm:w-6 sm:h-6 text-white/70 flex-shrink-0" />
+                  <span>Team Lead Information</span>
                 </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                   <div>
-                    <Label className="text-gray-300 mb-3 block font-medium text-sm">Full Name *</Label>
+                    <Label className="text-gray-300 mb-2 sm:mb-3 block font-medium text-xs sm:text-sm">Full Name *</Label>
                     <Input
                       type="text"
                       name="member_0_name"
                       value={formData.members[0].name}
                       onChange={handleInputChange}
                       required
-                      className="bg-white/[0.05] backdrop-blur-sm border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-white/30 focus:border-white/50 transition-all duration-300 rounded-xl h-12"
+                      className="bg-white/[0.05] backdrop-blur-sm border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-white/30 focus:border-white/50 transition-all duration-300 rounded-lg sm:rounded-xl h-10 sm:h-12 text-sm"
                       placeholder="Team lead's full name"
                     />
                   </div>
                   <div>
-                    <Label className="text-gray-300 mb-3 block font-medium text-sm">College *</Label>
+                    <Label className="text-gray-300 mb-2 sm:mb-3 block font-medium text-xs sm:text-sm">College *</Label>
                     <Input
                       type="text"
                       name="member_0_college"
                       value={formData.members[0].college}
                       onChange={handleInputChange}
                       required
-                      className="bg-white/[0.05] backdrop-blur-sm border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-white/30 focus:border-white/50 transition-all duration-300 rounded-xl h-12"
+                      className="bg-white/[0.05] backdrop-blur-sm border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-white/30 focus:border-white/50 transition-all duration-300 rounded-lg sm:rounded-xl h-10 sm:h-12 text-sm"
                       placeholder="Enter your college name"
                     />
                   </div>
                   <div>
-                    <Label className="text-gray-300 mb-3 block font-medium text-sm">Email Address *</Label>
+                    <Label className="text-gray-300 mb-2 sm:mb-3 block font-medium text-xs sm:text-sm">Email Address *</Label>
                     <Input
                       type="email"
                       name="member_0_email"
                       value={formData.members[0].email}
                       onChange={handleInputChange}
                       required
-                      className="bg-white/[0.05] backdrop-blur-sm border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-white/30 focus:border-white/50 transition-all duration-300 rounded-xl h-12"
+                      className="bg-white/[0.05] backdrop-blur-sm border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-white/30 focus:border-white/50 transition-all duration-300 rounded-lg sm:rounded-xl h-10 sm:h-12 text-sm"
                       placeholder="team.lead@example.com"
                     />
                   </div>
                   <div>
-                    <Label className="text-gray-300 mb-3 block font-medium text-sm">Phone Number *</Label>
+                    <Label className="text-gray-300 mb-2 sm:mb-3 block font-medium text-xs sm:text-sm">Phone Number *</Label>
                     <Input
                       type="tel"
                       name="member_0_phone"
                       value={formData.members[0].phone}
                       onChange={handleInputChange}
                       required
-                      className="bg-white/[0.05] backdrop-blur-sm border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-white/30 focus:border-white/50 transition-all duration-300 rounded-xl h-12"
+                      className="bg-white/[0.05] backdrop-blur-sm border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-white/30 focus:border-white/50 transition-all duration-300 rounded-lg sm:rounded-xl h-10 sm:h-12 text-sm"
                       placeholder="+91 1234567890"
                     />
                   </div>
@@ -435,56 +454,56 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
                 formData.members.slice(1, parseInt(formData.team_size)).map((member, index) => {
                   const memberIndex = index + 1;
                   return (
-                    <div key={memberIndex} className="bg-white/[0.03] backdrop-blur-xl border border-white/10 rounded-3xl p-8 hover:bg-white/[0.05] hover:border-white/15 transition-all duration-300">
-                      <h3 className="text-white font-semibold mb-8 text-2xl flex items-center gap-3">
-                        <Building className="w-6 h-6 text-gray-400" />
-                        Team Member {memberIndex + 1}
-                        <span className="text-sm text-gray-400 font-normal ml-3 bg-gray-400/10 px-3 py-1 rounded-full">
+                    <div key={memberIndex} className="bg-white/[0.03] backdrop-blur-lg border border-white/10 rounded-2xl sm:rounded-3xl p-6 sm:p-8 hover:bg-white/[0.05] hover:border-white/15 transition-all duration-300">
+                      <h3 className="text-white font-semibold mb-6 sm:mb-8 text-lg sm:text-2xl flex items-center gap-3 flex-wrap">
+                        <Building className="w-5 h-5 sm:w-6 sm:h-6 text-gray-400 flex-shrink-0" />
+                        <span>Team Member {memberIndex}</span>
+                        <span className="text-xs sm:text-sm text-gray-400 font-normal bg-gray-400/10 px-2 sm:px-3 py-1 rounded-full">
                           Optional
                         </span>
                       </h3>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                         <div>
-                          <Label className="text-gray-300 mb-3 block font-medium text-sm">Full Name</Label>
+                          <Label className="text-gray-300 mb-2 sm:mb-3 block font-medium text-xs sm:text-sm">Full Name</Label>
                           <Input
                             type="text"
                             name={`member_${memberIndex}_name`}
                             value={formData.members[memberIndex].name}
                             onChange={handleInputChange}
-                            className="bg-white/[0.05] backdrop-blur-sm border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-white/30 focus:border-white/50 transition-all duration-300 rounded-xl h-12"
-                            placeholder={`Member ${memberIndex + 1} full name`}
+                            className="bg-white/[0.05] backdrop-blur-sm border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-white/30 focus:border-white/50 transition-all duration-300 rounded-lg sm:rounded-xl h-10 sm:h-12 text-sm"
+                            placeholder={`Member ${memberIndex} full name`}
                           />
                         </div>
                         <div>
-                          <Label className="text-gray-300 mb-3 block font-medium text-sm">College</Label>
+                          <Label className="text-gray-300 mb-2 sm:mb-3 block font-medium text-xs sm:text-sm">College</Label>
                           <Input
                             type="text"
                             name={`member_${memberIndex}_college`}
                             value={formData.members[memberIndex].college}
                             onChange={handleInputChange}
-                            className="bg-white/[0.05] backdrop-blur-sm border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-white/30 focus:border-white/50 transition-all duration-300 rounded-xl h-12"
-                            placeholder={`Member ${memberIndex + 1} college`}
+                            className="bg-white/[0.05] backdrop-blur-sm border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-white/30 focus:border-white/50 transition-all duration-300 rounded-lg sm:rounded-xl h-10 sm:h-12 text-sm"
+                            placeholder={`Member ${memberIndex} college`}
                           />
                         </div>
                         <div>
-                          <Label className="text-gray-300 mb-3 block font-medium text-sm">Email Address</Label>
+                          <Label className="text-gray-300 mb-2 sm:mb-3 block font-medium text-xs sm:text-sm">Email Address</Label>
                           <Input
                             type="email"
                             name={`member_${memberIndex}_email`}
                             value={formData.members[memberIndex].email}
                             onChange={handleInputChange}
-                            className="bg-white/[0.05] backdrop-blur-sm border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-white/30 focus:border-white/50 transition-all duration-300 rounded-xl h-12"
-                            placeholder={`member${memberIndex + 1}@example.com`}
+                            className="bg-white/[0.05] backdrop-blur-sm border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-white/30 focus:border-white/50 transition-all duration-300 rounded-lg sm:rounded-xl h-10 sm:h-12 text-sm"
+                            placeholder={`member${memberIndex}@example.com`}
                           />
                         </div>
                         <div>
-                          <Label className="text-gray-300 mb-3 block font-medium text-sm">Phone Number</Label>
+                          <Label className="text-gray-300 mb-2 sm:mb-3 block font-medium text-xs sm:text-sm">Phone Number</Label>
                           <Input
                             type="tel"
                             name={`member_${memberIndex}_phone`}
                             value={formData.members[memberIndex].phone}
                             onChange={handleInputChange}
-                            className="bg-white/[0.05] backdrop-blur-sm border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-white/30 focus:border-white/50 transition-all duration-300 rounded-xl h-12"
+                            className="bg-white/[0.05] backdrop-blur-sm border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-white/30 focus:border-white/50 transition-all duration-300 rounded-lg sm:rounded-xl h-10 sm:h-12 text-sm"
                             placeholder="+91 1234567890"
                           />
                         </div>
@@ -494,17 +513,18 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
                 })}
               
               {/* Submit Buttons */}
-              <div className="bg-white/[0.03] backdrop-blur-xl border border-white/10 rounded-3xl p-8 hover:bg-white/[0.05] hover:border-white/15 transition-all duration-300">
-                <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+              <div className="bg-white/[0.03] backdrop-blur-lg border border-white/10 rounded-2xl sm:rounded-3xl p-6 sm:p-8 hover:bg-white/[0.05] hover:border-white/15 transition-all duration-300">
+                <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center">
                   <Button 
                     type="submit" 
                     disabled={isSubmitting}
-                    className="bg-gradient-to-r from-white/20 to-white/10 hover:from-white/30 hover:to-white/20 text-white font-semibold py-4 px-12 rounded-2xl transition-all duration-300 shadow-lg hover:shadow-2xl hover:shadow-white/20 disabled:opacity-50 disabled:cursor-not-allowed min-w-[200px] h-14 backdrop-blur-sm border border-white/20"
+                    className="bg-gradient-to-r from-white/20 to-white/10 hover:from-white/30 hover:to-white/20 text-white font-semibold py-3 sm:py-4 px-8 sm:px-12 rounded-lg sm:rounded-2xl transition-all duration-300 shadow-lg hover:shadow-2xl hover:shadow-white/20 disabled:opacity-50 disabled:cursor-not-allowed w-full sm:w-auto h-10 sm:h-14 backdrop-blur-lg border border-white/20 text-sm sm:text-base"
                   >
                     {isSubmitting ? (
                       <div className="flex items-center gap-2">
                         <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                        Submitting...
+                        <span className="hidden sm:inline">Submitting...</span>
+                        <span className="sm:hidden">Submitting</span>
                       </div>
                     ) : (
                       "Register Team"
@@ -514,13 +534,13 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
                     type="button" 
                     onClick={handleReset}
                     variant="outline"
-                    className="border-white/30 text-white hover:bg-white/10 hover:border-white/50 py-4 px-12 rounded-2xl transition-all duration-300 backdrop-blur-sm min-w-[200px] h-14"
+                    className="border-white/30 text-white hover:bg-white/10 hover:border-white/50 py-3 sm:py-4 px-8 sm:px-12 rounded-lg sm:rounded-2xl transition-all duration-300 backdrop-blur-sm w-full sm:w-auto h-10 sm:h-14 text-sm sm:text-base"
                   >
                     Reset Form
                   </Button>
                 </div>
-                <div className="text-center mt-6">
-                  <p className="text-gray-400 text-sm">
+                <div className="text-center mt-4 sm:mt-6">
+                  <p className="text-gray-400 text-xs sm:text-sm px-2">
                     By registering, you agree to participate in ZIGNASA 2K25 competition
                   </p>
                 </div>
