@@ -276,7 +276,7 @@ const Home: React.FC = () => {
               ZIGNASA 2K25
             </h1>
             <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto leading-relaxed bg-gradient-to-r from-gray-300 via-cyan-200 to-teal-200 bg-clip-text text-transparent">
-              A 24HR NATIONAL-LEVEL HACKATHON WITH BOOTCAMP
+              Code. Learn. Compete. A 24-Hour National Hackathon & Bootcamp
             </p>
             <div className="flex items-center justify-center gap-2 mb-8">
               <Calendar className="w-6 h-6 text-cyan-400" />
@@ -305,13 +305,13 @@ const Home: React.FC = () => {
                       <Briefcase className="w-6 h-6 md:w-7 md:h-7 text-cyan-400" />
                     </div>
                     <h3 className="text-white text-xl md:text-2xl font-bold">
-                      24Hr National Level Hackathon
+                      24HR National Level Hackathon
                     </h3>
                   </div>
                 </div>
                 <div className="px-1 md:px-2">
                   <p className="text-gray-300 text-base md:text-lg leading-relaxed">
-                   Participants from any college or state are welcome to join this hackathon.
+                   Open to innovators from every college and state everyone’s welcome to join the hackathon!
                   </p>
                 </div>
               </div>
@@ -329,7 +329,7 @@ const Home: React.FC = () => {
                 </div>
                 <div className="px-1 md:px-2">
                   <p className="text-gray-300 text-base md:text-lg leading-relaxed">
-                    Participants will be introduced to the fundamental concepts and basics of each domain.
+                   Participants will be guided through the key concepts and foundational principles of each domain.
                   </p>
                 </div>
               </div>
@@ -455,7 +455,7 @@ const Home: React.FC = () => {
                 Gallery
               </h2>
               <p className="text-sm sm:text-base md:text-xl lg:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed mb-4 md:mb-5 px-4">
-                Capturing moments of innovation, creativity, and excellence from our journey
+                Showcasing the spirit of innovation, creativity, and excellence that defines our journey.
               </p>
               <div className="flex items-center justify-center gap-3 sm:gap-4">
                 <div className="h-px w-10 sm:w-12 md:w-16 bg-gradient-to-r from-transparent to-cyan-400"></div>
@@ -590,7 +590,7 @@ const Home: React.FC = () => {
               <div className="group cursor-pointer" data-aos="fade-up" data-aos-delay="500">
                 <div className="relative overflow-hidden rounded-xl sm:rounded-2xl md:rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/20 md:hover:scale-[1.02]">
                   <div className="aspect-[4/5] relative overflow-hidden">
-                    <img src="/assets/img/pic3.jpg" alt="Learning Hub" loading="lazy" className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110" />
+                    <img src="/assets/img/rep3.png" alt="Learning Hub" loading="lazy" className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     
                     <div className="hidden md:block absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
@@ -620,7 +620,7 @@ const Home: React.FC = () => {
               <div className="group cursor-pointer" data-aos="fade-up" data-aos-delay="600">
                 <div className="relative overflow-hidden rounded-xl sm:rounded-2xl md:rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/20 md:hover:scale-[1.02]">
                   <div className="aspect-[4/5] relative overflow-hidden">
-                    <img src="/assets/img/pic6.jpg" alt="Event Highlights" loading="lazy" className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110" />
+                    <img src="/assets/img/rep1.JPG" alt="Event Highlights" loading="lazy" className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     
                     <div className="hidden md:block absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
@@ -853,7 +853,7 @@ const Home: React.FC = () => {
         </section>
 
         {/* Coordinators Section */}
-        <section id="coordinators" className="py-16 md:py-24 lg:py-28 bg-black border-0 max-h-[500px]">
+        <section id="coordinators" className="py-16 md:py-24 lg:py-28 bg-black border-0 max-h-[600px]">
           <div className="container mx-auto px-4 sm:px-6 bg-black border-0" data-aos="fade-up">
             <div className="text-center mb-12 md:mb-16 lg:mb-2">
               <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 md:mb-6">Faculty Coordinators</h2>
