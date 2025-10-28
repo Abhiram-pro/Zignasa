@@ -5,9 +5,7 @@ import '../assets/main.css';
 import { Navbar } from './ui/navbar';
 import { Button } from './ui/button';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './ui/accordion';
-import { Briefcase, BarChart3, Calendar, MapPin, Phone, Mail } from 'lucide-react';
-import { Input } from './ui/input';
-import { Textarea } from './ui/textarea';
+import { Briefcase, BarChart3, Calendar, MapPin, Phone, Mail, ExternalLink } from 'lucide-react';
 
 const Home: React.FC = () => {
   const [videoRotation, setVideoRotation] = useState(30);
@@ -175,29 +173,6 @@ const Home: React.FC = () => {
     };
   }, []);
 
-  const sendEmail = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    
-    const form = event.currentTarget;
-    const formData = new FormData(form);
-    
-    const params = {
-      name: formData.get('name') as string,
-      email: formData.get('email') as string,
-      subject: formData.get('subject') as string,
-      message: formData.get('message') as string,
-    };
-
-    emailjs.send("service_hyley4e", "template_lktf7ef", params)
-      .then(function(response) {
-        alert("Email sent successfully!");
-        form.reset();
-      })
-      .catch(function(error) {
-        alert("There was an error sending your message. Please try again.");
-        console.error("Failed to send email:", error);
-      });
-  };
 
   // Enhanced 3D logo animation on scroll
   useEffect(() => {
@@ -984,7 +959,7 @@ const Home: React.FC = () => {
             </div>
 
             <div className="max-w-7xl mx-auto bg-black border-0" data-aos="fade-up" data-aos-delay="100">
-              <div className="grid md:grid-cols-3 gap-10 mb-20 bg-black border-0">
+              <div className="grid md:grid-cols-3 gap-10 mb-32 bg-black border-0">
                 <div className="bg-white/5 backdrop-blur-xl border-0 rounded-3xl p-8 text-center hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 transition-all duration-300 shadow-2xl" data-aos="fade-up" data-aos-delay="200">
                   <div className="flex flex-col items-center space-y-4">
                     <div className="p-4 bg-cyan-500/20 backdrop-blur-sm rounded-2xl border-0">
@@ -994,6 +969,13 @@ const Home: React.FC = () => {
                     <p className="text-gray-300 leading-relaxed">
                       Dundigal Police Station Road, Hyderabad, Telangana 500043
                     </p>
+                    <Button
+                      onClick={() => window.open('https://www.google.com/maps/search/?api=1&query=MLR+Institute+of+Technology+Dundigal+Police+Station+Road+Hyderabad+Telangana+500043', '_blank')}
+                      className="mt-4 bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-400 border border-cyan-500/30 hover:border-cyan-500/50 rounded-2xl transition-all duration-300 flex items-center gap-2"
+                    >
+                      Open in Maps
+                      <ExternalLink className="w-4 h-4" />
+                    </Button>
                   </div>
                 </div>
 
@@ -1020,78 +1002,6 @@ const Home: React.FC = () => {
                     <p className="text-gray-300">
                       zignasa2k25@gmail.com
                     </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="grid lg:grid-cols-2 gap-12 bg-black border-0">
-                <div className="bg-white/5 backdrop-blur-xl border-0 rounded-3xl p-4 hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 transition-all duration-300 shadow-2xl" data-aos="fade-up" data-aos-delay="300">
-                  <iframe 
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3803.1744261147496!2d78.43861427468744!3d17.594450196808015!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb9b8eae5cd739%3A0x2aa927e931d97eee!2sMLR%20Institute%20of%20Technology!5e0!3m2!1sen!2sin!4v1730730947518!5m2!1sen!2sin" 
-                    className="w-full h-96 rounded-2xl" 
-                    style={{border: 0}} 
-                    allowFullScreen 
-                    loading="lazy" 
-                    referrerPolicy="no-referrer-when-downgrade"
-                    title="MLR Institute of Technology Location Map"
-                  ></iframe>
-                </div>
-
-                <div className="bg-white/5 backdrop-blur-xl border-0 rounded-3xl p-8 hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 transition-all duration-300 shadow-2xl" data-aos="fade-up" data-aos-delay="400">
-                  <div className="mb-6">
-                    <h3 className="text-white text-2xl font-semibold">Send Message</h3>
-                  </div>
-                  <div>
-                    <form onSubmit={sendEmail} className="space-y-6">
-                      <div className="grid md:grid-cols-2 gap-4">
-                        <div className="space-y-2">
-                          <Input 
-                            type="text" 
-                            name="name" 
-                            id="name" 
-                            placeholder="Your Name" 
-                            required 
-                            className="bg-white/5 backdrop-blur-sm border-0 text-white placeholder:text-gray-400 focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/30 rounded-2xl transition-all duration-300"
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <Input 
-                            type="email" 
-                            name="email" 
-                            id="email" 
-                            placeholder="Your Email" 
-                            required 
-                            className="bg-white/5 backdrop-blur-sm border-0 text-white placeholder:text-gray-400 focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/30 rounded-2xl transition-all duration-300"
-                          />
-                        </div>
-                      </div>
-                      <div className="space-y-2">
-                        <Input 
-                          type="text" 
-                          name="subject" 
-                          id="subject" 
-                          placeholder="Subject" 
-                          required 
-                          className="bg-white/5 backdrop-blur-sm border-0 text-white placeholder:text-gray-400 focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/30 rounded-2xl transition-all duration-300"
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <Textarea 
-                          name="message" 
-                          id="message" 
-                          rows={6} 
-                          placeholder="Message" 
-                          required 
-                          className="bg-white/5 backdrop-blur-sm border-0 text-white placeholder:text-gray-400 focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/30 rounded-2xl transition-all duration-300 resize-none"
-                        />
-                      </div>
-                      <Button 
-                        type="submit" 
-                        className="w-full bg-cyan-500/80 backdrop-blur-sm hover:bg-cyan-600/80 text-white font-semibold py-3 rounded-2xl transition-all duration-300 border-0"
-                      >
-                        Send Message
-                      </Button>
-                    </form>
                   </div>
                 </div>
               </div>
