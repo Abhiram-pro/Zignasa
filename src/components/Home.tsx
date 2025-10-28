@@ -5,13 +5,16 @@ import '../assets/main.css';
 import { Navbar } from './ui/navbar';
 import { Button } from './ui/button';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './ui/accordion';
+import EmblaCarousel from './ui/EmblaCarousel';
 import { Briefcase, BarChart3, Calendar, MapPin, Phone, Mail, ExternalLink } from 'lucide-react';
 
 const Home: React.FC = () => {
   const [videoRotation, setVideoRotation] = useState(30);
 
   useEffect(() => {
-    // Scroll handler for video straightening effect
+    const isMobile = () => (typeof window !== 'undefined') && (window.matchMedia('(max-width: 768px)').matches || ('ontouchstart' in window));
+
+    // Scroll handler for video straightening effect (soft on mobile)
     const handleScroll = () => {
       const videoSection = document.getElementById('about');
       if (videoSection) {
@@ -28,9 +31,10 @@ const Home: React.FC = () => {
         const distanceFromCenter = Math.abs(sectionCenter - viewportCenter);
         const maxDistance = windowHeight;
         
-        // Calculate rotation: 0 at center, 30 at edges
+        // Calculate rotation: 0 at center, subtle on mobile
         const scrollProgress = Math.min(1, distanceFromCenter / maxDistance);
-        const newRotation = 30 * scrollProgress;
+        const maxRotation = isMobile() ? 5 : 30;
+        const newRotation = maxRotation * scrollProgress;
         
         setVideoRotation(newRotation);
       }
@@ -59,12 +63,15 @@ const Home: React.FC = () => {
         }
       }, 1000);
 
-      // Initialize AOS (Animate On Scroll)
+      // Initialize AOS (Animate On Scroll) - subtle on mobile
       if (typeof window.AOS !== 'undefined') {
+        const isMobile = () => (typeof window !== 'undefined') && (window.matchMedia('(max-width: 768px)').matches || ('ontouchstart' in window));
         window.AOS.init({
-          duration: 1000,
+          duration: isMobile() ? 400 : 800,
           once: true,
-        });
+          easing: 'ease-out-quart',
+          offset: isMobile() ? 40 : 120,
+        } as any);
       }
 
       // Initialize EmailJS
@@ -89,6 +96,16 @@ const Home: React.FC = () => {
       // GLightbox is loaded via CDN in the HTML file
 
       initSwiper();
+
+      // Soften marquee-like client logo animation on small screens
+      const isMobile = () => (typeof window !== 'undefined') && (window.matchMedia('(max-width: 768px)').matches || ('ontouchstart' in window));
+      if (isMobile()) {
+        document.querySelectorAll('.animate-scroll-left').forEach(el => {
+          const elem = el as HTMLElement;
+          // Keep same animation but slower for subtle effect
+          elem.style.animationDuration = '35s';
+        });
+      }
 
     // Mobile nav toggle functionality
     const mobileNavToggleBtn = document.querySelector('.mobile-nav-toggle');
@@ -176,6 +193,8 @@ const Home: React.FC = () => {
 
   // Enhanced 3D logo animation on scroll
   useEffect(() => {
+    const isMobile = () => (typeof window !== 'undefined') && (window.matchMedia('(max-width: 768px)').matches || ('ontouchstart' in window));
+
     const handleScroll = () => {
       const scrolled = window.pageYOffset;
       const windowHeight = window.innerHeight;
@@ -183,20 +202,20 @@ const Home: React.FC = () => {
       
       const bgElement = document.querySelector('#hero-bg') as HTMLElement;
       if (bgElement) {
-        // 3D parallax movement with multiple axes
-        const translateY = -scrolled * 0.4;
-        const translateX = Math.sin(scrollProgress * Math.PI) * 20;
+        // 3D parallax movement with multiple axes (subtle on mobile)
+        const translateY = -(scrolled * (isMobile() ? 0.12 : 0.4));
+        const translateX = Math.sin(scrollProgress * Math.PI) * (isMobile() ? 6 : 20);
         
-        // Dynamic opacity with breathing effect
-        const baseOpacity = 0.25 + (scrollProgress * 0.3);
-        const breathingEffect = Math.sin(Date.now() * 0.002) * 0.05;
+        // Dynamic opacity with gentle breathing effect on mobile
+        const baseOpacity = 0.25 + (scrollProgress * (isMobile() ? 0.15 : 0.3));
+        const breathingEffect = Math.sin(Date.now() * 0.002) * (isMobile() ? 0.02 : 0.05);
         const opacity = baseOpacity + breathingEffect;
         
-        // 3D scaling and rotation effects
-        const scale = 1 + (scrollProgress * 0.15);
-        const rotateX = scrollProgress * 15;
-        const rotateY = Math.sin(scrollProgress * Math.PI * 2) * 10;
-        const rotateZ = scrollProgress * 5;
+        // 3D scaling and rotation effects (reduced on mobile)
+        const scale = 1 + (scrollProgress * (isMobile() ? 0.05 : 0.15));
+        const rotateX = scrollProgress * (isMobile() ? 5 : 15);
+        const rotateY = Math.sin(scrollProgress * Math.PI * 2) * (isMobile() ? 4 : 10);
+        const rotateZ = scrollProgress * (isMobile() ? 2 : 5);
         
         // Apply 3D transforms
         bgElement.style.transform = `
@@ -208,16 +227,16 @@ const Home: React.FC = () => {
           rotateZ(${rotateZ}deg)
           translateZ(0)
         `;
-        bgElement.style.opacity = Math.max(0.2, Math.min(0.6, opacity)).toString();
+        bgElement.style.opacity = Math.max(0.2, Math.min(isMobile() ? 0.45 : 0.6, opacity)).toString();
       }
     };
 
-    // Add breathing animation
+    // Add breathing animation (slower on mobile)
     const breathingInterval = setInterval(() => {
       if (window.pageYOffset < window.innerHeight) {
         handleScroll();
       }
-    }, 50);
+    }, isMobile() ? 120 : 50);
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => {
@@ -834,69 +853,19 @@ const Home: React.FC = () => {
         </section>
 
         {/* Coordinators Section */}
-        <section id="coordinators" className="py-16 md:py-24 lg:py-28 bg-black border-0 max-h-[850px]">
+        <section id="coordinators" className="py-16 md:py-24 lg:py-28 bg-black border-0 max-h-[500px]">
           <div className="container mx-auto px-4 sm:px-6 bg-black border-0" data-aos="fade-up">
-            <div className="text-center mb-12 md:mb-16 lg:mb-20 bg-black border-0">
+            <div className="text-center mb-12 md:mb-16 lg:mb-2">
               <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 md:mb-6">Faculty Coordinators</h2>
               <p className="text-base sm:text-lg md:text-xl text-gray-300">Pillars of the EVENT</p>
             </div>
-          </div>
 
-          <div className="container mx-auto px-4 sm:px-6 bg-black border-0" data-aos="fade-up" data-aos-delay="100">
-            <div className="swiper init-swiper bg-black border-0">
-              <script type="application/json" className="swiper-config">
-                {JSON.stringify({
-                  loop: true,
-                  speed: 600,
-                  autoplay: {
-                    delay: 5000,
-                    disableOnInteraction: false,
-                    pauseOnMouseEnter: true
-                  },
-                  slidesPerView: 1,
-                  centeredSlides: true,
-                  spaceBetween: 20,
-                  grabCursor: true,
-                  watchOverflow: true,
-                  observer: true,
-                  observeParents: true,
-                  pagination: {
-                    el: ".swiper-pagination",
-                    type: "bullets",
-                    clickable: true,
-                    dynamicBullets: true
-                  },
-                  navigation: {
-                    nextEl: ".swiper-button-next",
-                    prevEl: ".swiper-button-prev"
-                  },
-                  breakpoints: {
-                    320: {
-                      slidesPerView: 1,
-                      spaceBetween: 16,
-                      centeredSlides: true
-                    },
-                    640: {
-                      slidesPerView: 1,
-                      spaceBetween: 20,
-                      centeredSlides: true
-                    },
-                    768: {
-                      slidesPerView: 2,
-                      spaceBetween: 24,
-                      centeredSlides: false
-                    },
-                    1024: {
-                      slidesPerView: 3,
-                      spaceBetween: 30,
-                      centeredSlides: true
-                    }
-                  }
-                })}
-              </script>
-              
-              <div className="swiper-wrapper bg-black border-0">
-                <div className="swiper-slide bg-black border-0">
+            <EmblaCarousel
+              className="bg-black border-0"
+              autoplayDelayMs={4500}
+              options={{ align: 'center', loop: true, containScroll: 'trimSnaps', dragFree: false, skipSnaps: false }}
+              slides={[
+                (
                   <div className="bg-white/5 backdrop-blur-xl border-0 rounded-2xl sm:rounded-3xl p-6 sm:p-8 text-center hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 transition-all duration-300 shadow-2xl h-full flex flex-col max-w-sm mx-auto">
                     <div className="flex flex-col items-center space-y-4 sm:space-y-6 flex-grow justify-center">
                       <div className="relative">
@@ -908,8 +877,8 @@ const Home: React.FC = () => {
                       </div>
                     </div>
                   </div>
-                </div>
-                <div className="swiper-slide bg-black border-0">
+                ),
+                (
                   <div className="bg-white/5 backdrop-blur-xl border-0 rounded-2xl sm:rounded-3xl p-6 sm:p-8 text-center hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 transition-all duration-300 shadow-2xl h-full flex flex-col max-w-sm mx-auto">
                     <div className="flex flex-col items-center space-y-4 sm:space-y-6 flex-grow justify-center">
                       <div className="relative">
@@ -921,8 +890,8 @@ const Home: React.FC = () => {
                       </div>
                     </div>
                   </div>
-                </div>
-                <div className="swiper-slide bg-black border-0">
+                ),
+                (
                   <div className="bg-white/5 backdrop-blur-xl border-0 rounded-2xl sm:rounded-3xl p-6 sm:p-8 text-center hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 transition-all duration-300 shadow-2xl h-full flex flex-col max-w-sm mx-auto">
                     <div className="flex flex-col items-center space-y-4 sm:space-y-6 flex-grow justify-center">
                       <div className="relative">
@@ -934,8 +903,8 @@ const Home: React.FC = () => {
                       </div>
                     </div>
                   </div>
-                </div>
-                <div className="swiper-slide bg-black border-0">
+                ),
+                (
                   <div className="bg-white/5 backdrop-blur-xl border-0 rounded-2xl sm:rounded-3xl p-6 sm:p-8 text-center hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 transition-all duration-300 shadow-2xl h-full flex flex-col max-w-sm mx-auto">
                     <div className="flex flex-col items-center space-y-4 sm:space-y-6 flex-grow justify-center">
                       <div className="relative">
@@ -947,12 +916,9 @@ const Home: React.FC = () => {
                       </div>
                     </div>
                   </div>
-                </div>
-              </div>
-              <div className="swiper-pagination mt-6 sm:mt-8"></div>
-              <div className="swiper-button-next text-cyan-400 hidden md:flex"></div>
-              <div className="swiper-button-prev text-cyan-400 hidden md:flex"></div>
-            </div>
+                )
+              ]}
+            />
           </div>
         </section>
 
@@ -1020,8 +986,8 @@ const Home: React.FC = () => {
         </section>
       </main>
 
-      <footer className="py-8 bg-black border-0 max-h-[100px]">
-        <div className="container mx-auto px-4 text-center bg-black border-0">
+      <footer className="py-8 bg-black border-0 ">
+        <div className="container mx-auto px-4 text-center bg-black border-0 max-h-[100px]">
           <p className="text-gray-300">
             © <span className="font-semibold" style={{color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff'}}>ZIGNASA - 2K25</span> All Rights Reserved
           </p>
