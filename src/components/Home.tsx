@@ -227,14 +227,14 @@ const Home: React.FC = () => {
   }, []);
 
   return (
-    <div className="index-page bg-black min-h-screen">
+    <div className="index-page bg-gradient-to-b bg-black min-h-screen">
       <Navbar />
 
       <main className="main bg-black">
         {/* Hero Section */}
         <section id="hero" className="relative min-h-screen flex items-center justify-center bg-black overflow-hidden" style={{ perspective: '1000px' }}>
           {/* 3D Animated Logo Background */}
-          <div 
+          <div
             id="hero-bg"
             className="absolute inset-0 z-0 opacity-25"
             style={{
@@ -250,7 +250,7 @@ const Home: React.FC = () => {
           ></div>
           
           {/* Subtle Gradient Overlay */}
-          <div className="absolute inset-0 z-5 bg-gradient-to-b from-black/30 via-transparent to-black/50"></div>
+          <div className="absolute inset-0 z-5 bg-gradient-to-b from-black/30 via-transparent to-black/50 "></div>
           
           <div className="relative z-10 text-center px-4 max-w-4xl mx-auto" data-aos="fade-up" data-aos-delay="300">
             <h1 className="text-6xl md:text-8xl font-bold mb-6 tracking-tight bg-gradient-to-r from-cyan-400 via-teal-300 to-cyan-500 bg-clip-text text-transparent">
@@ -425,35 +425,35 @@ const Home: React.FC = () => {
         </section>
 
         {/* Gallery Section */}
-        <section id="gallery" className="pt-12 pb-6 md:pt-16 md:pb-12 bg-black relative overflow-hidden">
+        <section id="gallery" className="pt-12 pb-6 md:pt-16 md:pb-12 bg-black relative overflow-hidden max-h-[850px] md:max-h-[1200px]">
           {/* Background Elements */}
           <div className="absolute inset-0 bg-gradient-to-b from-black to-black pointer-events-none"></div>
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none"></div>
           
-          <div className="container mx-auto px-4 md:px-6 relative z-10">
-            <div className="text-center mb-6 md:mb-10" data-aos="fade-up">
-              <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-3 md:mb-5 tracking-tight">
+          <div className="container mx-auto px-3 sm:px-4 md:px-6 relative z-10">
+            <div className="text-center mb-8 md:mb-10" data-aos="fade-up">
+              <h2 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-4 md:mb-5 tracking-tight">
                 Gallery
               </h2>
-              <p className="text-base md:text-xl lg:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed mb-3 md:mb-5 px-4">
+              <p className="text-sm sm:text-base md:text-xl lg:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed mb-4 md:mb-5 px-4">
                 Capturing moments of innovation, creativity, and excellence from our journey
               </p>
-              <div className="flex items-center justify-center gap-4">
-                <div className="h-px w-12 md:w-16 bg-gradient-to-r from-transparent to-cyan-400"></div>
+              <div className="flex items-center justify-center gap-3 sm:gap-4">
+                <div className="h-px w-10 sm:w-12 md:w-16 bg-gradient-to-r from-transparent to-cyan-400"></div>
                 <div className="w-2 h-2 md:w-3 md:h-3 rounded-full bg-cyan-400 animate-pulse"></div>
-                <div className="h-px w-12 md:w-16 bg-gradient-to-l from-transparent to-cyan-400"></div>
+                <div className="h-px w-10 sm:w-12 md:w-16 bg-gradient-to-l from-transparent to-cyan-400"></div>
               </div>
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-8 mb-0">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6 lg:gap-8 mb-0">
               <div className="group cursor-pointer" data-aos="fade-up" data-aos-delay="100">
-                <div className="relative overflow-hidden rounded-2xl md:rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/20 hover:scale-[1.02]">
+                <div className="relative overflow-hidden rounded-xl sm:rounded-2xl md:rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/20 md:hover:scale-[1.02]">
                   <div className="aspect-[4/5] relative overflow-hidden">
                     <img src="/assets/img/pic4.jpg" alt="Innovation Workshop" loading="lazy" className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     
-                    {/* Floating Action Button */}
-                    <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                    {/* Floating Action Button - Hidden on mobile */}
+                    <div className="hidden md:block absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
                       <button className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center hover:bg-white/30 transition-colors">
                         <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -462,14 +462,14 @@ const Home: React.FC = () => {
                     </div>
 
                     {/* Bottom Info Panel */}
-                    <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
-                      <div className="bg-white/10 backdrop-blur-md rounded-xl border border-white/20 p-3">
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <h4 className="text-white font-medium text-sm">Innovation Workshop</h4>
-                            <p className="text-white/70 text-xs">Tech Excellence</p>
+                    <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+                      <div className="bg-white/10 backdrop-blur-md rounded-lg sm:rounded-xl border border-white/20 p-2.5 sm:p-3">
+                        <div className="flex items-center justify-between gap-2">
+                          <div className="min-w-0 flex-1">
+                            <h4 className="text-white font-medium text-sm sm:text-base truncate">Innovation Workshop</h4>
+                            <p className="text-white/70 text-xs sm:text-sm truncate">Tech Excellence</p>
                           </div>
-                          <span className="inline-flex items-center rounded-full bg-cyan-400/20 px-2 py-1 text-xs font-medium text-cyan-400 border border-cyan-400/30">
+                          <span className="inline-flex items-center rounded-full bg-cyan-400/20 px-2 py-1 text-xs font-medium text-cyan-400 border border-cyan-400/30 flex-shrink-0">
                             2024
                           </span>
                         </div>
@@ -479,12 +479,12 @@ const Home: React.FC = () => {
                 </div>
               </div>
               <div className="group cursor-pointer" data-aos="fade-up" data-aos-delay="200">
-                <div className="relative overflow-hidden rounded-2xl md:rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/20 hover:scale-[1.02]">
+                <div className="relative overflow-hidden rounded-xl sm:rounded-2xl md:rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/20 md:hover:scale-[1.02]">
                   <div className="aspect-[4/5] relative overflow-hidden">
                     <img src="/assets/img/pic1.jpg" alt="Team Collaboration" loading="lazy" className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     
-                    <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                    <div className="hidden md:block absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
                       <button className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center hover:bg-white/30 transition-colors">
                         <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -492,14 +492,14 @@ const Home: React.FC = () => {
                       </button>
                     </div>
 
-                    <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
-                      <div className="bg-white/10 backdrop-blur-md rounded-xl border border-white/20 p-3">
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <h4 className="text-white font-medium text-sm">Team Collaboration</h4>
-                            <p className="text-white/70 text-xs">Project Development</p>
+                    <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+                      <div className="bg-white/10 backdrop-blur-md rounded-lg sm:rounded-xl border border-white/20 p-2.5 sm:p-3">
+                        <div className="flex items-center justify-between gap-2">
+                          <div className="min-w-0 flex-1">
+                            <h4 className="text-white font-medium text-sm sm:text-base truncate">Team Collaboration</h4>
+                            <p className="text-white/70 text-xs sm:text-sm truncate">Project Development</p>
                           </div>
-                          <span className="inline-flex items-center rounded-full bg-cyan-400/20 px-2 py-1 text-xs font-medium text-cyan-400 border border-cyan-400/30">
+                          <span className="inline-flex items-center rounded-full bg-cyan-400/20 px-2 py-1 text-xs font-medium text-cyan-400 border border-cyan-400/30 flex-shrink-0">
                             2024
                           </span>
                         </div>
@@ -509,12 +509,12 @@ const Home: React.FC = () => {
                 </div>
               </div>
               <div className="group cursor-pointer" data-aos="fade-up" data-aos-delay="300">
-                <div className="relative overflow-hidden rounded-2xl md:rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/20 hover:scale-[1.02]">
+                <div className="relative overflow-hidden rounded-xl sm:rounded-2xl md:rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/20 md:hover:scale-[1.02]">
                   <div className="aspect-[4/5] relative overflow-hidden">
                     <img src="/assets/img/pic8.jpg" alt="Creative Session" loading="lazy" className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     
-                    <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                    <div className="hidden md:block absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
                       <button className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center hover:bg-white/30 transition-colors">
                         <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -522,14 +522,14 @@ const Home: React.FC = () => {
                       </button>
                     </div>
 
-                    <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
-                      <div className="bg-white/10 backdrop-blur-md rounded-xl border border-white/20 p-3">
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <h4 className="text-white font-medium text-sm">Creative Session</h4>
-                            <p className="text-white/70 text-xs">Design Thinking</p>
+                    <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+                      <div className="bg-white/10 backdrop-blur-md rounded-lg sm:rounded-xl border border-white/20 p-2.5 sm:p-3">
+                        <div className="flex items-center justify-between gap-2">
+                          <div className="min-w-0 flex-1">
+                            <h4 className="text-white font-medium text-sm sm:text-base truncate">Creative Session</h4>
+                            <p className="text-white/70 text-xs sm:text-sm truncate">Design Thinking</p>
                           </div>
-                          <span className="inline-flex items-center rounded-full bg-cyan-400/20 px-2 py-1 text-xs font-medium text-cyan-400 border border-cyan-400/30">
+                          <span className="inline-flex items-center rounded-full bg-cyan-400/20 px-2 py-1 text-xs font-medium text-cyan-400 border border-cyan-400/30 flex-shrink-0">
                             2024
                           </span>
                         </div>
@@ -539,12 +539,12 @@ const Home: React.FC = () => {
                 </div>
               </div>
               <div className="group cursor-pointer" data-aos="fade-up" data-aos-delay="400">
-                <div className="relative overflow-hidden rounded-2xl md:rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/20 hover:scale-[1.02]">
+                <div className="relative overflow-hidden rounded-xl sm:rounded-2xl md:rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/20 md:hover:scale-[1.02]">
                   <div className="aspect-[4/5] relative overflow-hidden">
                     <img src="/assets/img/pic2.jpg" alt="Tech Showcase" loading="lazy" className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     
-                    <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                    <div className="hidden md:block absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
                       <button className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center hover:bg-white/30 transition-colors">
                         <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -552,14 +552,14 @@ const Home: React.FC = () => {
                       </button>
                     </div>
 
-                    <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
-                      <div className="bg-white/10 backdrop-blur-md rounded-xl border border-white/20 p-3">
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <h4 className="text-white font-medium text-sm">Tech Showcase</h4>
-                            <p className="text-white/70 text-xs">Product Demo</p>
+                    <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+                      <div className="bg-white/10 backdrop-blur-md rounded-lg sm:rounded-xl border border-white/20 p-2.5 sm:p-3">
+                        <div className="flex items-center justify-between gap-2">
+                          <div className="min-w-0 flex-1">
+                            <h4 className="text-white font-medium text-sm sm:text-base truncate">Tech Showcase</h4>
+                            <p className="text-white/70 text-xs sm:text-sm truncate">Product Demo</p>
                           </div>
-                          <span className="inline-flex items-center rounded-full bg-cyan-400/20 px-2 py-1 text-xs font-medium text-cyan-400 border border-cyan-400/30">
+                          <span className="inline-flex items-center rounded-full bg-cyan-400/20 px-2 py-1 text-xs font-medium text-cyan-400 border border-cyan-400/30 flex-shrink-0">
                             2024
                           </span>
                         </div>
@@ -569,12 +569,12 @@ const Home: React.FC = () => {
                 </div>
               </div>
               <div className="group cursor-pointer" data-aos="fade-up" data-aos-delay="500">
-                <div className="relative overflow-hidden rounded-2xl md:rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/20 hover:scale-[1.02]">
+                <div className="relative overflow-hidden rounded-xl sm:rounded-2xl md:rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/20 md:hover:scale-[1.02]">
                   <div className="aspect-[4/5] relative overflow-hidden">
                     <img src="/assets/img/pic3.jpg" alt="Learning Hub" loading="lazy" className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     
-                    <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                    <div className="hidden md:block absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
                       <button className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center hover:bg-white/30 transition-colors">
                         <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -582,14 +582,14 @@ const Home: React.FC = () => {
                       </button>
                     </div>
 
-                    <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
-                      <div className="bg-white/10 backdrop-blur-md rounded-xl border border-white/20 p-3">
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <h4 className="text-white font-medium text-sm">Learning Hub</h4>
-                            <p className="text-white/70 text-xs">Knowledge Sharing</p>
+                    <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+                      <div className="bg-white/10 backdrop-blur-md rounded-lg sm:rounded-xl border border-white/20 p-2.5 sm:p-3">
+                        <div className="flex items-center justify-between gap-2">
+                          <div className="min-w-0 flex-1">
+                            <h4 className="text-white font-medium text-sm sm:text-base truncate">Learning Hub</h4>
+                            <p className="text-white/70 text-xs sm:text-sm truncate">Knowledge Sharing</p>
                           </div>
-                          <span className="inline-flex items-center rounded-full bg-cyan-400/20 px-2 py-1 text-xs font-medium text-cyan-400 border border-cyan-400/30">
+                          <span className="inline-flex items-center rounded-full bg-cyan-400/20 px-2 py-1 text-xs font-medium text-cyan-400 border border-cyan-400/30 flex-shrink-0">
                             2024
                           </span>
                         </div>
@@ -599,12 +599,12 @@ const Home: React.FC = () => {
                 </div>
               </div>
               <div className="group cursor-pointer" data-aos="fade-up" data-aos-delay="600">
-                <div className="relative overflow-hidden rounded-2xl md:rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/20 hover:scale-[1.02]">
+                <div className="relative overflow-hidden rounded-xl sm:rounded-2xl md:rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/20 md:hover:scale-[1.02]">
                   <div className="aspect-[4/5] relative overflow-hidden">
                     <img src="/assets/img/pic6.jpg" alt="Event Highlights" loading="lazy" className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     
-                    <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                    <div className="hidden md:block absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
                       <button className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center hover:bg-white/30 transition-colors">
                         <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -612,14 +612,14 @@ const Home: React.FC = () => {
                       </button>
                     </div>
 
-                    <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
-                      <div className="bg-white/10 backdrop-blur-md rounded-xl border border-white/20 p-3">
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <h4 className="text-white font-medium text-sm">Event Highlights</h4>
-                            <p className="text-white/70 text-xs">Community Gathering</p>
+                    <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+                      <div className="bg-white/10 backdrop-blur-md rounded-lg sm:rounded-xl border border-white/20 p-2.5 sm:p-3">
+                        <div className="flex items-center justify-between gap-2">
+                          <div className="min-w-0 flex-1">
+                            <h4 className="text-white font-medium text-sm sm:text-base truncate">Event Highlights</h4>
+                            <p className="text-white/70 text-xs sm:text-sm truncate">Community Gathering</p>
                           </div>
-                          <span className="inline-flex items-center rounded-full bg-cyan-400/20 px-2 py-1 text-xs font-medium text-cyan-400 border border-cyan-400/30">
+                          <span className="inline-flex items-center rounded-full bg-cyan-400/20 px-2 py-1 text-xs font-medium text-cyan-400 border border-cyan-400/30 flex-shrink-0">
                             2024
                           </span>
                         </div>
@@ -629,12 +629,12 @@ const Home: React.FC = () => {
                 </div>
               </div>
               <div className="group cursor-pointer" data-aos="fade-up" data-aos-delay="700">
-                <div className="relative overflow-hidden rounded-2xl md:rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/20 hover:scale-[1.02]">
+                <div className="relative overflow-hidden rounded-xl sm:rounded-2xl md:rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/20 md:hover:scale-[1.02]">
                   <div className="aspect-[4/5] relative overflow-hidden">
                     <img src="/assets/img/pic5.jpg" alt="Achievement Moments" loading="lazy" className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     
-                    <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                    <div className="hidden md:block absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
                       <button className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center hover:bg-white/30 transition-colors">
                         <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -642,14 +642,14 @@ const Home: React.FC = () => {
                       </button>
                     </div>
 
-                    <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
-                      <div className="bg-white/10 backdrop-blur-md rounded-xl border border-white/20 p-3">
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <h4 className="text-white font-medium text-sm">Achievement Moments</h4>
-                            <p className="text-white/70 text-xs">Success Stories</p>
+                    <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+                      <div className="bg-white/10 backdrop-blur-md rounded-lg sm:rounded-xl border border-white/20 p-2.5 sm:p-3">
+                        <div className="flex items-center justify-between gap-2">
+                          <div className="min-w-0 flex-1">
+                            <h4 className="text-white font-medium text-sm sm:text-base truncate">Achievement Moments</h4>
+                            <p className="text-white/70 text-xs sm:text-sm truncate">Success Stories</p>
                           </div>
-                          <span className="inline-flex items-center rounded-full bg-cyan-400/20 px-2 py-1 text-xs font-medium text-cyan-400 border border-cyan-400/30">
+                          <span className="inline-flex items-center rounded-full bg-cyan-400/20 px-2 py-1 text-xs font-medium text-cyan-400 border border-cyan-400/30 flex-shrink-0">
                             2024
                           </span>
                         </div>
@@ -659,12 +659,12 @@ const Home: React.FC = () => {
                 </div>
               </div>
               <div className="group cursor-pointer" data-aos="fade-up" data-aos-delay="800">
-                <div className="relative overflow-hidden rounded-2xl md:rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/20 hover:scale-[1.02]">
+                <div className="relative overflow-hidden rounded-xl sm:rounded-2xl md:rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/20 md:hover:scale-[1.02]">
                   <div className="aspect-[4/5] relative overflow-hidden">
                     <img src="/assets/img/pic7.jpg" alt="Future Vision" loading="lazy" className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     
-                    <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                    <div className="hidden md:block absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
                       <button className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center hover:bg-white/30 transition-colors">
                         <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -672,14 +672,14 @@ const Home: React.FC = () => {
                       </button>
                     </div>
 
-                    <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
-                      <div className="bg-white/10 backdrop-blur-md rounded-xl border border-white/20 p-3">
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <h4 className="text-white font-medium text-sm">Future Vision</h4>
-                            <p className="text-white/70 text-xs">Next Generation</p>
+                    <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+                      <div className="bg-white/10 backdrop-blur-md rounded-lg sm:rounded-xl border border-white/20 p-2.5 sm:p-3">
+                        <div className="flex items-center justify-between gap-2">
+                          <div className="min-w-0 flex-1">
+                            <h4 className="text-white font-medium text-sm sm:text-base truncate">Future Vision</h4>
+                            <p className="text-white/70 text-xs sm:text-sm truncate">Next Generation</p>
                           </div>
-                          <span className="inline-flex items-center rounded-full bg-cyan-400/20 px-2 py-1 text-xs font-medium text-cyan-400 border border-cyan-400/30">
+                          <span className="inline-flex items-center rounded-full bg-cyan-400/20 px-2 py-1 text-xs font-medium text-cyan-400 border border-cyan-400/30 flex-shrink-0">
                             2024
                           </span>
                         </div>
@@ -695,7 +695,7 @@ const Home: React.FC = () => {
 
 
         {/* FAQ Section */}
-        <section id="faq" className="py-28 bg-black border-0">
+        <section id="faq" className="py-28 bg-black border-0 max-h-[1150px]">
           <div className="container mx-auto px-6 bg-black border-0">
             <div className="text-center mb-20 bg-black border-0" data-aos="fade-up">
               <h2 className="text-5xl md:text-6xl font-bold text-white mb-6">
@@ -834,32 +834,37 @@ const Home: React.FC = () => {
         </section>
 
         {/* Coordinators Section */}
-        <section id="coordinators" className="py-28 bg-black border-0">
-          <div className="container mx-auto px-6 bg-black border-0" data-aos="fade-up">
-            <div className="text-center mb-20 bg-black border-0">
-              <h2 className="text-5xl md:text-6xl font-bold text-white mb-6">Faculty Coordinators</h2>
-              <p className="text-xl text-gray-300">Pillars of the EVENT</p>
+        <section id="coordinators" className="py-16 md:py-24 lg:py-28 bg-black border-0 max-h-[850px]">
+          <div className="container mx-auto px-4 sm:px-6 bg-black border-0" data-aos="fade-up">
+            <div className="text-center mb-12 md:mb-16 lg:mb-20 bg-black border-0">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 md:mb-6">Faculty Coordinators</h2>
+              <p className="text-base sm:text-lg md:text-xl text-gray-300">Pillars of the EVENT</p>
             </div>
           </div>
 
-          <div className="container mx-auto px-6 bg-black border-0" data-aos="fade-up" data-aos-delay="100">
+          <div className="container mx-auto px-4 sm:px-6 bg-black border-0" data-aos="fade-up" data-aos-delay="100">
             <div className="swiper init-swiper bg-black border-0">
               <script type="application/json" className="swiper-config">
                 {JSON.stringify({
                   loop: true,
-                  speed: 800,
+                  speed: 600,
                   autoplay: {
-                    delay: 4000,
-                    disableOnInteraction: false
+                    delay: 5000,
+                    disableOnInteraction: false,
+                    pauseOnMouseEnter: true
                   },
-                  slidesPerView: 3,
+                  slidesPerView: 1,
                   centeredSlides: true,
-                  spaceBetween: 30,
+                  spaceBetween: 20,
                   grabCursor: true,
+                  watchOverflow: true,
+                  observer: true,
+                  observeParents: true,
                   pagination: {
                     el: ".swiper-pagination",
                     type: "bullets",
-                    clickable: true
+                    clickable: true,
+                    dynamicBullets: true
                   },
                   navigation: {
                     nextEl: ".swiper-button-next",
@@ -868,13 +873,18 @@ const Home: React.FC = () => {
                   breakpoints: {
                     320: {
                       slidesPerView: 1,
+                      spaceBetween: 16,
+                      centeredSlides: true
+                    },
+                    640: {
+                      slidesPerView: 1,
                       spaceBetween: 20,
                       centeredSlides: true
                     },
                     768: {
                       slidesPerView: 2,
-                      spaceBetween: 25,
-                      centeredSlides: true
+                      spaceBetween: 24,
+                      centeredSlides: false
                     },
                     1024: {
                       slidesPerView: 3,
@@ -886,68 +896,68 @@ const Home: React.FC = () => {
               </script>
               
               <div className="swiper-wrapper bg-black border-0">
-                <div className="swiper-slide bg-black border-0 w-80">
-                  <div className="bg-white/5 backdrop-blur-xl border-0 rounded-3xl p-8 text-center hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 transition-all duration-300 shadow-2xl h-full flex flex-col">
-                    <div className="flex flex-col items-center space-y-6 flex-grow justify-center">
+                <div className="swiper-slide bg-black border-0">
+                  <div className="bg-white/5 backdrop-blur-xl border-0 rounded-2xl sm:rounded-3xl p-6 sm:p-8 text-center hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 transition-all duration-300 shadow-2xl h-full flex flex-col max-w-sm mx-auto">
+                    <div className="flex flex-col items-center space-y-4 sm:space-y-6 flex-grow justify-center">
                       <div className="relative">
-                        <img src="/assets/img/coordinators/kiran.jpg" className="w-32 h-32 object-cover rounded-full border-4 border-cyan-400/30" alt="Dr. Allam Balaram" />
+                        <img src="/assets/img/coordinators/kiran.jpg" className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 object-cover rounded-full border-3 sm:border-4 border-cyan-400/30" alt="Dr. Ajmeera Kiran" />
                       </div>
                       <div className="text-center">
-                        <h3 className="text-xl font-bold text-white mb-2">Dr. Ajmeera Kiran</h3>
-                        <h4 className="text-cyan-400 font-semibold">Convenor, HOD CSE</h4>
+                        <h3 className="text-lg sm:text-xl font-bold text-white mb-1 sm:mb-2">Dr. Ajmeera Kiran</h3>
+                        <h4 className="text-sm sm:text-base text-cyan-400 font-semibold">Convenor, HOD CSE</h4>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div className="swiper-slide bg-black border-0 w-80">
-                  <div className="bg-white/5 backdrop-blur-xl border-0 rounded-3xl p-8 text-center hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 transition-all duration-300 shadow-2xl h-full flex flex-col">
-                    <div className="flex flex-col items-center space-y-6 flex-grow justify-center">
+                <div className="swiper-slide bg-black border-0">
+                  <div className="bg-white/5 backdrop-blur-xl border-0 rounded-2xl sm:rounded-3xl p-6 sm:p-8 text-center hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 transition-all duration-300 shadow-2xl h-full flex flex-col max-w-sm mx-auto">
+                    <div className="flex flex-col items-center space-y-4 sm:space-y-6 flex-grow justify-center">
                       <div className="relative">
-                        <img src="/assets/img/coordinators/muralikrishna.jpg" className="w-32 h-32 object-cover rounded-full border-4 border-cyan-400/30" alt="Mr. B Murali Krishna" />
+                        <img src="/assets/img/coordinators/muralikrishna.jpg" className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 object-cover rounded-full border-3 sm:border-4 border-cyan-400/30" alt="Mr. B Murali Krishna" />
                       </div>
                       <div className="text-center">
-                        <h3 className="text-xl font-bold text-white mb-2">Mr. B Murali Krishna</h3>
-                        <h4 className="text-cyan-400 font-semibold">Assistant Professor</h4>
+                        <h3 className="text-lg sm:text-xl font-bold text-white mb-1 sm:mb-2">Mr. B Murali Krishna</h3>
+                        <h4 className="text-sm sm:text-base text-cyan-400 font-semibold">Assistant Professor</h4>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div className="swiper-slide bg-black border-0 w-80">
-                  <div className="bg-white/5 backdrop-blur-xl border-0 rounded-3xl p-8 text-center hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 transition-all duration-300 shadow-2xl h-full flex flex-col">
-                    <div className="flex flex-col items-center space-y-6 flex-grow justify-center">
+                <div className="swiper-slide bg-black border-0">
+                  <div className="bg-white/5 backdrop-blur-xl border-0 rounded-2xl sm:rounded-3xl p-6 sm:p-8 text-center hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 transition-all duration-300 shadow-2xl h-full flex flex-col max-w-sm mx-auto">
+                    <div className="flex flex-col items-center space-y-4 sm:space-y-6 flex-grow justify-center">
                       <div className="relative">
-                        <img src="/assets/img/coordinators/sapthami.jpg" className="w-32 h-32 object-cover rounded-full border-4 border-cyan-400/30" alt="Mrs. I Sapthami" />
+                        <img src="/assets/img/coordinators/sapthami.jpg" className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 object-cover rounded-full border-3 sm:border-4 border-cyan-400/30" alt="Mrs. I Sapthami" />
                       </div>
                       <div className="text-center">
-                        <h3 className="text-xl font-bold text-white mb-2">Mrs. I Sapthami</h3>
-                        <h4 className="text-cyan-400 font-semibold">Assistant Professor</h4>
+                        <h3 className="text-lg sm:text-xl font-bold text-white mb-1 sm:mb-2">Mrs. I Sapthami</h3>
+                        <h4 className="text-sm sm:text-base text-cyan-400 font-semibold">Assistant Professor</h4>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div className="swiper-slide bg-black border-0 w-80">
-                  <div className="bg-white/5 backdrop-blur-xl border-0 rounded-3xl p-8 text-center hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 transition-all duration-300 shadow-2xl h-full flex flex-col">
-                    <div className="flex flex-col items-center space-y-6 flex-grow justify-center">
+                <div className="swiper-slide bg-black border-0">
+                  <div className="bg-white/5 backdrop-blur-xl border-0 rounded-2xl sm:rounded-3xl p-6 sm:p-8 text-center hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 transition-all duration-300 shadow-2xl h-full flex flex-col max-w-sm mx-auto">
+                    <div className="flex flex-col items-center space-y-4 sm:space-y-6 flex-grow justify-center">
                       <div className="relative">
-                        <img src="/assets/img/coordinators/vedaVidhya.jpg" className="w-32 h-32 object-cover rounded-full border-4 border-cyan-400/30" alt="Mrs. B Veda Vidhya" />
+                        <img src="/assets/img/coordinators/vedaVidhya.jpg" className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 object-cover rounded-full border-3 sm:border-4 border-cyan-400/30" alt="Mrs. B Veda Vidhya" />
                       </div>
                       <div className="text-center">
-                        <h3 className="text-xl font-bold text-white mb-2">Mrs. B Veda Vidhya</h3>
-                        <h4 className="text-cyan-400 font-semibold">Assistant Professor</h4>
+                        <h3 className="text-lg sm:text-xl font-bold text-white mb-1 sm:mb-2">Mrs. B Veda Vidhya</h3>
+                        <h4 className="text-sm sm:text-base text-cyan-400 font-semibold">Assistant Professor</h4>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="swiper-pagination mt-8"></div>
-              <div className="swiper-button-next text-cyan-400"></div>
-              <div className="swiper-button-prev text-cyan-400"></div>
+              <div className="swiper-pagination mt-6 sm:mt-8"></div>
+              <div className="swiper-button-next text-cyan-400 hidden md:flex"></div>
+              <div className="swiper-button-prev text-cyan-400 hidden md:flex"></div>
             </div>
           </div>
         </section>
 
         {/* Contact Section */}
-        <section id="contact" className="py-28 bg-black border-0">
+        <section id="contact" className="py-28 bg-black border-0 max-h-[1050px]">
           <div className="container mx-auto px-6 bg-black border-0">
             <div className="text-center mb-20 bg-black border-0" data-aos="fade-up">
               <h2 className="text-5xl md:text-6xl font-bold text-white mb-6">
@@ -1010,7 +1020,7 @@ const Home: React.FC = () => {
         </section>
       </main>
 
-      <footer className="py-8 bg-black border-0">
+      <footer className="py-8 bg-black border-0 max-h-[100px]">
         <div className="container mx-auto px-4 text-center bg-black border-0">
           <p className="text-gray-300">
             © <span className="font-semibold" style={{color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff'}}>ZIGNASA - 2K25</span> All Rights Reserved
