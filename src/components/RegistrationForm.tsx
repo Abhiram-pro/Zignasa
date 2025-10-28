@@ -100,7 +100,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
     try {
       // Verify payment with backend
       const verifyResponse = await axios.post(
-        `http://localhost:5000/verify-payment`,
+        `https://zignasa-backend.onrender.com/verify-payment`,
         {
           razorpay_order_id: paymentDetails.orderId,
           razorpay_payment_id: response.razorpay_payment_id,
@@ -223,7 +223,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
       console.log('Sending request to server with data:', JSON.stringify(submissionData, null, 2));
       
       const response = await axios.post(
-        `http://localhost:5000/registration`, 
+        `https://zignasa-backend.onrender.com/registration`, 
         submissionData,
         {
           headers: {
