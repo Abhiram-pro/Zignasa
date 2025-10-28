@@ -719,7 +719,7 @@ const Home: React.FC = () => {
                     </AccordionTrigger>
                   </div>
                   <AccordionContent className="text-[14px] text-gray-300 leading-relaxed w-full">
-                    Zignasa differed from other hackathons by combining in-depth technical tracks with social activities and industry-backed certification, creating a balanced experience of learning, networking, and career enhancement.
+                    Zignasa 2k25 stands out by combining innovation, collaboration, and creativity in one place. Unlike regular hackathons, it focuses equally on technical excellence and real-world impact while also keeping participants energized with fun activities, networking sessions, and workshops led by experts.
                   </AccordionContent>
                   <div className="absolute bottom-0 right-0 w-[170px] opacity-20">
                     <div className="w-full h-full bg-gradient-to-tl from-white/30 to-transparent rounded-tl-[100px]"></div>
@@ -739,7 +739,7 @@ const Home: React.FC = () => {
                     </AccordionTrigger>
                   </div>
                   <AccordionContent className="text-[14px] text-gray-300 leading-relaxed w-full">
-                    Yes, Zignasa 2K23 featured exciting activities like Tug-Of-War and a midnight campfire. The fun activities planned for Zignasa 2K25, however, remain a mystery.
+                    Absolutely. Zignasa 2k25 is not just about coding. Participants can enjoy mini-games, a tug of war, live music sessions, and other engaging activities designed to keep the energy high and make the 24-hour hackathon fun and memorable.
                   </AccordionContent>
                   <div className="absolute bottom-0 right-0 w-[170px] opacity-20">
                     <div className="w-full h-full bg-gradient-to-tl from-white/30 to-transparent rounded-tl-[100px]"></div>
@@ -759,7 +759,7 @@ const Home: React.FC = () => {
                     </AccordionTrigger>
                   </div>
                   <AccordionContent className="text-[14px] text-gray-300 leading-relaxed w-full">
-                    AWS cloud services, UI/UX design principles, and Web Development using modern frameworks.
+                    Zignasa 2k25 helps participants dive into real-world problem solving while learning to apply technical skills in Agentic AI, UI/UX Design, and Web Development. You'll learn how to brainstorm, build, and present solutions effectively — all while working as a team.
                   </AccordionContent>
                   <div className="absolute bottom-0 right-0 w-[170px] opacity-20">
                     <div className="w-full h-full bg-gradient-to-tl from-white/30 to-transparent rounded-tl-[100px]"></div>
@@ -781,7 +781,7 @@ const Home: React.FC = () => {
                     </AccordionTrigger>
                   </div>
                   <AccordionContent className="text-[14px] text-gray-300 leading-relaxed w-full">
-                    Meeting links and access credentials will be shared to your registered email 24 hours before each session.
+                    All registered participants will receive workshop details via email. The sessions will be conducted online through shared links before the hackathon, helping you gain the right skills and insights to perform your best during the event.
                   </AccordionContent>
                   <div className="absolute bottom-0 right-0 w-[170px] opacity-20">
                     <div className="w-full h-full bg-gradient-to-tl from-white/30 to-transparent rounded-tl-[100px]"></div>
@@ -803,7 +803,7 @@ const Home: React.FC = () => {
                     </AccordionTrigger>
                   </div>
                   <AccordionContent className="text-[14px] text-gray-300 leading-relaxed w-full">
-                    Yes, dedicated mentors with expertise in AWS, UI/UX, and Web Development will provide hands-on guidance throughout.
+                    Yes, mentors from reputed organizations such as GeeksforGeeks and Student Tribe will be available throughout the event to guide teams, provide feedback, and share technical expertise whenever needed.
                   </AccordionContent>
                   <div className="absolute bottom-0 right-0 w-[170px] opacity-20">
                     <div className="w-full h-full bg-gradient-to-tl from-white/30 to-transparent rounded-tl-[100px]"></div>
@@ -822,7 +822,7 @@ const Home: React.FC = () => {
                     </AccordionTrigger>
                   </div>
                   <AccordionContent className="text-[14px] text-gray-300 leading-relaxed w-full">
-                    It offers real-world experience in trending technologies (AWS, UI/UX, Web Dev), with industry certifications and networking opportunities.
+                    Zignasa 2k25 is more than a competition. It's a platform to innovate, collaborate, and grow. By participating, you gain hands-on experience, networking opportunities, and a certificate that adds value to your resume while showcasing your creativity and problem-solving skills.
                   </AccordionContent>
                   <div className="absolute bottom-0 right-0 w-[170px] opacity-20">
                     <div className="w-full h-full bg-gradient-to-tl from-white/30 to-transparent rounded-tl-[100px]"></div>
@@ -890,10 +890,10 @@ const Home: React.FC = () => {
                   <div className="bg-white/5 backdrop-blur-xl border-0 rounded-3xl p-8 text-center hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 transition-all duration-300 shadow-2xl h-full flex flex-col">
                     <div className="flex flex-col items-center space-y-6 flex-grow justify-center">
                       <div className="relative">
-                        <img src="/assets/img/balaram.jpg" className="w-32 h-32 object-cover rounded-full border-4 border-cyan-400/30" alt="Dr. Allam Balaram" />
+                        <img src="/assets/img/coordinators/kiran.jpg" className="w-32 h-32 object-cover rounded-full border-4 border-cyan-400/30" alt="Dr. Allam Balaram" />
                       </div>
                       <div className="text-center">
-                        <h3 className="text-xl font-bold text-white mb-2">Dr. Allam Balaram</h3>
+                        <h3 className="text-xl font-bold text-white mb-2">Dr. Ajmeera Kiran</h3>
                         <h4 className="text-cyan-400 font-semibold">Convenor, HOD CSE</h4>
                       </div>
                     </div>
