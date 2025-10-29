@@ -19,6 +19,7 @@ interface MemberData {
   email: string;
   phone: string;
   college: string;
+  rollNumber: string;
   role: 'Team Lead' | 'Member';
 }
 
@@ -62,11 +63,11 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
     teamName: '',
     domain: domain,
     members: [
-      { name: '', email: '', phone: '', college: '', role: 'Team Lead' },
-      { name: '', email: '', phone: '', college: '', role: 'Member' },
-      { name: '', email: '', phone: '', college: '', role: 'Member' },
-      { name: '', email: '', phone: '', college: '', role: 'Member' },
-      { name: '', email: '', phone: '', college: '', role: 'Member' },
+      { name: '', email: '', phone: '', college: '', rollNumber: '', role: 'Team Lead' },
+      { name: '', email: '', phone: '', college: '', rollNumber: '', role: 'Member' },
+      { name: '', email: '', phone: '', college: '', rollNumber: '', role: 'Member' },
+      { name: '', email: '', phone: '', college: '', rollNumber: '', role: 'Member' },
+      { name: '', email: '', phone: '', college: '', rollNumber: '', role: 'Member' },
     ],
     team_size: '1',
   });
@@ -288,11 +289,11 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
       teamName: '',
       domain: domain,
       members: [
-        { name: '', email: '', phone: '', college: '', role: 'Team Lead' },
-        { name: '', email: '', phone: '', college: '', role: 'Member' },
-        { name: '', email: '', phone: '', college: '', role: 'Member' },
-        { name: '', email: '', phone: '', college: '', role: 'Member' },
-        { name: '', email: '', phone: '', college: '', role: 'Member' },
+        { name: '', email: '', phone: '', college: '', rollNumber: '', role: 'Team Lead' },
+        { name: '', email: '', phone: '', college: '', rollNumber: '', role: 'Member' },
+        { name: '', email: '', phone: '', college: '', rollNumber: '', role: 'Member' },
+        { name: '', email: '', phone: '', college: '', rollNumber: '', role: 'Member' },
+        { name: '', email: '', phone: '', college: '', rollNumber: '', role: 'Member' },
       ],
       team_size: '1',
     });
@@ -457,6 +458,18 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
                       placeholder="+91 1234567890"
                     />
                   </div>
+                  <div>
+                    <Label className="text-gray-300 mb-2 sm:mb-3 block font-medium text-xs sm:text-sm">Roll Number *</Label>
+                    <Input
+                      type="text"
+                      name="member_0_rollNumber"
+                      value={formData.members[0].rollNumber}
+                      onChange={handleInputChange}
+                      required
+                      className="bg-white/[0.05] backdrop-blur-sm border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-white/30 focus:border-white/50 transition-all duration-300 rounded-lg sm:rounded-xl h-10 sm:h-12 text-sm"
+                      placeholder="Enter your roll number"
+                    />
+                  </div>
                 </div>
               </div>
               
@@ -516,6 +529,17 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
                             onChange={handleInputChange}
                             className="bg-white/[0.05] backdrop-blur-sm border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-white/30 focus:border-white/50 transition-all duration-300 rounded-lg sm:rounded-xl h-10 sm:h-12 text-sm"
                             placeholder="+91 1234567890"
+                          />
+                        </div>
+                        <div>
+                          <Label className="text-gray-300 mb-2 sm:mb-3 block font-medium text-xs sm:text-sm">Roll Number</Label>
+                          <Input
+                            type="text"
+                            name={`member_${memberIndex}_rollNumber`}
+                            value={formData.members[memberIndex].rollNumber}
+                            onChange={handleInputChange}
+                            className="bg-white/[0.05] backdrop-blur-sm border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-white/30 focus:border-white/50 transition-all duration-300 rounded-lg sm:rounded-xl h-10 sm:h-12 text-sm"
+                            placeholder={`Member ${memberIndex} roll number`}
                           />
                         </div>
                       </div>
