@@ -112,7 +112,7 @@ export function Navbar() {
           {/* Mobile Logo and Brand */}
           <div className="flex items-center gap-2 flex-shrink-0">
             <img
-              src="/assets/img/hero-bg-light.png"
+              src="/assets/new_images/icon.png"
               alt="ZIGNASA Logo"
               className="w-6 h-6 object-contain filter brightness-110 flex-shrink-0"
             />
