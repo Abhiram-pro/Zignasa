@@ -7,7 +7,7 @@ import { Button } from './ui/button';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './ui/accordion';
 import EmblaCarousel from './ui/EmblaCarousel';
 import { Briefcase, BarChart3, Calendar, MapPin, Phone, Mail, ExternalLink, Copy, Check } from 'lucide-react';
-import Dither from './Dither';
+import Particles from './Particles';
 
 const Home: React.FC = () => {
   const [videoRotation, setVideoRotation] = useState(30);
@@ -337,8 +337,23 @@ const Home: React.FC = () => {
         </section>
 
         {/* Featured Section */}
-        <section id="featured-gallery" className="py-12 md:py-16 bg-black">
-          <div className="container mx-auto px-4 md:px-6 h-auto overflow-hidden">
+        <section id="featured-gallery" className="py-12 md:py-16 bg-black relative overflow-hidden">
+          {/* Particles Background */}
+          <div className="absolute inset-0 pointer-events-none">
+            <Particles
+              particleCount={200}
+              particleSpread={10}
+              speed={0.1}
+              particleColors={['#a855f7', '#c084fc', '#e9d5ff']}
+              alphaParticles={true}
+              particleBaseSize={120}
+              sizeRandomness={1.5}
+              cameraDistance={15}
+              disableRotation={false}
+            />
+          </div>
+
+          <div className="container mx-auto px-4 md:px-6 h-auto overflow-hidden relative z-10">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 lg:gap-10 max-w-5xl mx-auto">
               <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-6 md:p-8 transition-all duration-300 group hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 shadow-2xl" data-aos="fade-up" data-aos-delay="100">
                 <div className="pb-4 md:pb-6">
@@ -381,6 +396,21 @@ const Home: React.FC = () => {
 
         {/* About Section - Video */}
         <section id="about" className="relative w-full h-screen bg-black border-0 overflow-hidden flex items-center justify-center">
+          {/* Particles Background */}
+          <div className="absolute inset-0 pointer-events-none">
+            <Particles
+              particleCount={180}
+              particleSpread={11}
+              speed={0.07}
+              particleColors={['#8b5cf6', '#a78bfa', '#c4b5fd']}
+              alphaParticles={true}
+              particleBaseSize={100}
+              sizeRandomness={1.3}
+              cameraDistance={16}
+              disableRotation={false}
+            />
+          </div>
+
           <div
             className="framer-w5j4lp-container relative w-[90%] h-[80%] bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl overflow-hidden shadow-2xl shadow-white/5"
             data-aos="fade-up"
@@ -412,8 +442,23 @@ const Home: React.FC = () => {
         </section>
 
         {/* Clients Section */}
-        <section id="clients" className="py-12 md:py-16 bg-black overflow-hidden">
-          <div className="container mx-auto px-4 md:px-6 h-auto">
+        <section id="clients" className="py-12 md:py-16 bg-black overflow-hidden relative">
+          {/* Particles Background */}
+          <div className="absolute inset-0 pointer-events-none">
+            <Particles
+              particleCount={160}
+              particleSpread={13}
+              speed={0.09}
+              particleColors={['#9333ea', '#a855f7', '#d8b4fe']}
+              alphaParticles={true}
+              particleBaseSize={110}
+              sizeRandomness={1.4}
+              cameraDistance={17}
+              disableRotation={false}
+            />
+          </div>
+
+          <div className="container mx-auto px-4 md:px-6 h-auto relative z-10">
             <div className="text-center mb-8 md:mb-12" data-aos="fade-up">
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 md:mb-6">
                 Our Partners
@@ -491,6 +536,21 @@ const Home: React.FC = () => {
           {/* Background Elements */}
           <div className="absolute inset-0 bg-gradient-to-b from-black to-black pointer-events-none"></div>
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl pointer-events-none"></div>
+
+          {/* Particles Background */}
+          <div className="absolute inset-0 pointer-events-none">
+            <Particles
+              particleCount={220}
+              particleSpread={10}
+              speed={0.12}
+              particleColors={['#a855f7', '#c084fc', '#e9d5ff']}
+              alphaParticles={true}
+              particleBaseSize={140}
+              sizeRandomness={1.8}
+              cameraDistance={14}
+              disableRotation={false}
+            />
+          </div>
 
           <div className="container mx-auto px-3 sm:px-4 md:px-6 py-8 relative z-10 h-[482px] md:h-[800px]">
             <div className="text-center mb-6 md:mb-16" data-aos="fade-up">
@@ -675,8 +735,23 @@ const Home: React.FC = () => {
 
 
         {/* FAQ Section */}
-        <section id="faq" className="py-28 bg-black border-0 max-h-[1150px]">
-          <div className="container mx-auto px-6 bg-black border-0">
+        <section id="faq" className="py-28 bg-black border-0 max-h-[1150px] relative overflow-hidden">
+          {/* Particles Background */}
+          <div className="absolute inset-0 pointer-events-none">
+            <Particles
+              particleCount={190}
+              particleSpread={12}
+              speed={0.08}
+              particleColors={['#c084fc', '#e9d5ff', '#f3e8ff']}
+              alphaParticles={true}
+              particleBaseSize={130}
+              sizeRandomness={1.6}
+              cameraDistance={15}
+              disableRotation={false}
+            />
+          </div>
+
+          <div className="container mx-auto px-6 bg-black border-0 relative z-10">
             <div className="text-center mb-20 bg-black border-0" data-aos="fade-up">
               <h2 className="text-5xl md:text-6xl font-bold text-white mb-6">
                 Frequently Asked Questions
@@ -814,8 +889,23 @@ const Home: React.FC = () => {
         </section>
 
         {/* Coordinators Section */}
-        <section id="coordinators" className="py-16 md:py-24 lg:py-28 bg-black border-0 max-h-[600px]">
-          <div className="container mx-auto px-4 sm:px-6 bg-black border-0" data-aos="fade-up">
+        <section id="coordinators" className="py-16 md:py-24 lg:py-28 bg-black border-0 max-h-[600px] relative overflow-hidden">
+          {/* Particles Background */}
+          <div className="absolute inset-0 pointer-events-none">
+            <Particles
+              particleCount={170}
+              particleSpread={11}
+              speed={0.07}
+              particleColors={['#7c3aed', '#a78bfa', '#ddd6fe']}
+              alphaParticles={true}
+              particleBaseSize={115}
+              sizeRandomness={1.5}
+              cameraDistance={16}
+              disableRotation={false}
+            />
+          </div>
+
+          <div className="container mx-auto px-4 sm:px-6 bg-black border-0 relative z-10" data-aos="fade-up">
             <div className="text-center mb-12 md:mb-16 lg:mb-2">
               <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 md:mb-6">Faculty Coordinators</h2>
               <p className="text-base sm:text-lg md:text-xl text-gray-300">Pillars of the EVENT</p>
@@ -884,7 +974,22 @@ const Home: React.FC = () => {
         </section>
 
         {/* Contact Section */}
-        <section id="contact" className="py-28 bg-black border-0 max-h-[1150px] relative">
+        <section id="contact" className="py-28 bg-black border-0 max-h-[1150px] relative overflow-hidden">
+          {/* Particles Background */}
+          <div className="absolute inset-0 pointer-events-none">
+            <Particles
+              particleCount={200}
+              particleSpread={11}
+              speed={0.1}
+              particleColors={['#a855f7', '#d8b4fe', '#fae8ff']}
+              alphaParticles={true}
+              particleBaseSize={135}
+              sizeRandomness={1.7}
+              cameraDistance={14}
+              disableRotation={false}
+            />
+          </div>
+
           {/* Toast Notification */}
           {showToast && (
             <div className="fixed top-8 right-8 z-50 animate-in slide-in-from-top-5 fade-in duration-300">
@@ -1000,8 +1105,23 @@ const Home: React.FC = () => {
         </section>
       </main>
 
-      <footer className="py-8 bg-black border-0 ">
-        <div className="container mx-auto px-4 text-center bg-black border-0 max-h-[100px]">
+      <footer className="py-8 bg-black border-0 relative overflow-hidden">
+        {/* Particles Background */}
+        <div className="absolute inset-0 pointer-events-none">
+          <Particles
+            particleCount={150}
+            particleSpread={13}
+            speed={0.06}
+            particleColors={['#6b21a8', '#9333ea', '#c084fc']}
+            alphaParticles={true}
+            particleBaseSize={100}
+            sizeRandomness={1.3}
+            cameraDistance={18}
+            disableRotation={false}
+          />
+        </div>
+
+        <div className="container mx-auto px-4 text-center bg-black border-0 max-h-[100px] relative z-10">
           <p className="text-gray-300">
             © <span className="font-semibold" style={{ color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff' }}>ZIGNASA - 2K25</span> All Rights Reserved
           </p>

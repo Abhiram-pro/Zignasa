@@ -85,15 +85,15 @@ const Domains: React.FC = () => {
                     </p>
                     <div className="space-y-2 sm:space-y-3 text-white">
                       <div className="flex items-start sm:items-center gap-2 sm:gap-3">
-                        <div className="w-2 h-2 bg-cyan-400 rounded-full mt-1 sm:mt-0 flex-shrink-0"></div>
+                        <div className="w-2 h-2 bg-purple-400 rounded-full mt-1 sm:mt-0 flex-shrink-0"></div>
                         <span className="text-white text-sm sm:text-base" style={{ color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff' }}>React & Modern Frontend</span>
                       </div>
                       <div className="flex items-start sm:items-center gap-2 sm:gap-3">
-                        <div className="w-2 h-2 bg-cyan-400 rounded-full mt-1 sm:mt-0 flex-shrink-0"></div>
+                        <div className="w-2 h-2 bg-purple-400 rounded-full mt-1 sm:mt-0 flex-shrink-0"></div>
                         <span className="text-white text-sm sm:text-base" style={{ color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff' }}>Node.js & Express Backend</span>
                       </div>
                       <div className="flex items-start sm:items-center gap-2 sm:gap-3">
-                        <div className="w-2 h-2 bg-cyan-400 rounded-full mt-1 sm:mt-0 flex-shrink-0"></div>
+                        <div className="w-2 h-2 bg-purple-400 rounded-full mt-1 sm:mt-0 flex-shrink-0"></div>
                         <span className="text-white text-sm sm:text-base" style={{ color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff' }}>MongoDB Database Design</span>
                       </div>
                     </div>
@@ -101,7 +101,7 @@ const Domains: React.FC = () => {
                   <div className="mt-auto">
                     <div className="bg-white/5 backdrop-blur-sm rounded-xl sm:rounded-2xl p-3 sm:p-4 border border-white/10 mb-4 sm:mb-6">
                       <div className="flex items-center gap-2 text-white flex-wrap">
-                        <Users className="w-4 h-4 sm:w-5 sm:h-5 text-cyan-400 flex-shrink-0" />
+                        <Users className="w-4 h-4 sm:w-5 sm:h-5 text-purple-400 flex-shrink-0" />
                         <span className="text-white text-sm sm:text-base" style={{ color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff' }}>Team Size: 1 - 5 persons</span>
                       </div>
                     </div>
@@ -121,15 +121,15 @@ const Domains: React.FC = () => {
                     </p>
                     <div className="space-y-2 sm:space-y-3 text-white">
                       <div className="flex items-start sm:items-center gap-2 sm:gap-3">
-                        <div className="w-2 h-2 bg-cyan-400 rounded-full mt-1 sm:mt-0 flex-shrink-0"></div>
+                        <div className="w-2 h-2 bg-purple-400 rounded-full mt-1 sm:mt-0 flex-shrink-0"></div>
                         <span className="text-white text-sm sm:text-base" style={{ color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff' }}>Autonomous Agents</span>
                       </div>
                       <div className="flex items-start sm:items-center gap-2 sm:gap-3">
-                        <div className="w-2 h-2 bg-cyan-400 rounded-full mt-1 sm:mt-0 flex-shrink-0"></div>
+                        <div className="w-2 h-2 bg-purple-400 rounded-full mt-1 sm:mt-0 flex-shrink-0"></div>
                         <span className="text-white text-sm sm:text-base" style={{ color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff' }}>LLM Integration</span>
                       </div>
                       <div className="flex items-start sm:items-center gap-2 sm:gap-3">
-                        <div className="w-2 h-2 bg-cyan-400 rounded-full mt-1 sm:mt-0 flex-shrink-0"></div>
+                        <div className="w-2 h-2 bg-purple-400 rounded-full mt-1 sm:mt-0 flex-shrink-0"></div>
                         <span className="text-white text-sm sm:text-base" style={{ color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff' }}>Real-World Applications</span>
                       </div>
                     </div>
@@ -137,7 +137,7 @@ const Domains: React.FC = () => {
                   <div className="mt-auto">
                     <div className="bg-white/5 backdrop-blur-sm rounded-xl sm:rounded-2xl p-3 sm:p-4 border border-white/10 mb-4 sm:mb-6">
                       <div className="flex items-center gap-2 text-white flex-wrap">
-                        <Users className="w-4 h-4 sm:w-5 sm:h-5 text-cyan-400 flex-shrink-0" />
+                        <Users className="w-4 h-4 sm:w-5 sm:h-5 text-purple-400 flex-shrink-0" />
                         <span className="text-white text-sm sm:text-base" style={{ color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff' }}>Team Size: 1 - 5 persons</span>
                       </div>
                     </div>
@@ -157,15 +157,15 @@ const Domains: React.FC = () => {
                     </p>
                     <div className="space-y-2 sm:space-y-3 text-white">
                       <div className="flex items-start sm:items-center gap-2 sm:gap-3">
-                        <div className="w-2 h-2 bg-cyan-400 rounded-full mt-1 sm:mt-0 flex-shrink-0"></div>
+                        <div className="w-2 h-2 bg-purple-400 rounded-full mt-1 sm:mt-0 flex-shrink-0"></div>
                         <span className="text-white text-sm sm:text-base" style={{ color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff' }}>User Research & Empathy</span>
                       </div>
                       <div className="flex items-start sm:items-center gap-2 sm:gap-3">
-                        <div className="w-2 h-2 bg-cyan-400 rounded-full mt-1 sm:mt-0 flex-shrink-0"></div>
+                        <div className="w-2 h-2 bg-purple-400 rounded-full mt-1 sm:mt-0 flex-shrink-0"></div>
                         <span className="text-white text-sm sm:text-base" style={{ color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff' }}>Wireframing & Prototyping</span>
                       </div>
                       <div className="flex items-start sm:items-center gap-2 sm:gap-3">
-                        <div className="w-2 h-2 bg-cyan-400 rounded-full mt-1 sm:mt-0 flex-shrink-0"></div>
+                        <div className="w-2 h-2 bg-purple-400 rounded-full mt-1 sm:mt-0 flex-shrink-0"></div>
                         <span className="text-white text-sm sm:text-base" style={{ color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff' }}>Visual Design & Accessibility</span>
                       </div>
                     </div>
@@ -173,7 +173,7 @@ const Domains: React.FC = () => {
                   <div className="mt-auto">
                     <div className="bg-white/5 backdrop-blur-sm rounded-xl sm:rounded-2xl p-3 sm:p-4 border border-white/10 mb-4 sm:mb-6">
                       <div className="flex items-center gap-2 text-white flex-wrap">
-                        <Users className="w-4 h-4 sm:w-5 sm:h-5 text-cyan-400 flex-shrink-0" />
+                        <Users className="w-4 h-4 sm:w-5 sm:h-5 text-purple-400 flex-shrink-0" />
                         <span className="text-white text-sm sm:text-base" style={{ color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff' }}>Team Size: 1 - 3 persons</span>
                       </div>
                     </div>
