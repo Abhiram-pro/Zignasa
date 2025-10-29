@@ -381,7 +381,7 @@ const Home: React.FC = () => {
             }}
           >
             <video
-              src=""
+              src="/assets/Zignasa2k24.mp4"
               loop
               autoPlay
               muted
@@ -886,9 +886,9 @@ const Home: React.FC = () => {
             <div className="fixed top-8 right-8 z-50 animate-in slide-in-from-top-5 fade-in duration-300">
               <div className="bg-cyan-500/20 backdrop-blur-xl border border-cyan-500/30 rounded-2xl px-6 py-4 flex items-center gap-3 shadow-2xl">
                 <Check className="w-5 h-5 text-cyan-400" />
-              <span className="text-white font-medium !bg-none !bg-transparent !bg-clip-border ![background-clip:unset] ![-webkit-text-fill-color:white]">
-  Copied {copiedText}!
-</span>
+                <span className="text-white font-medium !bg-none !bg-transparent !bg-clip-border ![background-clip:unset] ![-webkit-text-fill-color:white]">
+                  Copied {copiedText}!
+                </span>
 
               </div>
             </div>
