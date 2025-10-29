@@ -12,7 +12,6 @@ interface NavItem {
 const navItems: NavItem[] = [
   { to: '#hero', label: 'Home' },
   { to: '#about', label: 'About' },
-  { to: '#zignasa2k23', label: 'Zignasa2K23' },
   { to: '#gallery', label: 'Gallery' },
   { to: '#contact', label: 'Contact' },
   { to: '/domains', label: 'Register Now' }
