@@ -880,13 +880,16 @@ const Home: React.FC = () => {
         </section>
 
         {/* Contact Section */}
-        <section id="contact" className="py-28 bg-black border-0 max-h-[1050px] relative">
+        <section id="contact" className="py-28 bg-black border-0 max-h-[1150px] relative">
           {/* Toast Notification */}
           {showToast && (
             <div className="fixed top-8 right-8 z-50 animate-in slide-in-from-top-5 fade-in duration-300">
               <div className="bg-cyan-500/20 backdrop-blur-xl border border-cyan-500/30 rounded-2xl px-6 py-4 flex items-center gap-3 shadow-2xl">
                 <Check className="w-5 h-5 text-cyan-400" />
-                <span className="text-white font-medium">Copied {copiedText}!</span>
+              <span className="text-white font-medium !bg-none !bg-transparent !bg-clip-border ![background-clip:unset] ![-webkit-text-fill-color:white]">
+  Copied {copiedText}!
+</span>
+
               </div>
             </div>
           )}
@@ -949,14 +952,15 @@ const Home: React.FC = () => {
                         onClick={() => copyToClipboard('7816005757', 'phone number')}
                         className="group/item flex items-center gap-2 p-3 rounded-xl hover:bg-cyan-500/10 transition-all duration-300 cursor-pointer hover:scale-105"
                       >
-                        <p className="group-hover/item:text-cyan-300 transition-colors duration-300">Yashwanth Reddy - +91 7816005757</p>
+                        {/*<p className="group-hover/item:text-cyan-300 transition-colors duration-300"> Yashwanth Reddy - +91 7816005757 </p> */}
+                        <p className="group-hover/item:text-cyan-300 transition-colors duration-300">Yashwanth - +91 7816005757</p>
                         <Copy className="w-4 h-4 opacity-0 group-hover/item:opacity-100 text-cyan-400 transition-all duration-300 flex-shrink-0" />
                       </div>
                       <div
                         onClick={() => copyToClipboard('9121827709', 'phone number')}
                         className="group/item flex items-center gap-2 p-3 rounded-xl hover:bg-cyan-500/10 transition-all duration-300 cursor-pointer hover:scale-105"
                       >
-                        <p className="group-hover/item:text-cyan-300 transition-colors duration-300">M Prajith Balaji - +91 9121827709</p>
+                        <p className="group-hover/item:text-cyan-300 transition-colors duration-300">M Prajith  - +91 9121827709</p>
                         <Copy className="w-4 h-4 opacity-0 group-hover/item:opacity-100 text-cyan-400 transition-all duration-300 flex-shrink-0" />
                       </div>
                     </div>
@@ -984,9 +988,6 @@ const Home: React.FC = () => {
                       </p>
                       <Copy className="w-4 h-4 opacity-0 group-hover:opacity-100 text-cyan-400 transition-all duration-300" />
                     </div>
-                    <p className="text-sm text-gray-400 group-hover:text-cyan-400 transition-colors duration-300 mt-2">
-                      Click to copy
-                    </p>
                   </div>
                 </div>
               </div>
