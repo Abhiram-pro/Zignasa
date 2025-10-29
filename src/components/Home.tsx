@@ -6,10 +6,31 @@ import { Navbar } from './ui/navbar';
 import { Button } from './ui/button';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './ui/accordion';
 import EmblaCarousel from './ui/EmblaCarousel';
-import { Briefcase, BarChart3, Calendar, MapPin, Phone, Mail, ExternalLink } from 'lucide-react';
+import { Briefcase, BarChart3, Calendar, MapPin, Phone, Mail, ExternalLink, Copy, Check } from 'lucide-react';
 
 const Home: React.FC = () => {
   const [videoRotation, setVideoRotation] = useState(30);
+  const [copiedText, setCopiedText] = useState<string>('');
+  const [showToast, setShowToast] = useState(false);
+  const [activeCard, setActiveCard] = useState<number | null>(null);
+
+  const copyToClipboard = (text: string, label: string) => {
+    navigator.clipboard.writeText(text).then(() => {
+      setCopiedText(label);
+      setShowToast(true);
+      setTimeout(() => {
+        setShowToast(false);
+        setCopiedText('');
+      }, 2000);
+    });
+  };
+
+  const handleCardClick = (cardIndex: number) => {
+    setActiveCard(cardIndex);
+    setTimeout(() => {
+      setActiveCard(null);
+    }, 800);
+  };
 
   useEffect(() => {
     const isMobile = () => (typeof window !== 'undefined') && (window.matchMedia('(max-width: 768px)').matches || ('ontouchstart' in window));
@@ -20,22 +41,22 @@ const Home: React.FC = () => {
       if (videoSection) {
         const rect = videoSection.getBoundingClientRect();
         const windowHeight = window.innerHeight;
-        
+
         // Calculate scroll progress based on section position
         // When section is below viewport: rotation = 30deg (full lean)
         // When section reaches center: rotation = 0deg (straight)
         // When section goes above viewport: rotation = 30deg (lean again)
-        
+
         const sectionCenter = rect.top + rect.height / 2;
         const viewportCenter = windowHeight / 2;
         const distanceFromCenter = Math.abs(sectionCenter - viewportCenter);
         const maxDistance = windowHeight;
-        
+
         // Calculate rotation: 0 at center, subtle on mobile
         const scrollProgress = Math.min(1, distanceFromCenter / maxDistance);
         const maxRotation = isMobile() ? 5 : 30;
         const newRotation = maxRotation * scrollProgress;
-        
+
         setVideoRotation(newRotation);
       }
     };
@@ -77,6 +98,13 @@ const Home: React.FC = () => {
       // Initialize EmailJS
       emailjs.init("INIJKyGM6q2Y3kSF4");
 
+      // Initialize Omnidimension Chatbot
+      const chatbotScript = document.createElement('script');
+      chatbotScript.id = 'omnidimension-web-widget';
+      chatbotScript.async = true;
+      chatbotScript.src = 'https://backend.omnidim.io/web_widget.js?secret_key=5dc90f228732b9aaf773c4704a4c3036';
+      document.body.appendChild(chatbotScript);
+
       // Initialize Swiper
       const initSwiper = () => {
         const swiperElements = document.querySelectorAll('.init-swiper');
@@ -107,76 +135,76 @@ const Home: React.FC = () => {
         });
       }
 
-    // Mobile nav toggle functionality
-    const mobileNavToggleBtn = document.querySelector('.mobile-nav-toggle');
-    if (mobileNavToggleBtn) {
-      const mobileNavToggle = () => {
-        document.querySelector('body')?.classList.toggle('mobile-nav-active');
-        mobileNavToggleBtn.classList.toggle('bi-list');
-        mobileNavToggleBtn.classList.toggle('bi-x');
-      };
-      mobileNavToggleBtn.addEventListener('click', mobileNavToggle);
-    }
+      // Mobile nav toggle functionality
+      const mobileNavToggleBtn = document.querySelector('.mobile-nav-toggle');
+      if (mobileNavToggleBtn) {
+        const mobileNavToggle = () => {
+          document.querySelector('body')?.classList.toggle('mobile-nav-active');
+          mobileNavToggleBtn.classList.toggle('bi-list');
+          mobileNavToggleBtn.classList.toggle('bi-x');
+        };
+        mobileNavToggleBtn.addEventListener('click', mobileNavToggle);
+      }
 
-    // Hide mobile nav on same-page/hash links
-    document.querySelectorAll('#navmenu a').forEach(navmenu => {
-      navmenu.addEventListener('click', () => {
-        if (document.querySelector('.mobile-nav-active')) {
-          const mobileNavToggleBtn = document.querySelector('.mobile-nav-toggle');
-          if (mobileNavToggleBtn) {
-            mobileNavToggleBtn.classList.toggle('bi-list');
-            mobileNavToggleBtn.classList.toggle('bi-x');
-          }
-          document.querySelector('body')?.classList.remove('mobile-nav-active');
-        }
-      });
-    });
-
-    // FAQ toggle functionality
-    const faqItems = document.querySelectorAll('.faq-item');
-    faqItems.forEach(item => {
-      const toggle = item.querySelector('.faq-toggle') as HTMLElement;
-      const content = item.querySelector('.faq-content');
-      
-      if (toggle && content) {
-        toggle.addEventListener('click', () => {
-          const isActive = item.classList.contains('faq-active');
-          
-          // Close all FAQ items
-          faqItems.forEach(otherItem => {
-            otherItem.classList.remove('faq-active');
-            const otherToggle = otherItem.querySelector('.faq-toggle') as HTMLElement;
-            if (otherToggle) {
-              otherToggle.style.transform = 'rotate(0deg)';
+      // Hide mobile nav on same-page/hash links
+      document.querySelectorAll('#navmenu a').forEach(navmenu => {
+        navmenu.addEventListener('click', () => {
+          if (document.querySelector('.mobile-nav-active')) {
+            const mobileNavToggleBtn = document.querySelector('.mobile-nav-toggle');
+            if (mobileNavToggleBtn) {
+              mobileNavToggleBtn.classList.toggle('bi-list');
+              mobileNavToggleBtn.classList.toggle('bi-x');
             }
-          });
-          
-          // Open clicked item if it wasn't active
-          if (!isActive) {
-            item.classList.add('faq-active');
-            toggle.style.transform = 'rotate(90deg)';
+            document.querySelector('body')?.classList.remove('mobile-nav-active');
           }
         });
-      }
-    });
+      });
 
-    // Scroll functionality
-    const toggleScrolled = () => {
-      const selectBody = document.querySelector('body');
-      const selectHeader = document.querySelector('#header');
-      
-      if (!selectHeader) return;
-      
-      if (!selectHeader.classList.contains('scroll-up-sticky') && 
-          !selectHeader.classList.contains('sticky-top') && 
+      // FAQ toggle functionality
+      const faqItems = document.querySelectorAll('.faq-item');
+      faqItems.forEach(item => {
+        const toggle = item.querySelector('.faq-toggle') as HTMLElement;
+        const content = item.querySelector('.faq-content');
+
+        if (toggle && content) {
+          toggle.addEventListener('click', () => {
+            const isActive = item.classList.contains('faq-active');
+
+            // Close all FAQ items
+            faqItems.forEach(otherItem => {
+              otherItem.classList.remove('faq-active');
+              const otherToggle = otherItem.querySelector('.faq-toggle') as HTMLElement;
+              if (otherToggle) {
+                otherToggle.style.transform = 'rotate(0deg)';
+              }
+            });
+
+            // Open clicked item if it wasn't active
+            if (!isActive) {
+              item.classList.add('faq-active');
+              toggle.style.transform = 'rotate(90deg)';
+            }
+          });
+        }
+      });
+
+      // Scroll functionality
+      const toggleScrolled = () => {
+        const selectBody = document.querySelector('body');
+        const selectHeader = document.querySelector('#header');
+
+        if (!selectHeader) return;
+
+        if (!selectHeader.classList.contains('scroll-up-sticky') &&
+          !selectHeader.classList.contains('sticky-top') &&
           !selectHeader.classList.contains('fixed-top')) return;
-      
-      if (window.scrollY > 100) {
-        selectBody?.classList.add('scrolled');
-      } else {
-        selectBody?.classList.remove('scrolled');
-      }
-    };
+
+        if (window.scrollY > 100) {
+          selectBody?.classList.add('scrolled');
+        } else {
+          selectBody?.classList.remove('scrolled');
+        }
+      };
 
       window.addEventListener('scroll', toggleScrolled);
       window.addEventListener('load', toggleScrolled);
@@ -186,7 +214,11 @@ const Home: React.FC = () => {
     initializeApp();
 
     return () => {
-      // Cleanup will be handled by the browser when component unmounts
+      // Cleanup chatbot script when component unmounts
+      const chatbotScript = document.getElementById('omnidimension-web-widget');
+      if (chatbotScript) {
+        chatbotScript.remove();
+      }
     };
   }, []);
 
@@ -199,24 +231,24 @@ const Home: React.FC = () => {
       const scrolled = window.pageYOffset;
       const windowHeight = window.innerHeight;
       const scrollProgress = Math.min(scrolled / windowHeight, 1);
-      
+
       const bgElement = document.querySelector('#hero-bg') as HTMLElement;
       if (bgElement) {
         // 3D parallax movement with multiple axes (subtle on mobile)
         const translateY = -(scrolled * (isMobile() ? 0.12 : 0.4));
         const translateX = Math.sin(scrollProgress * Math.PI) * (isMobile() ? 6 : 20);
-        
+
         // Dynamic opacity with gentle breathing effect on mobile
         const baseOpacity = 0.25 + (scrollProgress * (isMobile() ? 0.15 : 0.3));
         const breathingEffect = Math.sin(Date.now() * 0.002) * (isMobile() ? 0.02 : 0.05);
         const opacity = baseOpacity + breathingEffect;
-        
+
         // 3D scaling and rotation effects (reduced on mobile)
         const scale = 1 + (scrollProgress * (isMobile() ? 0.05 : 0.15));
         const rotateX = scrollProgress * (isMobile() ? 5 : 15);
         const rotateY = Math.sin(scrollProgress * Math.PI * 2) * (isMobile() ? 4 : 10);
         const rotateZ = scrollProgress * (isMobile() ? 2 : 5);
-        
+
         // Apply 3D transforms
         bgElement.style.transform = `
           translateY(${translateY}px) 
@@ -267,10 +299,10 @@ const Home: React.FC = () => {
               transformStyle: 'preserve-3d'
             }}
           ></div>
-          
+
           {/* Subtle Gradient Overlay */}
           <div className="absolute inset-0 z-5 bg-gradient-to-b from-black/30 via-transparent to-black/50 "></div>
-          
+
           <div className="relative z-10 text-center px-4 max-w-4xl mx-auto" data-aos="fade-up" data-aos-delay="300">
             <h1 className="text-6xl md:text-8xl font-bold mb-6 tracking-tight bg-gradient-to-r from-cyan-400 via-teal-300 to-cyan-500 bg-clip-text text-transparent">
               ZIGNASA 2K25
@@ -281,11 +313,11 @@ const Home: React.FC = () => {
             <div className="flex items-center justify-center gap-2 mb-8">
               <Calendar className="w-6 h-6 text-cyan-400" />
               <h2 className="text-2xl md:text-3xl font-semibold text-white">
-                November <span style={{color: '#ffffff', fontWeight: 'bold', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff'}}>28th & 29th</span>
+                November <span style={{ color: '#ffffff', fontWeight: 'bold', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff' }}>28th & 29th</span>
               </h2>
             </div>
-            <Button 
-              size="lg" 
+            <Button
+              size="lg"
               className="bg-cyan-500 hover:bg-cyan-600 text-white px-8 py-3 text-lg font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
               asChild
             >
@@ -311,7 +343,7 @@ const Home: React.FC = () => {
                 </div>
                 <div className="px-1 md:px-2">
                   <p className="text-gray-300 text-base md:text-lg leading-relaxed">
-                   Open to innovators from every college and state everyone’s welcome to join the hackathon!
+                    Open to innovators from every college and state everyone’s welcome to join the hackathon!
                   </p>
                 </div>
               </div>
@@ -329,7 +361,7 @@ const Home: React.FC = () => {
                 </div>
                 <div className="px-1 md:px-2">
                   <p className="text-gray-300 text-base md:text-lg leading-relaxed">
-                   Participants will be guided through the key concepts and foundational principles of each domain.
+                    Participants will be guided through the key concepts and foundational principles of each domain.
                   </p>
                 </div>
               </div>
@@ -339,31 +371,31 @@ const Home: React.FC = () => {
 
         {/* About Section - Video */}
         <section id="about" className="relative w-full h-screen bg-black border-0 overflow-hidden flex items-center justify-center">
-          <div 
+          <div
             className="framer-w5j4lp-container relative w-[90%] h-[80%] bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl overflow-hidden shadow-2xl shadow-white/5"
             data-aos="fade-up"
             data-aos-duration="1500"
-            style={{ 
+            style={{
               transform: `perspective(1500px) rotateX(${videoRotation}deg) scale(0.95)`,
               transition: 'transform 0.1s ease-out'
             }}
           >
-            <video 
-              src="https://dj2sofb25vegx.cloudfront.net/feature_modal/LandingPageVideo+(1).mp4" 
-              loop 
+            <video
+              src="https://dj2sofb25vegx.cloudfront.net/feature_modal/LandingPageVideo+(1).mp4"
+              loop
               autoPlay
               muted
               playsInline
               className="w-full h-full"
-              style={{ 
-                cursor: 'auto', 
-                width: '100%', 
-                height: '100%', 
-                borderRadius: '24px', 
-                display: 'block', 
-                objectFit: 'cover', 
-                backgroundColor: 'rgba(0, 0, 0, 0)', 
-                objectPosition: '50% 50%' 
+              style={{
+                cursor: 'auto',
+                width: '100%',
+                height: '100%',
+                borderRadius: '24px',
+                display: 'block',
+                objectFit: 'cover',
+                backgroundColor: 'rgba(0, 0, 0, 0)',
+                objectPosition: '50% 50%'
               }}
             />
           </div>
@@ -380,7 +412,7 @@ const Home: React.FC = () => {
                 Trusted organizations supporting ZIGNASA 2K25
               </p>
             </div>
-            
+
             <div className="relative w-full overflow-hidden h-auto">
               <style>{`
                 @keyframes scroll-left {
@@ -394,11 +426,11 @@ const Home: React.FC = () => {
                   animation-play-state: paused;
                 }
               `}</style>
-              
+
               {/* Fade overlays on corners */}
               <div className="absolute left-0 top-0 h-full w-24 md:w-32 bg-gradient-to-r from-black to-transparent z-10 pointer-events-none"></div>
               <div className="absolute right-0 top-0 h-full w-24 md:w-32 bg-gradient-to-l from-black to-transparent z-10 pointer-events-none"></div>
-              
+
               <div className="flex animate-scroll-left py-4">
                 {/* First set of logos */}
                 <div className="flex gap-4 md:gap-6 lg:gap-8 min-w-max pr-4 md:pr-6 lg:pr-8">
@@ -412,7 +444,7 @@ const Home: React.FC = () => {
                     <img src="/assets/img/clients/iic.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="Institution's Innovation Council" />
                   </div>
                 </div>
-                
+
                 {/* Second set for seamless loop */}
                 <div className="flex gap-4 md:gap-6 lg:gap-8 min-w-max pr-4 md:pr-6 lg:pr-8">
                   <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
@@ -425,7 +457,7 @@ const Home: React.FC = () => {
                     <img src="/assets/img/clients/iic.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="Institution's Innovation Council" />
                   </div>
                 </div>
-                
+
                 {/* Third set for seamless loop */}
                 <div className="flex gap-4 md:gap-6 lg:gap-8 min-w-max pr-4 md:pr-6 lg:pr-8">
                   <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
@@ -444,17 +476,17 @@ const Home: React.FC = () => {
         </section>
 
         {/* Gallery Section */}
-        <section id="gallery" className="pt-12 pb-6 md:pt-16 md:pb-12 bg-black relative overflow-hidden max-h-[850px] md:max-h-[1200px]">
+        <section id="gallery" className="py-8 md:py-24 bg-black relative overflow-hidden ">
           {/* Background Elements */}
           <div className="absolute inset-0 bg-gradient-to-b from-black to-black pointer-events-none"></div>
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none"></div>
-          
-          <div className="container mx-auto px-3 sm:px-4 md:px-6 relative z-10">
-            <div className="text-center mb-8 md:mb-10" data-aos="fade-up">
-              <h2 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-4 md:mb-5 tracking-tight">
+
+          <div className="container mx-auto px-3 sm:px-4 md:px-6 py-8 relative z-10 h-[482px] md:h-[800px]">
+            <div className="text-center mb-6 md:mb-16" data-aos="fade-up">
+              <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-3 md:mb-6 tracking-tight">
                 Gallery
               </h2>
-              <p className="text-sm sm:text-base md:text-xl lg:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed mb-4 md:mb-5 px-4">
+              <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed mb-3 md:mb-6 px-4 ">
                 Showcasing the spirit of innovation, creativity, and excellence that defines our journey.
               </p>
               <div className="flex items-center justify-center gap-3 sm:gap-4">
@@ -464,250 +496,175 @@ const Home: React.FC = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6 lg:gap-8 mb-0">
-              <div className="group cursor-pointer" data-aos="fade-up" data-aos-delay="100">
-                <div className="relative overflow-hidden rounded-xl sm:rounded-2xl md:rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/20 md:hover:scale-[1.02]">
-                  <div className="aspect-[4/5] relative overflow-hidden">
-                    <img src="/assets/img/pic4.jpg" alt="Innovation Workshop" loading="lazy" className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                    
-                    {/* Floating Action Button - Hidden on mobile */}
-                    <div className="hidden md:block absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
-                      <button className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center hover:bg-white/30 transition-colors">
-                        <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                        </svg>
-                      </button>
-                    </div>
-
-                    {/* Bottom Info Panel */}
-                    <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
-                      <div className="bg-white/10 backdrop-blur-md rounded-lg sm:rounded-xl border border-white/20 p-2.5 sm:p-3">
-                        <div className="flex items-center justify-between gap-2">
-                          <div className="min-w-0 flex-1">
-                            <h4 className="text-white font-medium text-sm sm:text-base truncate">Innovation Workshop</h4>
-                            <p className="text-white/70 text-xs sm:text-sm truncate">Tech Excellence</p>
-                          </div>
-                          <span className="inline-flex items-center rounded-full bg-cyan-400/20 px-2 py-1 text-xs font-medium text-cyan-400 border border-cyan-400/30 flex-shrink-0">
-                            2024
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+            {/* Stacked Cards Layout */}
+            <div className="relative flex items-center justify-center min-h-[350px] sm:min-h-[400px] md:min-h-[650px] max-h-[450px] sm:max-h-[500px] md:max-h-none" data-aos="fade-up" data-aos-delay="200">
+              {/* Card 1 - Far Left Back */}
+              <div
+                onClick={() => handleCardClick(1)}
+                className="absolute w-[120px] sm:w-[180px] md:w-[280px] lg:w-[320px] aspect-[3/4] rounded-lg sm:rounded-xl md:rounded-2xl overflow-hidden shadow-2xl cursor-pointer group"
+                style={{
+                  transform: activeCard === 1
+                    ? 'translate(calc(-10rem - (100vw - 768px) * 0.05), calc(5rem + (100vw - 768px) * 0.012)) rotate(-21deg) scale(0.95)'
+                    : activeCard !== null
+                      ? 'translate(calc(-11rem - (100vw - 768px) * 0.06), calc(5.5rem + (100vw - 768px) * 0.014)) rotate(-24deg) scale(0.72)'
+                      : 'translate(calc(-10rem - (100vw - 768px) * 0.05), calc(5rem + (100vw - 768px) * 0.012)) rotate(-21deg) scale(0.78)',
+                  zIndex: activeCard === 1 ? 50 : 1,
+                  transition: activeCard === 1
+                    ? 'all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)'
+                    : 'all 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+                }}
+              >
+                <img
+                  src="/assets/img/pic4.jpg"
+                  alt="Innovation Workshop"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
               </div>
-              <div className="group cursor-pointer" data-aos="fade-up" data-aos-delay="200">
-                <div className="relative overflow-hidden rounded-xl sm:rounded-2xl md:rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/20 md:hover:scale-[1.02]">
-                  <div className="aspect-[4/5] relative overflow-hidden">
-                    <img src="/assets/img/pic1.jpg" alt="Team Collaboration" loading="lazy" className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                    
-                    <div className="hidden md:block absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
-                      <button className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center hover:bg-white/30 transition-colors">
-                        <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                        </svg>
-                      </button>
-                    </div>
 
-                    <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
-                      <div className="bg-white/10 backdrop-blur-md rounded-lg sm:rounded-xl border border-white/20 p-2.5 sm:p-3">
-                        <div className="flex items-center justify-between gap-2">
-                          <div className="min-w-0 flex-1">
-                            <h4 className="text-white font-medium text-sm sm:text-base truncate">Team Collaboration</h4>
-                            <p className="text-white/70 text-xs sm:text-sm truncate">Project Development</p>
-                          </div>
-                          <span className="inline-flex items-center rounded-full bg-cyan-400/20 px-2 py-1 text-xs font-medium text-cyan-400 border border-cyan-400/30 flex-shrink-0">
-                            2024
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+              {/* Card 2 - Left Back */}
+              <div
+                onClick={() => handleCardClick(2)}
+                className="absolute w-[120px] sm:w-[180px] md:w-[280px] lg:w-[320px] aspect-[3/4] rounded-lg sm:rounded-xl md:rounded-2xl overflow-hidden shadow-2xl cursor-pointer group"
+                style={{
+                  transform: activeCard === 2
+                    ? 'translate(calc(-7.5rem - (100vw - 768px) * 0.035), calc(2.8rem + (100vw - 768px) * 0.008)) rotate(-14deg) scale(1.05)'
+                    : activeCard !== null
+                      ? 'translate(calc(-8.5rem - (100vw - 768px) * 0.042), calc(3.5rem + (100vw - 768px) * 0.010)) rotate(-17deg) scale(0.80)'
+                      : 'translate(calc(-7.5rem - (100vw - 768px) * 0.035), calc(2.8rem + (100vw - 768px) * 0.008)) rotate(-14deg) scale(0.85)',
+                  zIndex: activeCard === 2 ? 50 : 2,
+                  transition: activeCard === 2
+                    ? 'all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)'
+                    : 'all 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+                }}
+              >
+                <img
+                  src="/assets/img/pic1.jpg"
+                  alt="Team Collaboration"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
               </div>
-              <div className="group cursor-pointer" data-aos="fade-up" data-aos-delay="300">
-                <div className="relative overflow-hidden rounded-xl sm:rounded-2xl md:rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/20 md:hover:scale-[1.02]">
-                  <div className="aspect-[4/5] relative overflow-hidden">
-                    <img src="/assets/img/pic8.jpg" alt="Creative Session" loading="lazy" className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                    
-                    <div className="hidden md:block absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
-                      <button className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center hover:bg-white/30 transition-colors">
-                        <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                        </svg>
-                      </button>
-                    </div>
 
-                    <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
-                      <div className="bg-white/10 backdrop-blur-md rounded-lg sm:rounded-xl border border-white/20 p-2.5 sm:p-3">
-                        <div className="flex items-center justify-between gap-2">
-                          <div className="min-w-0 flex-1">
-                            <h4 className="text-white font-medium text-sm sm:text-base truncate">Creative Session</h4>
-                            <p className="text-white/70 text-xs sm:text-sm truncate">Design Thinking</p>
-                          </div>
-                          <span className="inline-flex items-center rounded-full bg-cyan-400/20 px-2 py-1 text-xs font-medium text-cyan-400 border border-cyan-400/30 flex-shrink-0">
-                            2024
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+              {/* Card 3 - Left Front */}
+              <div
+                onClick={() => handleCardClick(3)}
+                className="absolute w-[120px] sm:w-[180px] md:w-[280px] lg:w-[320px] aspect-[3/4] rounded-lg sm:rounded-xl md:rounded-2xl overflow-hidden shadow-2xl cursor-pointer group"
+                style={{
+                  transform: activeCard === 3
+                    ? 'translate(calc(-4rem - (100vw - 768px) * 0.020), calc(0.9rem + (100vw - 768px) * 0.004)) rotate(-7deg) scale(1.1)'
+                    : activeCard !== null
+                      ? 'translate(calc(-5rem - (100vw - 768px) * 0.025), calc(1.4rem + (100vw - 768px) * 0.005)) rotate(-10deg) scale(0.88)'
+                      : 'translate(calc(-4rem - (100vw - 768px) * 0.020), calc(0.9rem + (100vw - 768px) * 0.004)) rotate(-7deg) scale(0.93)',
+                  zIndex: activeCard === 3 ? 50 : 3,
+                  transition: activeCard === 3
+                    ? 'all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)'
+                    : 'all 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+                }}
+              >
+                <img
+                  src="/assets/img/pic8.jpg"
+                  alt="Creative Session"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
               </div>
-              <div className="group cursor-pointer" data-aos="fade-up" data-aos-delay="400">
-                <div className="relative overflow-hidden rounded-xl sm:rounded-2xl md:rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/20 md:hover:scale-[1.02]">
-                  <div className="aspect-[4/5] relative overflow-hidden">
-                    <img src="/assets/img/pic2.jpg" alt="Tech Showcase" loading="lazy" className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                    
-                    <div className="hidden md:block absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
-                      <button className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center hover:bg-white/30 transition-colors">
-                        <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                        </svg>
-                      </button>
-                    </div>
 
-                    <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
-                      <div className="bg-white/10 backdrop-blur-md rounded-lg sm:rounded-xl border border-white/20 p-2.5 sm:p-3">
-                        <div className="flex items-center justify-between gap-2">
-                          <div className="min-w-0 flex-1">
-                            <h4 className="text-white font-medium text-sm sm:text-base truncate">Tech Showcase</h4>
-                            <p className="text-white/70 text-xs sm:text-sm truncate">Product Demo</p>
-                          </div>
-                          <span className="inline-flex items-center rounded-full bg-cyan-400/20 px-2 py-1 text-xs font-medium text-cyan-400 border border-cyan-400/30 flex-shrink-0">
-                            2024
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+              {/* Card 4 - Center (Main) */}
+              <div
+                onClick={() => handleCardClick(4)}
+                className="absolute w-[120px] sm:w-[180px] md:w-[280px] lg:w-[320px] aspect-[3/4] rounded-lg sm:rounded-xl md:rounded-2xl overflow-hidden shadow-2xl cursor-pointer group"
+                style={{
+                  transform: activeCard === 4
+                    ? 'translate(0rem, -0.7rem) rotate(0deg) scale(1.15)'
+                    : activeCard !== null
+                      ? 'translate(0rem, 0.7rem) rotate(0deg) scale(0.95)'
+                      : 'translate(0rem, 0rem) rotate(0deg) scale(1)',
+                  zIndex: activeCard === 4 ? 50 : 10,
+                  transition: activeCard === 4
+                    ? 'all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)'
+                    : 'all 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+                }}
+              >
+                <img
+                  src="/assets/img/pic2.jpg"
+                  alt="Tech Showcase"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
               </div>
-              <div className="group cursor-pointer" data-aos="fade-up" data-aos-delay="500">
-                <div className="relative overflow-hidden rounded-xl sm:rounded-2xl md:rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/20 md:hover:scale-[1.02]">
-                  <div className="aspect-[4/5] relative overflow-hidden">
-                    <img src="/assets/img/rep3.png" alt="Learning Hub" loading="lazy" className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                    
-                    <div className="hidden md:block absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
-                      <button className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center hover:bg-white/30 transition-colors">
-                        <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                        </svg>
-                      </button>
-                    </div>
 
-                    <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
-                      <div className="bg-white/10 backdrop-blur-md rounded-lg sm:rounded-xl border border-white/20 p-2.5 sm:p-3">
-                        <div className="flex items-center justify-between gap-2">
-                          <div className="min-w-0 flex-1">
-                            <h4 className="text-white font-medium text-sm sm:text-base truncate">Learning Hub</h4>
-                            <p className="text-white/70 text-xs sm:text-sm truncate">Knowledge Sharing</p>
-                          </div>
-                          <span className="inline-flex items-center rounded-full bg-cyan-400/20 px-2 py-1 text-xs font-medium text-cyan-400 border border-cyan-400/30 flex-shrink-0">
-                            2024
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+              {/* Card 5 - Right Front */}
+              <div
+                onClick={() => handleCardClick(5)}
+                className="absolute w-[120px] sm:w-[180px] md:w-[280px] lg:w-[320px] aspect-[3/4] rounded-lg sm:rounded-xl md:rounded-2xl overflow-hidden shadow-2xl cursor-pointer group"
+                style={{
+                  transform: activeCard === 5
+                    ? 'translate(calc(4rem + (100vw - 768px) * 0.020), calc(0.9rem + (100vw - 768px) * 0.004)) rotate(7deg) scale(1.1)'
+                    : activeCard !== null
+                      ? 'translate(calc(5rem + (100vw - 768px) * 0.025), calc(1.4rem + (100vw - 768px) * 0.005)) rotate(10deg) scale(0.88)'
+                      : 'translate(calc(4rem + (100vw - 768px) * 0.020), calc(0.9rem + (100vw - 768px) * 0.004)) rotate(7deg) scale(0.93)',
+                  zIndex: activeCard === 5 ? 50 : 3,
+                  transition: activeCard === 5
+                    ? 'all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)'
+                    : 'all 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+                }}
+              >
+                <img
+                  src="/assets/img/rep3.png"
+                  alt="Learning Hub"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
               </div>
-              <div className="group cursor-pointer" data-aos="fade-up" data-aos-delay="600">
-                <div className="relative overflow-hidden rounded-xl sm:rounded-2xl md:rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/20 md:hover:scale-[1.02]">
-                  <div className="aspect-[4/5] relative overflow-hidden">
-                    <img src="/assets/img/rep1.JPG" alt="Event Highlights" loading="lazy" className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                    
-                    <div className="hidden md:block absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
-                      <button className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center hover:bg-white/30 transition-colors">
-                        <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                        </svg>
-                      </button>
-                    </div>
 
-                    <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
-                      <div className="bg-white/10 backdrop-blur-md rounded-lg sm:rounded-xl border border-white/20 p-2.5 sm:p-3">
-                        <div className="flex items-center justify-between gap-2">
-                          <div className="min-w-0 flex-1">
-                            <h4 className="text-white font-medium text-sm sm:text-base truncate">Event Highlights</h4>
-                            <p className="text-white/70 text-xs sm:text-sm truncate">Community Gathering</p>
-                          </div>
-                          <span className="inline-flex items-center rounded-full bg-cyan-400/20 px-2 py-1 text-xs font-medium text-cyan-400 border border-cyan-400/30 flex-shrink-0">
-                            2024
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+              {/* Card 6 - Right Back */}
+              <div
+                onClick={() => handleCardClick(6)}
+                className="absolute w-[120px] sm:w-[180px] md:w-[280px] lg:w-[320px] aspect-[3/4] rounded-lg sm:rounded-xl md:rounded-2xl overflow-hidden shadow-2xl cursor-pointer group"
+                style={{
+                  transform: activeCard === 6
+                    ? 'translate(calc(7.5rem + (100vw - 768px) * 0.035), calc(2.8rem + (100vw - 768px) * 0.008)) rotate(14deg) scale(1.05)'
+                    : activeCard !== null
+                      ? 'translate(calc(8.5rem + (100vw - 768px) * 0.042), calc(3.5rem + (100vw - 768px) * 0.010)) rotate(17deg) scale(0.80)'
+                      : 'translate(calc(7.5rem + (100vw - 768px) * 0.035), calc(2.8rem + (100vw - 768px) * 0.008)) rotate(14deg) scale(0.85)',
+                  zIndex: activeCard === 6 ? 50 : 2,
+                  transition: activeCard === 6
+                    ? 'all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)'
+                    : 'all 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+                }}
+              >
+                <img
+                  src="/assets/img/rep1.JPG"
+                  alt="Event Highlights"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
               </div>
-              <div className="group cursor-pointer" data-aos="fade-up" data-aos-delay="700">
-                <div className="relative overflow-hidden rounded-xl sm:rounded-2xl md:rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/20 md:hover:scale-[1.02]">
-                  <div className="aspect-[4/5] relative overflow-hidden">
-                    <img src="/assets/img/pic5.jpg" alt="Achievement Moments" loading="lazy" className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                    
-                    <div className="hidden md:block absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
-                      <button className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center hover:bg-white/30 transition-colors">
-                        <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                        </svg>
-                      </button>
-                    </div>
 
-                    <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
-                      <div className="bg-white/10 backdrop-blur-md rounded-lg sm:rounded-xl border border-white/20 p-2.5 sm:p-3">
-                        <div className="flex items-center justify-between gap-2">
-                          <div className="min-w-0 flex-1">
-                            <h4 className="text-white font-medium text-sm sm:text-base truncate">Achievement Moments</h4>
-                            <p className="text-white/70 text-xs sm:text-sm truncate">Success Stories</p>
-                          </div>
-                          <span className="inline-flex items-center rounded-full bg-cyan-400/20 px-2 py-1 text-xs font-medium text-cyan-400 border border-cyan-400/30 flex-shrink-0">
-                            2024
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="group cursor-pointer" data-aos="fade-up" data-aos-delay="800">
-                <div className="relative overflow-hidden rounded-xl sm:rounded-2xl md:rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/20 md:hover:scale-[1.02]">
-                  <div className="aspect-[4/5] relative overflow-hidden">
-                    <img src="/assets/img/pic7.jpg" alt="Future Vision" loading="lazy" className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                    
-                    <div className="hidden md:block absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
-                      <button className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center hover:bg-white/30 transition-colors">
-                        <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                        </svg>
-                      </button>
-                    </div>
-
-                    <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
-                      <div className="bg-white/10 backdrop-blur-md rounded-lg sm:rounded-xl border border-white/20 p-2.5 sm:p-3">
-                        <div className="flex items-center justify-between gap-2">
-                          <div className="min-w-0 flex-1">
-                            <h4 className="text-white font-medium text-sm sm:text-base truncate">Future Vision</h4>
-                            <p className="text-white/70 text-xs sm:text-sm truncate">Next Generation</p>
-                          </div>
-                          <span className="inline-flex items-center rounded-full bg-cyan-400/20 px-2 py-1 text-xs font-medium text-cyan-400 border border-cyan-400/30 flex-shrink-0">
-                            2024
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+              {/* Card 7 - Far Right Back */}
+              <div
+                onClick={() => handleCardClick(7)}
+                className="absolute w-[120px] sm:w-[180px] md:w-[280px] lg:w-[320px] aspect-[3/4] rounded-lg sm:rounded-xl md:rounded-2xl overflow-hidden shadow-2xl cursor-pointer group"
+                style={{
+                  transform: activeCard === 7
+                    ? 'translate(calc(10rem + (100vw - 768px) * 0.05), calc(5rem + (100vw - 768px) * 0.012)) rotate(21deg) scale(0.95)'
+                    : activeCard !== null
+                      ? 'translate(calc(11rem + (100vw - 768px) * 0.06), calc(5.5rem + (100vw - 768px) * 0.014)) rotate(24deg) scale(0.72)'
+                      : 'translate(calc(10rem + (100vw - 768px) * 0.05), calc(5rem + (100vw - 768px) * 0.012)) rotate(21deg) scale(0.78)',
+                  zIndex: activeCard === 7 ? 50 : 1,
+                  transition: activeCard === 7
+                    ? 'all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)'
+                    : 'all 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+                }}
+              >
+                <img
+                  src="/assets/img/pic5.jpg"
+                  alt="Achievement Moments"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
               </div>
             </div>
+          </div>
+        </section>
+
+        {/* Old Gallery Grid - Hidden */}
+        <section className="hidden ">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6 lg:gap-8 mb-0">
           </div>
         </section>
 
@@ -738,8 +695,8 @@ const Home: React.FC = () => {
                     </AccordionTrigger>
                   </div>
                   <AccordionContent className="text-[14px] text-gray-300 leading-relaxed w-full">
-                    Zignasa 2k25 stands out by combining innovation, collaboration, and creativity in one place. Unlike regular hackathons, it focuses equally on technical excellence and real-world impact while also keeping participants energized with fun activities, networking sessions, and workshops led by experts.
-                  </AccordionContent>
+                    Zignasa 2k25 stands out by combining innovation, collaboration, and creativity in one place. Unlike regular hackathons, it focuses equally on technical excellence and real-world impact while also keeping participants energized with fun activities, networking sessions, and workshops led by experts </AccordionContent>
+
                   <div className="absolute bottom-0 right-0 w-[170px] opacity-20">
                     <div className="w-full h-full bg-gradient-to-tl from-white/30 to-transparent rounded-tl-[100px]"></div>
                   </div>
@@ -758,7 +715,7 @@ const Home: React.FC = () => {
                     </AccordionTrigger>
                   </div>
                   <AccordionContent className="text-[14px] text-gray-300 leading-relaxed w-full">
-                    Absolutely. Zignasa 2k25 is not just about coding. Participants can enjoy mini-games, a tug of war, live music sessions, and other engaging activities designed to keep the energy high and make the 24-hour hackathon fun and memorable.
+                    Yes. Along with coding challenges, Zignasa features exciting mini-games, a tug of war, interactive sessions, and a live music band to make sure participants enjoy every moment while creating innovative solutions.
                   </AccordionContent>
                   <div className="absolute bottom-0 right-0 w-[170px] opacity-20">
                     <div className="w-full h-full bg-gradient-to-tl from-white/30 to-transparent rounded-tl-[100px]"></div>
@@ -778,7 +735,7 @@ const Home: React.FC = () => {
                     </AccordionTrigger>
                   </div>
                   <AccordionContent className="text-[14px] text-gray-300 leading-relaxed w-full">
-                    Zignasa 2k25 helps participants dive into real-world problem solving while learning to apply technical skills in Agentic AI, UI/UX Design, and Web Development. You'll learn how to brainstorm, build, and present solutions effectively — all while working as a team.
+                    Participants will gain hands-on experience in developing real-world projects, enhance their teamwork, time management, and presentation skills, and explore domains like Web Development, Agentic AI, and UI/UX Design through expert mentorship and workshops.
                   </AccordionContent>
                   <div className="absolute bottom-0 right-0 w-[170px] opacity-20">
                     <div className="w-full h-full bg-gradient-to-tl from-white/30 to-transparent rounded-tl-[100px]"></div>
@@ -818,11 +775,11 @@ const Home: React.FC = () => {
                       </svg>
                     </div>
                     <AccordionTrigger className="text-[18px] font-semibold text-white hover:text-indigo-300 transition-colors duration-200 flex-1 leading-tight text-left">
-                      Will there be anyone to guide the participants?
+                      How do I attend online workshops?
                     </AccordionTrigger>
                   </div>
                   <AccordionContent className="text-[14px] text-gray-300 leading-relaxed w-full">
-                    Yes, mentors from reputed organizations such as GeeksforGeeks and Student Tribe will be available throughout the event to guide teams, provide feedback, and share technical expertise whenever needed.
+                    Workshop links and schedules will be shared via email with all registered participants. Just join through the provided link and get insights from industry mentors to prepare yourself before the main hackathon.
                   </AccordionContent>
                   <div className="absolute bottom-0 right-0 w-[170px] opacity-20">
                     <div className="w-full h-full bg-gradient-to-tl from-white/30 to-transparent rounded-tl-[100px]"></div>
@@ -837,11 +794,11 @@ const Home: React.FC = () => {
                       </svg>
                     </div>
                     <AccordionTrigger className="text-[18px] font-semibold text-white hover:text-rose-300 transition-colors duration-200 flex-1 leading-tight text-left">
-                      Why do we have to join this hackathon?
+                      Will there be anyone to guide the participants?
                     </AccordionTrigger>
                   </div>
                   <AccordionContent className="text-[14px] text-gray-300 leading-relaxed w-full">
-                    Zignasa 2k25 is more than a competition. It's a platform to innovate, collaborate, and grow. By participating, you gain hands-on experience, networking opportunities, and a certificate that adds value to your resume while showcasing your creativity and problem-solving skills.
+                    Industry mentors from organizations such as Student Tribe will be available throughout the event to guide teams, provide insights, and support participants with technical and strategic feedback.
                   </AccordionContent>
                   <div className="absolute bottom-0 right-0 w-[170px] opacity-20">
                     <div className="w-full h-full bg-gradient-to-tl from-white/30 to-transparent rounded-tl-[100px]"></div>
@@ -923,7 +880,17 @@ const Home: React.FC = () => {
         </section>
 
         {/* Contact Section */}
-        <section id="contact" className="py-28 bg-black border-0 max-h-[1050px]">
+        <section id="contact" className="py-28 bg-black border-0 max-h-[1050px] relative">
+          {/* Toast Notification */}
+          {showToast && (
+            <div className="fixed top-8 right-8 z-50 animate-in slide-in-from-top-5 fade-in duration-300">
+              <div className="bg-cyan-500/20 backdrop-blur-xl border border-cyan-500/30 rounded-2xl px-6 py-4 flex items-center gap-3 shadow-2xl">
+                <Check className="w-5 h-5 text-cyan-400" />
+                <span className="text-white font-medium">Copied {copiedText}!</span>
+              </div>
+            </div>
+          )}
+
           <div className="container mx-auto px-6 bg-black border-0">
             <div className="text-center mb-20 bg-black border-0" data-aos="fade-up">
               <h2 className="text-5xl md:text-6xl font-bold text-white mb-6">
@@ -936,47 +903,89 @@ const Home: React.FC = () => {
 
             <div className="max-w-7xl mx-auto bg-black border-0" data-aos="fade-up" data-aos-delay="100">
               <div className="grid md:grid-cols-3 gap-10 mb-32 bg-black border-0">
-                <div className="bg-white/5 backdrop-blur-xl border-0 rounded-3xl p-8 text-center hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 transition-all duration-300 shadow-2xl" data-aos="fade-up" data-aos-delay="200">
-                  <div className="flex flex-col items-center space-y-4">
-                    <div className="p-4 bg-cyan-500/20 backdrop-blur-sm rounded-2xl border-0">
-                      <MapPin className="w-6 h-6 text-cyan-400" />
+                {/* Address Card */}
+                <div
+                  className="group relative bg-white/5 backdrop-blur-xl border-0 rounded-3xl p-8 text-center hover:bg-white/10 hover:shadow-2xl hover:shadow-cyan-500/20 transition-all duration-500 shadow-2xl hover:scale-105 cursor-pointer overflow-hidden"
+                  data-aos="fade-up"
+                  data-aos-delay="200"
+                >
+                  {/* Animated background gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/0 via-cyan-500/0 to-cyan-500/0 group-hover:from-cyan-500/5 group-hover:via-cyan-500/10 group-hover:to-cyan-500/5 transition-all duration-500 rounded-3xl"></div>
+
+                  <div className="relative flex flex-col items-center space-y-4">
+                    <div className="p-4 bg-cyan-500/20 backdrop-blur-sm rounded-2xl border-0 group-hover:bg-cyan-500/30 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
+                      <MapPin className="w-6 h-6 text-cyan-400 group-hover:animate-pulse" />
                     </div>
-                    <h3 className="text-xl font-semibold text-white">Address</h3>
-                    <p className="text-gray-300 leading-relaxed">
+                    <h3 className="text-xl font-semibold text-white group-hover:text-cyan-300 transition-colors duration-300">Address</h3>
+                    <p className="text-gray-300 leading-relaxed group-hover:text-white transition-colors duration-300">
                       Dundigal Police Station Road, Hyderabad, Telangana 500043
                     </p>
                     <Button
                       onClick={() => window.open('https://www.google.com/maps/search/?api=1&query=MLR+Institute+of+Technology+Dundigal+Police+Station+Road+Hyderabad+Telangana+500043', '_blank')}
-                      className="mt-4 bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-400 border border-cyan-500/30 hover:border-cyan-500/50 rounded-2xl transition-all duration-300 flex items-center gap-2"
+                      className="mt-4 bg-cyan-500/20 hover:bg-cyan-500/40 text-cyan-400 hover:text-cyan-300 border border-cyan-500/30 hover:border-cyan-500/60 rounded-2xl transition-all duration-300 flex items-center gap-2 hover:scale-110 hover:shadow-lg hover:shadow-cyan-500/30"
                     >
                       Open in Maps
-                      <ExternalLink className="w-4 h-4" />
+                      <ExternalLink className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
                     </Button>
                   </div>
                 </div>
 
-                <div className="bg-white/5 backdrop-blur-xl border-0 rounded-3xl p-8 text-center hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 transition-all duration-300 shadow-2xl" data-aos="fade-up" data-aos-delay="300">
-                  <div className="flex flex-col items-center space-y-4">
-                    <div className="p-4 bg-cyan-500/20 backdrop-blur-sm rounded-2xl border-0">
-                      <Phone className="w-6 h-6 text-cyan-400" />
+                {/* Phone Card */}
+                <div
+                  className="group relative bg-white/5 backdrop-blur-xl border-0 rounded-3xl p-8 text-center hover:bg-white/10 hover:shadow-2xl hover:shadow-cyan-500/20 transition-all duration-500 shadow-2xl hover:scale-105 overflow-hidden"
+                  data-aos="fade-up"
+                  data-aos-delay="300"
+                >
+                  {/* Animated background gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/0 via-cyan-500/0 to-cyan-500/0 group-hover:from-cyan-500/5 group-hover:via-cyan-500/10 group-hover:to-cyan-500/5 transition-all duration-500 rounded-3xl"></div>
+
+                  <div className="relative flex flex-col items-center space-y-4">
+                    <div className="p-4 bg-cyan-500/20 backdrop-blur-sm rounded-2xl border-0 group-hover:bg-cyan-500/30 group-hover:scale-110 group-hover:rotate-12 transition-all duration-500">
+                      <Phone className="w-6 h-6 text-cyan-400 group-hover:animate-pulse" />
                     </div>
-                    <h3 className="text-xl font-semibold text-white">Call Us</h3>
-                    <div className="text-gray-300 space-y-1">
-                      <p>M Prajith Balaji - +91 9121827709</p>
-                      <p>Yashwanth Reddy - +91 7816005757</p>
-                      <p>G Vignesh - +91 7993334426</p>
+                    <h3 className="text-xl font-semibold text-white group-hover:text-cyan-300 transition-colors duration-300">Call Us</h3>
+                    <div className="text-gray-300 space-y-3 w-full">
+                      <div
+                        onClick={() => copyToClipboard('7816005757', 'phone number')}
+                        className="group/item flex items-center gap-2 p-3 rounded-xl hover:bg-cyan-500/10 transition-all duration-300 cursor-pointer hover:scale-105"
+                      >
+                        <p className="group-hover/item:text-cyan-300 transition-colors duration-300">Yashwanth Reddy - +91 7816005757</p>
+                        <Copy className="w-4 h-4 opacity-0 group-hover/item:opacity-100 text-cyan-400 transition-all duration-300 flex-shrink-0" />
+                      </div>
+                      <div
+                        onClick={() => copyToClipboard('9121827709', 'phone number')}
+                        className="group/item flex items-center gap-2 p-3 rounded-xl hover:bg-cyan-500/10 transition-all duration-300 cursor-pointer hover:scale-105"
+                      >
+                        <p className="group-hover/item:text-cyan-300 transition-colors duration-300">M Prajith Balaji - +91 9121827709</p>
+                        <Copy className="w-4 h-4 opacity-0 group-hover/item:opacity-100 text-cyan-400 transition-all duration-300 flex-shrink-0" />
+                      </div>
                     </div>
                   </div>
                 </div>
 
-                <div className="bg-white/5 backdrop-blur-xl border-0 rounded-3xl p-8 text-center hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 transition-all duration-300 shadow-2xl" data-aos="fade-up" data-aos-delay="400">
-                  <div className="flex flex-col items-center space-y-4">
-                    <div className="p-4 bg-cyan-500/20 backdrop-blur-sm rounded-2xl border-0">
-                      <Mail className="w-6 h-6 text-cyan-400" />
+                {/* Email Card */}
+                <div
+                  className="group relative bg-white/5 backdrop-blur-xl border-0 rounded-3xl p-8 text-center hover:bg-white/10 hover:shadow-2xl hover:shadow-cyan-500/20 transition-all duration-500 shadow-2xl hover:scale-105 cursor-pointer overflow-hidden"
+                  data-aos="fade-up"
+                  data-aos-delay="400"
+                  onClick={() => copyToClipboard('zignasa2k25@gmail.com', 'email')}
+                >
+                  {/* Animated background gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/0 via-cyan-500/0 to-cyan-500/0 group-hover:from-cyan-500/5 group-hover:via-cyan-500/10 group-hover:to-cyan-500/5 transition-all duration-500 rounded-3xl"></div>
+
+                  <div className="relative flex flex-col items-center space-y-4">
+                    <div className="p-4 bg-cyan-500/20 backdrop-blur-sm rounded-2xl border-0 group-hover:bg-cyan-500/30 group-hover:scale-110 group-hover:-rotate-6 transition-all duration-500">
+                      <Mail className="w-6 h-6 text-cyan-400 group-hover:animate-pulse" />
                     </div>
-                    <h3 className="text-xl font-semibold text-white">Email Us</h3>
-                    <p className="text-gray-300">
-                      zignasa2k25@gmail.com
+                    <h3 className="text-xl font-semibold text-white group-hover:text-cyan-300 transition-colors duration-300">Email Us</h3>
+                    <div className="flex items-center gap-2 p-3 rounded-xl hover:bg-cyan-500/10 transition-all duration-300">
+                      <p className="text-gray-300 group-hover:text-cyan-300 transition-colors duration-300">
+                        zignasa2k25@gmail.com
+                      </p>
+                      <Copy className="w-4 h-4 opacity-0 group-hover:opacity-100 text-cyan-400 transition-all duration-300" />
+                    </div>
+                    <p className="text-sm text-gray-400 group-hover:text-cyan-400 transition-colors duration-300 mt-2">
+                      Click to copy
                     </p>
                   </div>
                 </div>
@@ -989,7 +998,7 @@ const Home: React.FC = () => {
       <footer className="py-8 bg-black border-0 ">
         <div className="container mx-auto px-4 text-center bg-black border-0 max-h-[100px]">
           <p className="text-gray-300">
-            © <span className="font-semibold" style={{color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff'}}>ZIGNASA - 2K25</span> All Rights Reserved
+            © <span className="font-semibold" style={{ color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff' }}>ZIGNASA - 2K25</span> All Rights Reserved
           </p>
         </div>
       </footer>

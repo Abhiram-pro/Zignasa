@@ -11,6 +11,7 @@ interface RegistrationFormProps {
   title: string;
   domain: string;
   endpoint: string;
+  maxTeamSize?: number; // Optional prop to limit team size (defaults to 5)
 }
 
 interface MemberData {
@@ -48,15 +49,15 @@ interface RegistrationResponse {
   };
 }
 
-const teamSizeOptions = [
-  { value: '1', label: '1 Member (Solo)' },
-  { value: '2', label: '2 Members' },
-  { value: '3', label: '3 Members' },
-  { value: '4', label: '4 Members' },
-  { value: '5', label: '5 Members (Max)' }
-];
-
-const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endpoint }) => {
+const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endpoint, maxTeamSize = 5 }) => {
+  // Generate team size options based on maxTeamSize
+  const teamSizeOptions = Array.from({ length: maxTeamSize }, (_, i) => {
+    const size = i + 1;
+    return {
+      value: size.toString(),
+      label: size === 1 ? '1 Member (Solo)' : size === maxTeamSize ? `${size} Members (Max)` : `${size} Members`
+    };
+  });
   const [formData, setFormData] = useState<FormData>({
     teamName: '',
     domain: domain,

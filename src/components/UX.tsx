@@ -8,6 +8,7 @@ const UX: React.FC = () => {
         title="UI/UX"
         domain="UI/UX"
         endpoint="/api/UX"
+        maxTeamSize={3}
       />
     </div>
   );
