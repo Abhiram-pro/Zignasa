@@ -8,6 +8,7 @@ import Domains from './components/Domains';
 import AgenticAIRegistration from './components/AgenticAIRegistration';
 import WebDevRegistration from './components/WebDevRegistration';
 import UX from './components/UX';
+import PaymentConfirmation from './components/PaymentConfirmation';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/AgenticAI" element={<AgenticAIRegistration />} />
           <Route path="/webdev" element={<WebDevRegistration />} />
           <Route path="/UX" element={<UX />} />
+          <Route path="/confirmation" element={<PaymentConfirmation />} />
         </Routes>
       </div>
     </Router>

@@ -95,36 +95,31 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
     });
   }, []);
 
-  const handlePaymentSuccess = async (response: any, paymentDetails: PaymentDetails) => {
+  const handlePaymentSuccess = async (response: any, paymentDetails: PaymentDetails, teamId: number, members: MemberData[], registrationData?: any) => {
     console.log('Payment successful:', response);
     
-    try {
-      // Verify payment with backend
-      const verifyResponse = await axios.post(
-        `http://localhost:5000/verify-payment`,
-        {
-          razorpay_order_id: paymentDetails.orderId,
-          razorpay_payment_id: response.razorpay_payment_id,
-          razorpay_signature: response.razorpay_signature,
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          }
-        }
-      );
-
-      if (verifyResponse.data.success) {
-        alert('Registration and payment completed successfully!');
-        // Optionally redirect to a success page
-        window.location.href = '/';
-      } else {
-        alert('Payment verification failed. Please contact support.');
-      }
-    } catch (error) {
-      console.error('Payment verification error:', error);
-      alert('Payment completed but verification failed. Please contact support with payment ID: ' + response.razorpay_payment_id);
+    // Store members in sessionStorage for verification
+    sessionStorage.setItem('registrationMembers', JSON.stringify(members));
+    
+    // Store registration data (teamName, domain, amount, memberCount) for display on confirmation page
+    if (registrationData) {
+      sessionStorage.setItem('registrationData', JSON.stringify({
+        teamName: registrationData.teamName,
+        domain: registrationData.domain,
+        memberCount: registrationData.memberCount,
+        amount: paymentDetails.amount
+      }));
     }
+    
+    // Redirect to confirmation page with payment details
+    const confirmationURL = new URLSearchParams({
+      order_id: paymentDetails.orderId,
+      payment_id: response.razorpay_payment_id,
+      signature: response.razorpay_signature,
+      team_id: teamId.toString(),
+    }).toString();
+    
+    window.location.href = `/confirmation?${confirmationURL}`;
   };
 
   const handlePaymentFailure = (error: any) => {
@@ -136,7 +131,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
     }
   };
 
-  const initiatePayment = async (paymentDetails: PaymentDetails, teamName: string) => {
+  const initiatePayment = async (paymentDetails: PaymentDetails, teamName: string, teamId: number, members: MemberData[], registrationData?: any) => {
     try {
       // Load Razorpay script only when payment is initiated
       await loadRazorpayScript();
@@ -153,7 +148,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
         name: 'ZIGNASA 2K25',
         description: `Registration for ${teamName}`,
         order_id: paymentDetails.orderId,
-        handler: (response: any) => handlePaymentSuccess(response, paymentDetails),
+        handler: (response: any) => handlePaymentSuccess(response, paymentDetails, teamId, members, registrationData),
         prefill: {
           name: formData.members[0].name,
           email: formData.members[0].email,
@@ -224,7 +219,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
       console.log('Sending request to server with data:', JSON.stringify(submissionData, null, 2));
       
       const response = await axios.post(
-        `http://localhost:5000/registration`, 
+        `https://zignasa-backend.onrender.com/registration`, 
         submissionData,
         {
           headers: {
@@ -240,8 +235,14 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
         const registrationData = response.data as RegistrationResponse;
         console.log('Registration successful! Opening payment gateway...');
         
-        // Initiate Razorpay payment
-        initiatePayment(registrationData.data.paymentDetails, registrationData.data.teamName);
+        // Initiate Razorpay payment with the members data and registration data
+        initiatePayment(
+          registrationData.data.paymentDetails, 
+          registrationData.data.teamName, 
+          registrationData.data.teamId,
+          submissionData.members as MemberData[],
+          registrationData.data
+        );
       } else {
         console.error('Registration failed:', response.data);
         alert('Registration failed. Please try again.');
