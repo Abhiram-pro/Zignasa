@@ -3,16 +3,42 @@ import { Link } from 'react-router-dom';
 import { Button } from './ui/button';
 import { Users } from 'lucide-react';
 import { Navbar } from './ui/navbar';
+import Dither from './Dither';
 
 const Domains: React.FC = () => {
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen relative" style={{ background: 'transparent' }}>
       <Navbar />
 
-      <main className="main bg-black pt-12 sm:pt-16 md:pt-20 lg:pt-28">
+      {/* Dither Background */}
+      <div style={{ 
+        position: 'fixed', 
+        top: 0, 
+        left: 0, 
+        width: '100vw', 
+        height: '100vh', 
+        zIndex: 0, 
+        pointerEvents: 'none', 
+        opacity: 0.7,
+        overflow: 'hidden',
+        backgroundColor: '#000'
+      }}>
+        <Dither
+          waveColor={[0.4, 0.2, 0.5]}
+          disableAnimation={false}
+          enableMouseInteraction={false}
+          mouseRadius={0.3}
+          colorNum={3}
+          waveAmplitude={0.28}
+          waveFrequency={2}
+          waveSpeed={0.04}
+        />
+      </div>
+
+      <main className="main bg-transparent pt-12 sm:pt-16 md:pt-20 lg:pt-28 relative z-10">
         {/* Domains Section */}
-        <section id="domains" className="py-8 sm:py-12 md:py-16 lg:py-28 bg-black border-0" style={{ height: '1830px' }}>
+        <section id="domains" className="py-8 sm:py-12 md:py-16 lg:py-28 bg-transparent border-0" style={{ height: '1830px' }}>
           <div className="container mx-auto px-4 sm:px-6 md:px-8 bg-transparent border-0">
             <div className="text-center mb-12 sm:mb-16 md:mb-20 bg-transparent border-0" data-aos="fade-up">
               <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6 leading-tight">

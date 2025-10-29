@@ -305,9 +305,9 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
   };
 
   return (
-    <div className="min-h-screen bg-black py-8 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-6 relative overflow-hidden">
+    <div className="min-h-screen bg-transparent py-8 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-6 relative overflow-hidden">
       {/* Optimized Background Effects - Reduced for performance */}
-      <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900/20 to-black pointer-events-none"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-transparent pointer-events-none"></div>
       {/* Hide blur effects on mobile/tablet, only show on lg screens */}
       <div className="hidden lg:block absolute top-1/4 left-1/4 w-96 h-96 bg-white/5 rounded-full blur-lg pointer-events-none"></div>
       <div className="hidden 2xl:block absolute bottom-1/4 right-1/4 w-80 h-80 bg-white/3 rounded-full blur-lg pointer-events-none"></div>

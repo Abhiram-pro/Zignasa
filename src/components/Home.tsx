@@ -7,6 +7,7 @@ import { Button } from './ui/button';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './ui/accordion';
 import EmblaCarousel from './ui/EmblaCarousel';
 import { Briefcase, BarChart3, Calendar, MapPin, Phone, Mail, ExternalLink, Copy, Check } from 'lucide-react';
+import Dither from './Dither';
 
 const Home: React.FC = () => {
   const [videoRotation, setVideoRotation] = useState(30);
@@ -281,21 +282,30 @@ const Home: React.FC = () => {
     <div className="index-page bg-gradient-to-b bg-black min-h-screen">
       <Navbar />
 
-      <main className="main bg-black">
+      <main className="main bg-black relative">
         {/* Hero Section */}
         <section id="hero" className="relative min-h-screen flex items-center justify-center bg-black overflow-hidden" style={{ perspective: '1000px' }}>
+          <style>{`
+            #hero-bg {
+              background-size: 220% !important;
+            }
+            @media (min-width: 768px) {
+              #hero-bg {
+                background-size: 120% !important;
+              }
+            }
+          `}</style>
           {/* 3D Animated Logo Background */}
           <div
             id="hero-bg"
             className="absolute inset-0 z-0 opacity-25"
             style={{
-              backgroundImage: 'url(/assets/img/logo.png)',
-              backgroundSize: '55%',
+              backgroundImage: 'url(/assets/new_images/mainlogo.png)',
               backgroundPosition: 'center center',
               backgroundRepeat: 'no-repeat',
               transform: 'translateZ(0)',
               willChange: 'transform, opacity',
-              filter: 'brightness(1.1) contrast(1.5) drop-shadow(0 0 50px rgba(0, 255, 255, 0.4))',
+              filter: 'brightness(1.3) contrast(1.5) drop-shadow(0 0 50px rgba(168, 85, 247, 0.4))',
               transformStyle: 'preserve-3d'
             }}
           ></div>
@@ -304,21 +314,21 @@ const Home: React.FC = () => {
           <div className="absolute inset-0 z-5 bg-gradient-to-b from-black/30 via-transparent to-black/50 "></div>
 
           <div className="relative z-10 text-center px-4 max-w-4xl mx-auto" data-aos="fade-up" data-aos-delay="300">
-            <h1 className="text-6xl md:text-8xl font-bold mb-6 tracking-tight bg-gradient-to-r from-cyan-400 via-teal-300 to-cyan-500 bg-clip-text text-transparent">
+            <h1 className="text-6xl md:text-8xl font-bold mb-6 tracking-tight bg-gradient-to-r from-purple-400 via-purple-300 to-purple-500 bg-clip-text text-transparent">
               ZIGNASA 2K25
             </h1>
-            <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto leading-relaxed bg-gradient-to-r from-gray-300 via-cyan-200 to-teal-200 bg-clip-text text-transparent">
+            <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto leading-relaxed bg-gradient-to-r from-gray-300 via-purple-200 to-purple-200 bg-clip-text text-transparent">
               Code. Learn. Compete. A 24-Hour National Hackathon & Bootcamp
             </p>
             <div className="flex items-center justify-center gap-2 mb-8">
-              <Calendar className="w-6 h-6 text-cyan-400" />
+              <Calendar className="w-6 h-6 text-purple-400" />
               <h2 className="text-2xl md:text-3xl font-semibold text-white">
                 November <span style={{ color: '#ffffff', fontWeight: 'bold', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff' }}>28th & 29th</span>
               </h2>
             </div>
             <Button
               size="lg"
-              className="bg-cyan-500 hover:bg-cyan-600 text-white px-8 py-3 text-lg font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
+              className="bg-purple-500 hover:bg-purple-600 text-white px-8 py-3 text-lg font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
               asChild
             >
               <Link to="/domains">Register Now</Link>
@@ -333,8 +343,8 @@ const Home: React.FC = () => {
               <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-6 md:p-8 transition-all duration-300 group hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 shadow-2xl" data-aos="fade-up" data-aos-delay="100">
                 <div className="pb-4 md:pb-6">
                   <div className="flex items-center gap-4 md:gap-6">
-                    <div className="p-3 md:p-4 bg-cyan-500/20 backdrop-blur-sm rounded-xl md:rounded-2xl group-hover:bg-cyan-500/30 transition-colors duration-300">
-                      <Briefcase className="w-6 h-6 md:w-7 md:h-7 text-cyan-400" />
+                    <div className="p-3 md:p-4 bg-purple-500/20 backdrop-blur-sm rounded-xl md:rounded-2xl group-hover:bg-purple-500/30 transition-colors duration-300">
+                      <Briefcase className="w-6 h-6 md:w-7 md:h-7 text-purple-400" />
                     </div>
                     <h3 className="text-white text-xl md:text-2xl font-bold">
                       24HR National Level Hackathon
@@ -351,8 +361,8 @@ const Home: React.FC = () => {
               <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-6 md:p-8 transition-all duration-300 group hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 shadow-2xl" data-aos="fade-up" data-aos-delay="300">
                 <div className="pb-4 md:pb-6">
                   <div className="flex items-center gap-4 md:gap-6">
-                    <div className="p-3 md:p-4 bg-cyan-500/20 backdrop-blur-sm rounded-xl md:rounded-2xl group-hover:bg-cyan-500/30 transition-colors duration-300">
-                      <BarChart3 className="w-6 h-6 md:w-7 md:h-7 text-cyan-400" />
+                    <div className="p-3 md:p-4 bg-purple-500/20 backdrop-blur-sm rounded-xl md:rounded-2xl group-hover:bg-purple-500/30 transition-colors duration-300">
+                      <BarChart3 className="w-6 h-6 md:w-7 md:h-7 text-purple-400" />
                     </div>
                     <h3 className="text-white text-xl md:text-2xl font-bold">
                       5-Day Online Bootcamp
@@ -416,11 +426,12 @@ const Home: React.FC = () => {
             <div className="relative w-full overflow-hidden h-auto">
               <style>{`
                 @keyframes scroll-left {
-                  0% { transform: translateX(0); }
-                  100% { transform: translateX(calc(-100% / 3)); }
+                  0% { transform: translate3d(0, 0, 0); }
+                  100% { transform: translate3d(calc(-100% / 3), 0, 0); }
                 }
                 .animate-scroll-left {
-                  animation: scroll-left 20s linear infinite;
+                  animation: scroll-left 15s linear infinite;
+                  will-change: transform;
                 }
                 .animate-scroll-left:hover {
                   animation-play-state: paused;
@@ -435,39 +446,39 @@ const Home: React.FC = () => {
                 {/* First set of logos */}
                 <div className="flex gap-4 md:gap-6 lg:gap-8 min-w-max pr-4 md:pr-6 lg:pr-8">
                   <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
-                    <img src="/assets/img/clients/mlrit.webp" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="MLR Institute of Technology" />
+                    <img src="/assets/img/mlrit.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="MLR Institute of Technology" />
                   </div>
                   <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
-                    <img src="/assets/img/clients/csi.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="Computer Society of India" />
+                    <img src="/assets/img/codelogo.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="Computer Society of India" />
                   </div>
                   <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
-                    <img src="/assets/img/clients/iic.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="Institution's Innovation Council" />
+                    <img src="/assets/img/iic.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="Institution's Innovation Council" />
                   </div>
                 </div>
 
                 {/* Second set for seamless loop */}
                 <div className="flex gap-4 md:gap-6 lg:gap-8 min-w-max pr-4 md:pr-6 lg:pr-8">
                   <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
-                    <img src="/assets/img/clients/mlrit.webp" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="MLR Institute of Technology" />
+                    <img src="/assets/img/clients/csi.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="MLR Institute of Technology" />
                   </div>
                   <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
-                    <img src="/assets/img/clients/csi.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="Computer Society of India" />
+                    <img src="/assets/img/codelogo.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="Computer Society of India" />
                   </div>
                   <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
-                    <img src="/assets/img/clients/iic.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="Institution's Innovation Council" />
+                    <img src="/assets/img/iic.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="Institution's Innovation Council" />
                   </div>
                 </div>
 
                 {/* Third set for seamless loop */}
                 <div className="flex gap-4 md:gap-6 lg:gap-8 min-w-max pr-4 md:pr-6 lg:pr-8">
                   <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
-                    <img src="/assets/img/clients/mlrit.webp" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="MLR Institute of Technology" />
+                    <img src="/assets/img/mlrit.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="MLR Institute of Technology" />
                   </div>
                   <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
                     <img src="/assets/img/clients/csi.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="Computer Society of India" />
                   </div>
                   <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
-                    <img src="/assets/img/clients/iic.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="Institution's Innovation Council" />
+                    <img src="/assets/img/iic.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="Institution's Innovation Council" />
                   </div>
                 </div>
               </div>
@@ -479,7 +490,7 @@ const Home: React.FC = () => {
         <section id="gallery" className="py-8 md:py-24 bg-black relative overflow-hidden ">
           {/* Background Elements */}
           <div className="absolute inset-0 bg-gradient-to-b from-black to-black pointer-events-none"></div>
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none"></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl pointer-events-none"></div>
 
           <div className="container mx-auto px-3 sm:px-4 md:px-6 py-8 relative z-10 h-[482px] md:h-[800px]">
             <div className="text-center mb-6 md:mb-16" data-aos="fade-up">
@@ -490,9 +501,9 @@ const Home: React.FC = () => {
                 Showcasing the spirit of innovation, creativity, and excellence that defines our journey.
               </p>
               <div className="flex items-center justify-center gap-3 sm:gap-4">
-                <div className="h-px w-10 sm:w-12 md:w-16 bg-gradient-to-r from-transparent to-cyan-400"></div>
-                <div className="w-2 h-2 md:w-3 md:h-3 rounded-full bg-cyan-400 animate-pulse"></div>
-                <div className="h-px w-10 sm:w-12 md:w-16 bg-gradient-to-l from-transparent to-cyan-400"></div>
+                <div className="h-px w-10 sm:w-12 md:w-16 bg-gradient-to-r from-transparent to-purple-400"></div>
+                <div className="w-2 h-2 md:w-3 md:h-3 rounded-full bg-purple-400 animate-pulse"></div>
+                <div className="h-px w-10 sm:w-12 md:w-16 bg-gradient-to-l from-transparent to-purple-400"></div>
               </div>
             </div>
 
@@ -504,20 +515,19 @@ const Home: React.FC = () => {
                 className="absolute w-[120px] sm:w-[180px] md:w-[280px] lg:w-[320px] aspect-[3/4] rounded-lg sm:rounded-xl md:rounded-2xl overflow-hidden shadow-2xl cursor-pointer group"
                 style={{
                   transform: activeCard === 1
-                    ? 'translate(calc(-10rem - (100vw - 768px) * 0.05), calc(5rem + (100vw - 768px) * 0.012)) rotate(-21deg) scale(0.95)'
+                    ? 'translate(0rem, -1rem) rotate(0deg) scale(1.2)'
                     : activeCard !== null
-                      ? 'translate(calc(-11rem - (100vw - 768px) * 0.06), calc(5.5rem + (100vw - 768px) * 0.014)) rotate(-24deg) scale(0.72)'
-                      : 'translate(calc(-10rem - (100vw - 768px) * 0.05), calc(5rem + (100vw - 768px) * 0.012)) rotate(-21deg) scale(0.78)',
+                      ? 'translate(calc(-13rem - (100vw - 768px) * 0.08), calc(6rem + (100vw - 768px) * 0.016)) rotate(-26deg) scale(0.68)'
+                      : 'translate(calc(-12rem - (100vw - 768px) * 0.07), calc(5.5rem + (100vw - 768px) * 0.014)) rotate(-23deg) scale(0.75)',
                   zIndex: activeCard === 1 ? 50 : 1,
-                  transition: activeCard === 1
-                    ? 'all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)'
-                    : 'all 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+                  transition: 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                  willChange: 'transform'
                 }}
               >
                 <img
                   src="/assets/img/pic4.jpg"
                   alt="Innovation Workshop"
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
               </div>
 
@@ -527,20 +537,19 @@ const Home: React.FC = () => {
                 className="absolute w-[120px] sm:w-[180px] md:w-[280px] lg:w-[320px] aspect-[3/4] rounded-lg sm:rounded-xl md:rounded-2xl overflow-hidden shadow-2xl cursor-pointer group"
                 style={{
                   transform: activeCard === 2
-                    ? 'translate(calc(-7.5rem - (100vw - 768px) * 0.035), calc(2.8rem + (100vw - 768px) * 0.008)) rotate(-14deg) scale(1.05)'
+                    ? 'translate(0rem, -1rem) rotate(0deg) scale(1.2)'
                     : activeCard !== null
-                      ? 'translate(calc(-8.5rem - (100vw - 768px) * 0.042), calc(3.5rem + (100vw - 768px) * 0.010)) rotate(-17deg) scale(0.80)'
-                      : 'translate(calc(-7.5rem - (100vw - 768px) * 0.035), calc(2.8rem + (100vw - 768px) * 0.008)) rotate(-14deg) scale(0.85)',
+                      ? 'translate(calc(-9.5rem - (100vw - 768px) * 0.055), calc(4rem + (100vw - 768px) * 0.012)) rotate(-19deg) scale(0.76)'
+                      : 'translate(calc(-8.5rem - (100vw - 768px) * 0.05), calc(3.2rem + (100vw - 768px) * 0.010)) rotate(-16deg) scale(0.82)',
                   zIndex: activeCard === 2 ? 50 : 2,
-                  transition: activeCard === 2
-                    ? 'all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)'
-                    : 'all 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+                  transition: 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                  willChange: 'transform'
                 }}
               >
                 <img
                   src="/assets/img/pic1.jpg"
                   alt="Team Collaboration"
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
               </div>
 
@@ -550,20 +559,19 @@ const Home: React.FC = () => {
                 className="absolute w-[120px] sm:w-[180px] md:w-[280px] lg:w-[320px] aspect-[3/4] rounded-lg sm:rounded-xl md:rounded-2xl overflow-hidden shadow-2xl cursor-pointer group"
                 style={{
                   transform: activeCard === 3
-                    ? 'translate(calc(-4rem - (100vw - 768px) * 0.020), calc(0.9rem + (100vw - 768px) * 0.004)) rotate(-7deg) scale(1.1)'
+                    ? 'translate(0rem, -1rem) rotate(0deg) scale(1.2)'
                     : activeCard !== null
-                      ? 'translate(calc(-5rem - (100vw - 768px) * 0.025), calc(1.4rem + (100vw - 768px) * 0.005)) rotate(-10deg) scale(0.88)'
-                      : 'translate(calc(-4rem - (100vw - 768px) * 0.020), calc(0.9rem + (100vw - 768px) * 0.004)) rotate(-7deg) scale(0.93)',
+                      ? 'translate(calc(-5.5rem - (100vw - 768px) * 0.032), calc(1.8rem + (100vw - 768px) * 0.006)) rotate(-12deg) scale(0.84)'
+                      : 'translate(calc(-4.5rem - (100vw - 768px) * 0.028), calc(1.2rem + (100vw - 768px) * 0.005)) rotate(-9deg) scale(0.90)',
                   zIndex: activeCard === 3 ? 50 : 3,
-                  transition: activeCard === 3
-                    ? 'all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)'
-                    : 'all 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+                  transition: 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                  willChange: 'transform'
                 }}
               >
                 <img
                   src="/assets/img/pic8.jpg"
                   alt="Creative Session"
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
               </div>
 
@@ -573,20 +581,19 @@ const Home: React.FC = () => {
                 className="absolute w-[120px] sm:w-[180px] md:w-[280px] lg:w-[320px] aspect-[3/4] rounded-lg sm:rounded-xl md:rounded-2xl overflow-hidden shadow-2xl cursor-pointer group"
                 style={{
                   transform: activeCard === 4
-                    ? 'translate(0rem, -0.7rem) rotate(0deg) scale(1.15)'
+                    ? 'translate(0rem, -1rem) rotate(0deg) scale(1.2)'
                     : activeCard !== null
-                      ? 'translate(0rem, 0.7rem) rotate(0deg) scale(0.95)'
+                      ? 'translate(0rem, 1rem) rotate(0deg) scale(0.92)'
                       : 'translate(0rem, 0rem) rotate(0deg) scale(1)',
                   zIndex: activeCard === 4 ? 50 : 10,
-                  transition: activeCard === 4
-                    ? 'all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)'
-                    : 'all 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+                  transition: 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                  willChange: 'transform'
                 }}
               >
                 <img
                   src="/assets/img/pic2.jpg"
                   alt="Tech Showcase"
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
               </div>
 
@@ -596,20 +603,19 @@ const Home: React.FC = () => {
                 className="absolute w-[120px] sm:w-[180px] md:w-[280px] lg:w-[320px] aspect-[3/4] rounded-lg sm:rounded-xl md:rounded-2xl overflow-hidden shadow-2xl cursor-pointer group"
                 style={{
                   transform: activeCard === 5
-                    ? 'translate(calc(4rem + (100vw - 768px) * 0.020), calc(0.9rem + (100vw - 768px) * 0.004)) rotate(7deg) scale(1.1)'
+                    ? 'translate(0rem, -1rem) rotate(0deg) scale(1.2)'
                     : activeCard !== null
-                      ? 'translate(calc(5rem + (100vw - 768px) * 0.025), calc(1.4rem + (100vw - 768px) * 0.005)) rotate(10deg) scale(0.88)'
-                      : 'translate(calc(4rem + (100vw - 768px) * 0.020), calc(0.9rem + (100vw - 768px) * 0.004)) rotate(7deg) scale(0.93)',
+                      ? 'translate(calc(5.5rem + (100vw - 768px) * 0.032), calc(1.8rem + (100vw - 768px) * 0.006)) rotate(12deg) scale(0.84)'
+                      : 'translate(calc(4.5rem + (100vw - 768px) * 0.028), calc(1.2rem + (100vw - 768px) * 0.005)) rotate(9deg) scale(0.90)',
                   zIndex: activeCard === 5 ? 50 : 3,
-                  transition: activeCard === 5
-                    ? 'all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)'
-                    : 'all 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+                  transition: 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                  willChange: 'transform'
                 }}
               >
                 <img
                   src="/assets/img/rep3.png"
                   alt="Learning Hub"
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
               </div>
 
@@ -619,20 +625,19 @@ const Home: React.FC = () => {
                 className="absolute w-[120px] sm:w-[180px] md:w-[280px] lg:w-[320px] aspect-[3/4] rounded-lg sm:rounded-xl md:rounded-2xl overflow-hidden shadow-2xl cursor-pointer group"
                 style={{
                   transform: activeCard === 6
-                    ? 'translate(calc(7.5rem + (100vw - 768px) * 0.035), calc(2.8rem + (100vw - 768px) * 0.008)) rotate(14deg) scale(1.05)'
+                    ? 'translate(0rem, -1rem) rotate(0deg) scale(1.2)'
                     : activeCard !== null
-                      ? 'translate(calc(8.5rem + (100vw - 768px) * 0.042), calc(3.5rem + (100vw - 768px) * 0.010)) rotate(17deg) scale(0.80)'
-                      : 'translate(calc(7.5rem + (100vw - 768px) * 0.035), calc(2.8rem + (100vw - 768px) * 0.008)) rotate(14deg) scale(0.85)',
+                      ? 'translate(calc(9.5rem + (100vw - 768px) * 0.055), calc(4rem + (100vw - 768px) * 0.012)) rotate(19deg) scale(0.76)'
+                      : 'translate(calc(8.5rem + (100vw - 768px) * 0.05), calc(3.2rem + (100vw - 768px) * 0.010)) rotate(16deg) scale(0.82)',
                   zIndex: activeCard === 6 ? 50 : 2,
-                  transition: activeCard === 6
-                    ? 'all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)'
-                    : 'all 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+                  transition: 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                  willChange: 'transform'
                 }}
               >
                 <img
                   src="/assets/img/rep1.JPG"
                   alt="Event Highlights"
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
               </div>
 
@@ -642,20 +647,19 @@ const Home: React.FC = () => {
                 className="absolute w-[120px] sm:w-[180px] md:w-[280px] lg:w-[320px] aspect-[3/4] rounded-lg sm:rounded-xl md:rounded-2xl overflow-hidden shadow-2xl cursor-pointer group"
                 style={{
                   transform: activeCard === 7
-                    ? 'translate(calc(10rem + (100vw - 768px) * 0.05), calc(5rem + (100vw - 768px) * 0.012)) rotate(21deg) scale(0.95)'
+                    ? 'translate(0rem, -1rem) rotate(0deg) scale(1.2)'
                     : activeCard !== null
-                      ? 'translate(calc(11rem + (100vw - 768px) * 0.06), calc(5.5rem + (100vw - 768px) * 0.014)) rotate(24deg) scale(0.72)'
-                      : 'translate(calc(10rem + (100vw - 768px) * 0.05), calc(5rem + (100vw - 768px) * 0.012)) rotate(21deg) scale(0.78)',
+                      ? 'translate(calc(13rem + (100vw - 768px) * 0.08), calc(6rem + (100vw - 768px) * 0.016)) rotate(26deg) scale(0.68)'
+                      : 'translate(calc(12rem + (100vw - 768px) * 0.07), calc(5.5rem + (100vw - 768px) * 0.014)) rotate(23deg) scale(0.75)',
                   zIndex: activeCard === 7 ? 50 : 1,
-                  transition: activeCard === 7
-                    ? 'all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)'
-                    : 'all 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+                  transition: 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                  willChange: 'transform'
                 }}
               >
                 <img
                   src="/assets/img/pic5.jpg"
                   alt="Achievement Moments"
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
               </div>
             </div>
@@ -681,16 +685,16 @@ const Home: React.FC = () => {
 
             <div className="max-w-6xl mx-auto bg-black border-0" data-aos="fade-up" data-aos-delay="100">
               <Accordion type="single" collapsible className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 bg-black border-0">
-                <AccordionItem value="item-1" className="group relative w-full min-h-[160px] py-5 px-4 overflow-hidden rounded-lg shadow-lg cursor-pointer flex flex-col items-start bg-gradient-to-br from-[#6BA3D8]/20 via-[#7FB5E5]/15 to-[#9bc8ff]/20 backdrop-blur-xl border-0 hover:shadow-2xl transition-all duration-300">
+                <AccordionItem value="item-1" className="group relative w-full min-h-[160px] py-5 px-4 overflow-hidden rounded-lg shadow-lg cursor-pointer flex flex-col items-start bg-gradient-to-br from-[#C8A8E9]/20 via-[#D4B5F0]/15 to-[#E0C3F7]/20 backdrop-blur-xl border-0 hover:shadow-2xl transition-all duration-300">
                   <div className="flex items-center gap-3 mb-3 w-full">
-                    <div className="rounded-full w-[60px] h-[60px] p-[15px] bg-gradient-to-br from-cyan-500/30 to-blue-600/30 backdrop-blur-sm flex justify-center items-center flex-shrink-0">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-cyan-300">
+                    <div className="rounded-full w-[60px] h-[60px] p-[15px] bg-gradient-to-br from-purple-500/30 to-purple-600/30 backdrop-blur-sm flex justify-center items-center flex-shrink-0">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-purple-300">
                         <circle cx="12" cy="12" r="10"></circle>
                         <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
                         <line x1="12" y1="17" x2="12.01" y2="17"></line>
                       </svg>
                     </div>
-                    <AccordionTrigger className="text-[18px] font-semibold text-white hover:text-cyan-300 transition-colors duration-200 flex-1 leading-tight text-left">
+                    <AccordionTrigger className="text-[18px] font-semibold text-white hover:text-purple-300 transition-colors duration-200 flex-1 leading-tight text-left">
                       How is Zignasa different from other hackathons?
                     </AccordionTrigger>
                   </div>
@@ -826,11 +830,11 @@ const Home: React.FC = () => {
                   <div className="bg-white/5 backdrop-blur-xl border-0 rounded-2xl sm:rounded-3xl p-6 sm:p-8 text-center hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 transition-all duration-300 shadow-2xl h-full flex flex-col max-w-sm mx-auto">
                     <div className="flex flex-col items-center space-y-4 sm:space-y-6 flex-grow justify-center">
                       <div className="relative">
-                        <img src="/assets/img/coordinators/kiran.jpg" className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 object-cover rounded-full border-3 sm:border-4 border-cyan-400/30" alt="Dr. Ajmeera Kiran" />
+                        <img src="/assets/img/coordinators/kiran.jpg" className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 object-cover rounded-full border-3 sm:border-4 border-purple-400/30" alt="Dr. Ajmeera Kiran" />
                       </div>
                       <div className="text-center">
                         <h3 className="text-lg sm:text-xl font-bold text-white mb-1 sm:mb-2">Dr. Ajmeera Kiran</h3>
-                        <h4 className="text-sm sm:text-base text-cyan-400 font-semibold">Convenor, HOD CSE</h4>
+                        <h4 className="text-sm sm:text-base text-purple-400 font-semibold">Convenor, HOD CSE</h4>
                       </div>
                     </div>
                   </div>
@@ -839,11 +843,11 @@ const Home: React.FC = () => {
                   <div className="bg-white/5 backdrop-blur-xl border-0 rounded-2xl sm:rounded-3xl p-6 sm:p-8 text-center hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 transition-all duration-300 shadow-2xl h-full flex flex-col max-w-sm mx-auto">
                     <div className="flex flex-col items-center space-y-4 sm:space-y-6 flex-grow justify-center">
                       <div className="relative">
-                        <img src="/assets/img/coordinators/muralikrishna.jpg" className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 object-cover rounded-full border-3 sm:border-4 border-cyan-400/30" alt="Mr. B Murali Krishna" />
+                        <img src="/assets/img/coordinators/muralikrishna.jpg" className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 object-cover rounded-full border-3 sm:border-4 border-purple-400/30" alt="Mr. B Murali Krishna" />
                       </div>
                       <div className="text-center">
                         <h3 className="text-lg sm:text-xl font-bold text-white mb-1 sm:mb-2">Mr. B Murali Krishna</h3>
-                        <h4 className="text-sm sm:text-base text-cyan-400 font-semibold">Assistant Professor</h4>
+                        <h4 className="text-sm sm:text-base text-purple-400 font-semibold">Assistant Professor</h4>
                       </div>
                     </div>
                   </div>
@@ -852,11 +856,11 @@ const Home: React.FC = () => {
                   <div className="bg-white/5 backdrop-blur-xl border-0 rounded-2xl sm:rounded-3xl p-6 sm:p-8 text-center hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 transition-all duration-300 shadow-2xl h-full flex flex-col max-w-sm mx-auto">
                     <div className="flex flex-col items-center space-y-4 sm:space-y-6 flex-grow justify-center">
                       <div className="relative">
-                        <img src="/assets/img/coordinators/sapthami.jpg" className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 object-cover rounded-full border-3 sm:border-4 border-cyan-400/30" alt="Mrs. I Sapthami" />
+                        <img src="/assets/img/coordinators/sapthami.jpg" className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 object-cover rounded-full border-3 sm:border-4 border-purple-400/30" alt="Mrs. I Sapthami" />
                       </div>
                       <div className="text-center">
                         <h3 className="text-lg sm:text-xl font-bold text-white mb-1 sm:mb-2">Mrs. I Sapthami</h3>
-                        <h4 className="text-sm sm:text-base text-cyan-400 font-semibold">Assistant Professor</h4>
+                        <h4 className="text-sm sm:text-base text-purple-400 font-semibold">Assistant Professor</h4>
                       </div>
                     </div>
                   </div>
@@ -865,11 +869,11 @@ const Home: React.FC = () => {
                   <div className="bg-white/5 backdrop-blur-xl border-0 rounded-2xl sm:rounded-3xl p-6 sm:p-8 text-center hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 transition-all duration-300 shadow-2xl h-full flex flex-col max-w-sm mx-auto">
                     <div className="flex flex-col items-center space-y-4 sm:space-y-6 flex-grow justify-center">
                       <div className="relative">
-                        <img src="/assets/img/coordinators/vedaVidhya.jpg" className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 object-cover rounded-full border-3 sm:border-4 border-cyan-400/30" alt="Mrs. B Veda Vidhya" />
+                        <img src="/assets/img/coordinators/vedaVidhya.jpg" className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 object-cover rounded-full border-3 sm:border-4 border-purple-400/30" alt="Mrs. B Veda Vidhya" />
                       </div>
                       <div className="text-center">
                         <h3 className="text-lg sm:text-xl font-bold text-white mb-1 sm:mb-2">Mrs. B Veda Vidhya</h3>
-                        <h4 className="text-sm sm:text-base text-cyan-400 font-semibold">Assistant Professor</h4>
+                        <h4 className="text-sm sm:text-base text-purple-400 font-semibold">Assistant Professor</h4>
                       </div>
                     </div>
                   </div>
@@ -884,8 +888,8 @@ const Home: React.FC = () => {
           {/* Toast Notification */}
           {showToast && (
             <div className="fixed top-8 right-8 z-50 animate-in slide-in-from-top-5 fade-in duration-300">
-              <div className="bg-cyan-500/20 backdrop-blur-xl border border-cyan-500/30 rounded-2xl px-6 py-4 flex items-center gap-3 shadow-2xl">
-                <Check className="w-5 h-5 text-cyan-400" />
+              <div className="bg-purple-500/20 backdrop-blur-xl border border-purple-500/30 rounded-2xl px-6 py-4 flex items-center gap-3 shadow-2xl">
+                <Check className="w-5 h-5 text-purple-400" />
                 <span className="text-white font-medium !bg-none !bg-transparent !bg-clip-border ![background-clip:unset] ![-webkit-text-fill-color:white]">
                   Copied {copiedText}!
                 </span>
@@ -908,24 +912,24 @@ const Home: React.FC = () => {
               <div className="grid md:grid-cols-3 gap-10 mb-32 bg-black border-0">
                 {/* Address Card */}
                 <div
-                  className="group relative bg-white/5 backdrop-blur-xl border-0 rounded-3xl p-8 text-center hover:bg-white/10 hover:shadow-2xl hover:shadow-cyan-500/20 transition-all duration-500 shadow-2xl hover:scale-105 cursor-pointer overflow-hidden"
+                  className="group relative bg-white/5 backdrop-blur-xl border-0 rounded-3xl p-8 text-center hover:bg-white/10 hover:shadow-2xl hover:shadow-purple-500/20 transition-all duration-500 shadow-2xl hover:scale-105 cursor-pointer overflow-hidden"
                   data-aos="fade-up"
                   data-aos-delay="200"
                 >
                   {/* Animated background gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/0 via-cyan-500/0 to-cyan-500/0 group-hover:from-cyan-500/5 group-hover:via-cyan-500/10 group-hover:to-cyan-500/5 transition-all duration-500 rounded-3xl"></div>
+                  <div className="absolute inset-0 bg-gradient-to-br from-purple-500/0 via-purple-500/0 to-purple-500/0 group-hover:from-purple-500/5 group-hover:via-purple-500/10 group-hover:to-purple-500/5 transition-all duration-500 rounded-3xl"></div>
 
                   <div className="relative flex flex-col items-center space-y-4">
-                    <div className="p-4 bg-cyan-500/20 backdrop-blur-sm rounded-2xl border-0 group-hover:bg-cyan-500/30 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
-                      <MapPin className="w-6 h-6 text-cyan-400 group-hover:animate-pulse" />
+                    <div className="p-4 bg-purple-500/20 backdrop-blur-sm rounded-2xl border-0 group-hover:bg-purple-500/30 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
+                      <MapPin className="w-6 h-6 text-purple-400 group-hover:animate-pulse" />
                     </div>
-                    <h3 className="text-xl font-semibold text-white group-hover:text-cyan-300 transition-colors duration-300">Address</h3>
+                    <h3 className="text-xl font-semibold text-white group-hover:text-purple-300 transition-colors duration-300">Address</h3>
                     <p className="text-gray-300 leading-relaxed group-hover:text-white transition-colors duration-300">
                       Dundigal Police Station Road, Hyderabad, Telangana 500043
                     </p>
                     <Button
                       onClick={() => window.open('https://www.google.com/maps/search/?api=1&query=MLR+Institute+of+Technology+Dundigal+Police+Station+Road+Hyderabad+Telangana+500043', '_blank')}
-                      className="mt-4 bg-cyan-500/20 hover:bg-cyan-500/40 text-cyan-400 hover:text-cyan-300 border border-cyan-500/30 hover:border-cyan-500/60 rounded-2xl transition-all duration-300 flex items-center gap-2 hover:scale-110 hover:shadow-lg hover:shadow-cyan-500/30"
+                      className="mt-4 bg-purple-500/20 hover:bg-purple-500/40 text-purple-400 hover:text-purple-300 border border-purple-500/30 hover:border-purple-500/60 rounded-2xl transition-all duration-300 flex items-center gap-2 hover:scale-110 hover:shadow-lg hover:shadow-purple-500/30"
                     >
                       Open in Maps
                       <ExternalLink className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
@@ -935,33 +939,33 @@ const Home: React.FC = () => {
 
                 {/* Phone Card */}
                 <div
-                  className="group relative bg-white/5 backdrop-blur-xl border-0 rounded-3xl p-8 text-center hover:bg-white/10 hover:shadow-2xl hover:shadow-cyan-500/20 transition-all duration-500 shadow-2xl hover:scale-105 overflow-hidden"
+                  className="group relative bg-white/5 backdrop-blur-xl border-0 rounded-3xl p-8 text-center hover:bg-white/10 hover:shadow-2xl hover:shadow-purple-500/20 transition-all duration-500 shadow-2xl hover:scale-105 overflow-hidden"
                   data-aos="fade-up"
                   data-aos-delay="300"
                 >
                   {/* Animated background gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/0 via-cyan-500/0 to-cyan-500/0 group-hover:from-cyan-500/5 group-hover:via-cyan-500/10 group-hover:to-cyan-500/5 transition-all duration-500 rounded-3xl"></div>
+                  <div className="absolute inset-0 bg-gradient-to-br from-purple-500/0 via-purple-500/0 to-purple-500/0 group-hover:from-purple-500/5 group-hover:via-purple-500/10 group-hover:to-purple-500/5 transition-all duration-500 rounded-3xl"></div>
 
                   <div className="relative flex flex-col items-center space-y-4">
-                    <div className="p-4 bg-cyan-500/20 backdrop-blur-sm rounded-2xl border-0 group-hover:bg-cyan-500/30 group-hover:scale-110 group-hover:rotate-12 transition-all duration-500">
-                      <Phone className="w-6 h-6 text-cyan-400 group-hover:animate-pulse" />
+                    <div className="p-4 bg-purple-500/20 backdrop-blur-sm rounded-2xl border-0 group-hover:bg-purple-500/30 group-hover:scale-110 group-hover:rotate-12 transition-all duration-500">
+                      <Phone className="w-6 h-6 text-purple-400 group-hover:animate-pulse" />
                     </div>
-                    <h3 className="text-xl font-semibold text-white group-hover:text-cyan-300 transition-colors duration-300">Call Us</h3>
+                    <h3 className="text-xl font-semibold text-white group-hover:text-purple-300 transition-colors duration-300">Call Us</h3>
                     <div className="text-gray-300 space-y-3 w-full">
                       <div
                         onClick={() => copyToClipboard('7816005757', 'phone number')}
-                        className="group/item flex items-center gap-2 p-3 rounded-xl hover:bg-cyan-500/10 transition-all duration-300 cursor-pointer hover:scale-105"
+                        className="group/item flex items-center gap-2 p-3 rounded-xl hover:bg-purple-500/10 transition-all duration-300 cursor-pointer hover:scale-105"
                       >
-                        {/*<p className="group-hover/item:text-cyan-300 transition-colors duration-300"> Yashwanth Reddy - +91 7816005757 </p> */}
-                        <p className="group-hover/item:text-cyan-300 transition-colors duration-300">Yashwanth - +91 7816005757</p>
-                        <Copy className="w-4 h-4 opacity-0 group-hover/item:opacity-100 text-cyan-400 transition-all duration-300 flex-shrink-0" />
+                        {/*<p className="group-hover/item:text-purple-300 transition-colors duration-300"> Yashwanth Reddy - +91 7816005757 </p> */}
+                        <p className="group-hover/item:text-purple-300 transition-colors duration-300">Yashwanth - +91 7816005757</p>
+                        <Copy className="w-4 h-4 opacity-0 group-hover/item:opacity-100 text-purple-400 transition-all duration-300 flex-shrink-0" />
                       </div>
                       <div
                         onClick={() => copyToClipboard('9121827709', 'phone number')}
-                        className="group/item flex items-center gap-2 p-3 rounded-xl hover:bg-cyan-500/10 transition-all duration-300 cursor-pointer hover:scale-105"
+                        className="group/item flex items-center gap-2 p-3 rounded-xl hover:bg-purple-500/10 transition-all duration-300 cursor-pointer hover:scale-105"
                       >
-                        <p className="group-hover/item:text-cyan-300 transition-colors duration-300">M Prajith  - +91 9121827709</p>
-                        <Copy className="w-4 h-4 opacity-0 group-hover/item:opacity-100 text-cyan-400 transition-all duration-300 flex-shrink-0" />
+                        <p className="group-hover/item:text-purple-300 transition-colors duration-300">M Prajith  - +91 9121827709</p>
+                        <Copy className="w-4 h-4 opacity-0 group-hover/item:opacity-100 text-purple-400 transition-all duration-300 flex-shrink-0" />
                       </div>
                     </div>
                   </div>
@@ -969,24 +973,24 @@ const Home: React.FC = () => {
 
                 {/* Email Card */}
                 <div
-                  className="group relative bg-white/5 backdrop-blur-xl border-0 rounded-3xl p-8 text-center hover:bg-white/10 hover:shadow-2xl hover:shadow-cyan-500/20 transition-all duration-500 shadow-2xl hover:scale-105 cursor-pointer overflow-hidden"
+                  className="group relative bg-white/5 backdrop-blur-xl border-0 rounded-3xl p-8 text-center hover:bg-white/10 hover:shadow-2xl hover:shadow-purple-500/20 transition-all duration-500 shadow-2xl hover:scale-105 cursor-pointer overflow-hidden"
                   data-aos="fade-up"
                   data-aos-delay="400"
                   onClick={() => copyToClipboard('zignasa2k25@gmail.com', 'email')}
                 >
                   {/* Animated background gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/0 via-cyan-500/0 to-cyan-500/0 group-hover:from-cyan-500/5 group-hover:via-cyan-500/10 group-hover:to-cyan-500/5 transition-all duration-500 rounded-3xl"></div>
+                  <div className="absolute inset-0 bg-gradient-to-br from-purple-500/0 via-purple-500/0 to-purple-500/0 group-hover:from-purple-500/5 group-hover:via-purple-500/10 group-hover:to-purple-500/5 transition-all duration-500 rounded-3xl"></div>
 
                   <div className="relative flex flex-col items-center space-y-4">
-                    <div className="p-4 bg-cyan-500/20 backdrop-blur-sm rounded-2xl border-0 group-hover:bg-cyan-500/30 group-hover:scale-110 group-hover:-rotate-6 transition-all duration-500">
-                      <Mail className="w-6 h-6 text-cyan-400 group-hover:animate-pulse" />
+                    <div className="p-4 bg-purple-500/20 backdrop-blur-sm rounded-2xl border-0 group-hover:bg-purple-500/30 group-hover:scale-110 group-hover:-rotate-6 transition-all duration-500">
+                      <Mail className="w-6 h-6 text-purple-400 group-hover:animate-pulse" />
                     </div>
-                    <h3 className="text-xl font-semibold text-white group-hover:text-cyan-300 transition-colors duration-300">Email Us</h3>
-                    <div className="flex items-center gap-2 p-3 rounded-xl hover:bg-cyan-500/10 transition-all duration-300">
-                      <p className="text-gray-300 group-hover:text-cyan-300 transition-colors duration-300">
+                    <h3 className="text-xl font-semibold text-white group-hover:text-purple-300 transition-colors duration-300">Email Us</h3>
+                    <div className="flex items-center gap-2 p-3 rounded-xl hover:bg-purple-500/10 transition-all duration-300">
+                      <p className="text-gray-300 group-hover:text-purple-300 transition-colors duration-300">
                         zignasa2k25@gmail.com
                       </p>
-                      <Copy className="w-4 h-4 opacity-0 group-hover:opacity-100 text-cyan-400 transition-all duration-300" />
+                      <Copy className="w-4 h-4 opacity-0 group-hover:opacity-100 text-purple-400 transition-all duration-300" />
                     </div>
                   </div>
                 </div>
