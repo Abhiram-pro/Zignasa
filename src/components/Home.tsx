@@ -381,7 +381,7 @@ const Home: React.FC = () => {
             }}
           >
             <video
-              src="https://dj2sofb25vegx.cloudfront.net/feature_modal/LandingPageVideo+(1).mp4"
+              src=""
               loop
               autoPlay
               muted
