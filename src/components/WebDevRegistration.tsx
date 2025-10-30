@@ -34,6 +34,8 @@ const WebDevRegistration: React.FC = () => {
           title="Web Development"
           domain="Web Dev"
           endpoint="/api/webdev"
+          minTeamSize={3}
+          maxTeamSize={5}
         />
       </div>
     </div>

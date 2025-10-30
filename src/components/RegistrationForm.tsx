@@ -11,6 +11,7 @@ interface RegistrationFormProps {
   title: string;
   domain: string;
   endpoint: string;
+  minTeamSize?: number; // Optional prop to set minimum team size (defaults to 1)
   maxTeamSize?: number; // Optional prop to limit team size (defaults to 5)
 }
 
@@ -50,13 +51,13 @@ interface RegistrationResponse {
   };
 }
 
-const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endpoint, maxTeamSize = 5 }) => {
-  // Generate team size options based on maxTeamSize
-  const teamSizeOptions = Array.from({ length: maxTeamSize }, (_, i) => {
-    const size = i + 1;
+const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endpoint, minTeamSize = 1, maxTeamSize = 5 }) => {
+  // Generate team size options based on minTeamSize and maxTeamSize
+  const teamSizeOptions = Array.from({ length: maxTeamSize - minTeamSize + 1 }, (_, i) => {
+    const size = minTeamSize + i;
     return {
       value: size.toString(),
-      label: size === 1 ? '1 Member (Solo)' : size === maxTeamSize ? `${size} Members (Max)` : `${size} Members`
+      label: size === 1 ? '1 Member (Solo)' : size === minTeamSize ? `${size} Members (Min)` : size === maxTeamSize ? `${size} Members (Max)` : `${size} Members`
     };
   });
   const [formData, setFormData] = useState<FormData>({
@@ -69,7 +70,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
       { name: '', email: '', phone: '', college: '', rollNumber: '', role: 'Member' },
       { name: '', email: '', phone: '', college: '', rollNumber: '', role: 'Member' },
     ],
-    team_size: '1',
+    team_size: minTeamSize.toString(),
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -295,7 +296,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
         { name: '', email: '', phone: '', college: '', rollNumber: '', role: 'Member' },
         { name: '', email: '', phone: '', college: '', rollNumber: '', role: 'Member' },
       ],
-      team_size: '1',
+      team_size: minTeamSize.toString(),
     });
   };
 

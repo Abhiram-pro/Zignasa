@@ -1,0 +1,42 @@
+/* Omnidimension Chatbot Purple Theme Override */
+
+/* Target all possible chatbot elements */
+div[id*="omnidimension"],
+div[class*="omnidimension"],
+div[id*="widget"],
+div[class*="widget"],
+#omnidimension-web-widget-button,
+.omnidimension-widget-button,
+[id*="omnidimension"] *,
+[class*="omnidimension"] * {
+  background: linear-gradient(135deg, #a855f7 0%, #9333ea 100%) !important;
+  box-shadow: 0 4px 20px rgba(168, 85, 247, 0.4) !important;
+  border: 1px solid rgba(168, 85, 247, 0.3) !important;
+}
+
+/* Hover states */
+div[id*="omnidimension"]:hover,
+div[class*="omnidimension"]:hover,
+div[id*="widget"]:hover,
+div[class*="widget"]:hover {
+  background: linear-gradient(135deg, #9333ea 0%, #7c3aed 100%) !important;
+  box-shadow: 0 6px 25px rgba(168, 85, 247, 0.6) !important;
+  transform: scale(1.05) !important;
+}
+
+/* Force white text everywhere */
+div[id*="omnidimension"] *,
+div[class*="omnidimension"] *,
+div[id*="widget"] *,
+div[class*="widget"] * {
+  color: white !important;
+}
+
+/* SVG icons */
+div[id*="omnidimension"] svg,
+div[class*="omnidimension"] svg,
+div[id*="widget"] svg,
+div[class*="widget"] svg {
+  fill: white !important;
+  stroke: white !important;
+}

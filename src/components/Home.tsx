@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import emailjs from '@emailjs/browser';
 import '../assets/main.css';
+import '../assets/chatbot-theme.css';
 import { Navbar } from './ui/navbar';
 import { Button } from './ui/button';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './ui/accordion';
@@ -105,6 +106,60 @@ const Home: React.FC = () => {
       chatbotScript.async = true;
       chatbotScript.src = 'https://backend.omnidim.io/web_widget.js?secret_key=5dc90f228732b9aaf773c4704a4c3036';
       document.body.appendChild(chatbotScript);
+
+      // Style chatbot after it loads
+      const styleChatbot = () => {
+        // Try to find and style the chatbot button
+        const chatbotButton = document.querySelector('[id*="omnidimension"]') as HTMLElement;
+        if (chatbotButton) {
+          chatbotButton.style.cssText = `
+            background: linear-gradient(135deg, #a855f7 0%, #9333ea 100%) !important;
+            box-shadow: 0 4px 20px rgba(168, 85, 247, 0.4) !important;
+            border: 1px solid rgba(168, 85, 247, 0.3) !important;
+          `;
+        }
+
+        // Try to access iframe content
+        const iframes = document.querySelectorAll('iframe');
+        iframes.forEach((iframe) => {
+          try {
+            const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
+            if (iframeDoc) {
+              const style = iframeDoc.createElement('style');
+              style.textContent = `
+                * { color: white !important; }
+                body { background: rgba(0, 0, 0, 0.95) !important; }
+                button, .button, [class*="button"] {
+                  background: linear-gradient(135deg, #a855f7 0%, #9333ea 100%) !important;
+                  color: white !important;
+                }
+                input, textarea {
+                  background: rgba(255, 255, 255, 0.05) !important;
+                  border: 1px solid rgba(168, 85, 247, 0.3) !important;
+                  color: white !important;
+                }
+                [class*="header"], header {
+                  background: linear-gradient(135deg, #a855f7 0%, #9333ea 100%) !important;
+                  color: white !important;
+                }
+                [class*="message"] {
+                  color: white !important;
+                }
+              `;
+              iframeDoc.head.appendChild(style);
+            }
+          } catch (e) {
+            // Cross-origin iframe, can't access
+            console.log('Cannot style iframe due to cross-origin restrictions');
+          }
+        });
+      };
+
+      // Try to style chatbot multiple times as it loads
+      setTimeout(styleChatbot, 1000);
+      setTimeout(styleChatbot, 2000);
+      setTimeout(styleChatbot, 3000);
+      setTimeout(styleChatbot, 5000);
 
       // Initialize Swiper
       const initSwiper = () => {
@@ -280,6 +335,144 @@ const Home: React.FC = () => {
 
   return (
     <div className="index-page bg-gradient-to-b bg-black min-h-screen">
+      {/* Custom Chatbot Styling */}
+      <style>{`
+        /* Chatbot button styling - very aggressive selectors */
+        div[id*="omnidimension"],
+        div[class*="omnidimension"],
+        #omnidimension-web-widget-button,
+        .omnidimension-widget-button,
+        [id*="omnidimension"] button,
+        [id*="omnidimension"] div[role="button"],
+        [id*="omnidimension"] > div,
+        [id*="omnidimension"] button[class*="widget-button"],
+        button[id*="widget"],
+        div[id*="widget-button"] {
+          background: linear-gradient(135deg, #a855f7 0%, #9333ea 100%) !important;
+          box-shadow: 0 4px 20px rgba(168, 85, 247, 0.4) !important;
+          border: 1px solid rgba(168, 85, 247, 0.3) !important;
+        }
+        
+        div[id*="omnidimension"]:hover,
+        div[class*="omnidimension"]:hover,
+        #omnidimension-web-widget-button:hover,
+        .omnidimension-widget-button:hover,
+        [id*="omnidimension"] button:hover,
+        [id*="omnidimension"] button[class*="widget-button"]:hover {
+          background: linear-gradient(135deg, #9333ea 0%, #7c3aed 100%) !important;
+          box-shadow: 0 6px 25px rgba(168, 85, 247, 0.6) !important;
+          transform: scale(1.05) !important;
+        }
+        
+        /* Chatbot window/container */
+        #omnidimension-web-widget-container,
+        .omnidimension-widget-container,
+        [id*="omnidimension"][class*="container"],
+        [id*="omnidimension"] iframe {
+          border: 1px solid rgba(168, 85, 247, 0.3) !important;
+          box-shadow: 0 8px 32px rgba(168, 85, 247, 0.3) !important;
+          border-radius: 16px !important;
+          background: rgba(0, 0, 0, 0.95) !important;
+          backdrop-filter: blur(20px) !important;
+        }
+        
+        /* Chatbot header */
+        [id*="omnidimension"] [class*="header"],
+        [id*="omnidimension"] header {
+          background: linear-gradient(135deg, #a855f7 0%, #9333ea 100%) !important;
+          color: white !important;
+          border-bottom: 1px solid rgba(168, 85, 247, 0.3) !important;
+        }
+        
+        /* Chatbot messages */
+        [id*="omnidimension"] [class*="message"],
+        [id*="omnidimension"] .message {
+          color: white !important;
+        }
+        
+        /* Bot messages */
+        [id*="omnidimension"] [class*="bot-message"],
+        [id*="omnidimension"] .bot-message {
+          background: rgba(168, 85, 247, 0.2) !important;
+          border: 1px solid rgba(168, 85, 247, 0.3) !important;
+          color: white !important;
+        }
+        
+        /* User messages */
+        [id*="omnidimension"] [class*="user-message"],
+        [id*="omnidimension"] .user-message {
+          background: linear-gradient(135deg, #a855f7 0%, #9333ea 100%) !important;
+          color: white !important;
+        }
+        
+        /* Input field */
+        [id*="omnidimension"] input,
+        [id*="omnidimension"] textarea {
+          background: rgba(255, 255, 255, 0.05) !important;
+          border: 1px solid rgba(168, 85, 247, 0.3) !important;
+          color: white !important;
+          border-radius: 8px !important;
+        }
+        
+        [id*="omnidimension"] input::placeholder,
+        [id*="omnidimension"] textarea::placeholder {
+          color: rgba(255, 255, 255, 0.5) !important;
+        }
+        
+        [id*="omnidimension"] input:focus,
+        [id*="omnidimension"] textarea:focus {
+          border-color: #a855f7 !important;
+          box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.2) !important;
+          outline: none !important;
+        }
+        
+        /* Send button */
+        [id*="omnidimension"] button[class*="send"],
+        [id*="omnidimension"] [class*="send-button"] {
+          background: linear-gradient(135deg, #a855f7 0%, #9333ea 100%) !important;
+          color: white !important;
+          border: none !important;
+        }
+        
+        [id*="omnidimension"] button[class*="send"]:hover,
+        [id*="omnidimension"] [class*="send-button"]:hover {
+          background: linear-gradient(135deg, #9333ea 0%, #7c3aed 100%) !important;
+        }
+        
+        /* Scrollbar */
+        [id*="omnidimension"] ::-webkit-scrollbar {
+          width: 8px !important;
+        }
+        
+        [id*="omnidimension"] ::-webkit-scrollbar-track {
+          background: rgba(255, 255, 255, 0.05) !important;
+          border-radius: 4px !important;
+        }
+        
+        [id*="omnidimension"] ::-webkit-scrollbar-thumb {
+          background: linear-gradient(135deg, #a855f7 0%, #9333ea 100%) !important;
+          border-radius: 4px !important;
+        }
+        
+        [id*="omnidimension"] ::-webkit-scrollbar-thumb:hover {
+          background: linear-gradient(135deg, #9333ea 0%, #7c3aed 100%) !important;
+        }
+        
+        /* All text elements */
+        [id*="omnidimension"] * {
+          color: white !important;
+        }
+        
+        /* Links */
+        [id*="omnidimension"] a {
+          color: #c084fc !important;
+        }
+        
+        [id*="omnidimension"] a:hover {
+          color: #e9d5ff !important;
+        }
+      `}</style>
+
       <Navbar />
 
       <main className="main bg-black relative">
@@ -298,27 +491,30 @@ const Home: React.FC = () => {
           {/* 3D Animated Logo Background */}
           <div
             id="hero-bg"
-            className="absolute inset-0 z-0 opacity-25"
+            className="absolute inset-0 z-0 opacity-35"
             style={{
               backgroundImage: 'url(/assets/new_images/mainlogo.png)',
               backgroundPosition: 'center center',
               backgroundRepeat: 'no-repeat',
               transform: 'translateZ(0)',
               willChange: 'transform, opacity',
-              filter: 'brightness(1.3) contrast(1.5) drop-shadow(0 0 50px rgba(168, 85, 247, 0.4))',
+              filter: 'brightness(1.5) contrast(1.6) drop-shadow(0 0 60px rgba(168, 85, 247, 0.5))',
               transformStyle: 'preserve-3d'
             }}
           ></div>
 
           {/* Subtle Gradient Overlay */}
-          <div className="absolute inset-0 z-5 bg-gradient-to-b from-black/30 via-transparent to-black/50 "></div>
+          <div className="absolute inset-0 z-5 bg-gradient-to-b from-black/20 via-transparent to-black/40 "></div>
 
           <div className="relative z-10 text-center px-4 max-w-4xl mx-auto" data-aos="fade-up" data-aos-delay="300">
             <h1 className="text-6xl md:text-8xl font-bold mb-6 tracking-tight bg-gradient-to-r from-purple-400 via-purple-300 to-purple-500 bg-clip-text text-transparent">
               ZIGNASA 2K25
             </h1>
-            <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto leading-relaxed bg-gradient-to-r from-gray-300 via-purple-200 to-purple-200 bg-clip-text text-transparent">
-              Code. Learn. Compete. A 24-Hour National Hackathon & Bootcamp
+            <p className="text-xl md:text-2xl mb-2 max-w-3xl mx-auto leading-tight bg-gradient-to-r from-gray-300 via-purple-200 to-purple-200 bg-clip-text text-transparent">
+              Code. Learn. Compete.
+            </p>
+            <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto leading-tight bg-gradient-to-r from-gray-300 via-purple-200 to-purple-200 bg-clip-text text-transparent">
+              A 24-Hour National Hackathon & Bootcamp
             </p>
             <div className="flex items-center justify-center gap-2 mb-8">
               <Calendar className="w-6 h-6 text-purple-400" />

@@ -34,6 +34,8 @@ const AgenticAIRegistration: React.FC = () => {
           title="Agentic AI Development"
           domain="Agentic AI"
           endpoint="/api/AgenticAI"
+          minTeamSize={3}
+          maxTeamSize={5}
         />
       </div>
     </div>
