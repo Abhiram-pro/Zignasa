@@ -13,6 +13,7 @@ interface RegistrationFormProps {
   title: string;
   domain: string;
   endpoint: string;
+  minTeamSize?: number; // Optional prop to set minimum team size (defaults to 1)
   maxTeamSize?: number; // Optional prop to limit team size (defaults to 5)
 }
 
@@ -52,13 +53,13 @@ interface RegistrationResponse {
   };
 }
 
-const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endpoint, maxTeamSize = 5 }) => {
-  // Generate team size options based on maxTeamSize
-  const teamSizeOptions = Array.from({ length: maxTeamSize }, (_, i) => {
-    const size = i + 1;
+const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endpoint, minTeamSize = 1, maxTeamSize = 5 }) => {
+  // Generate team size options based on minTeamSize and maxTeamSize
+  const teamSizeOptions = Array.from({ length: maxTeamSize - minTeamSize + 1 }, (_, i) => {
+    const size = minTeamSize + i;
     return {
       value: size.toString(),
-      label: size === 1 ? '1 Member (Solo)' : size === maxTeamSize ? `${size} Members (Max)` : `${size} Members`
+      label: size === 1 ? '1 Member (Solo)' : size === minTeamSize ? `${size} Members (Min)` : size === maxTeamSize ? `${size} Members (Max)` : `${size} Members`
     };
   });
   const [formData, setFormData] = useState<FormData>({
@@ -71,7 +72,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
       { name: '', email: '', phone: '', college: '', rollNumber: '', role: 'Member' },
       { name: '', email: '', phone: '', college: '', rollNumber: '', role: 'Member' },
     ],
-    team_size: '1',
+    team_size: minTeamSize.toString(),
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -81,7 +82,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
     if (window.Razorpay) {
       return Promise.resolve();
     }
-    
+
     return new Promise((resolve, reject) => {
       const script = document.createElement('script');
       script.src = 'https://checkout.razorpay.com/v1/checkout.js';
@@ -100,10 +101,10 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
 
   const handlePaymentSuccess = async (response: any, paymentDetails: PaymentDetails, teamId: number, members: MemberData[], registrationData?: any) => {
     console.log('Payment successful:', response);
-    
+
     // Store members in sessionStorage for verification
     sessionStorage.setItem('registrationMembers', JSON.stringify(members));
-    
+
     // Store registration data (teamName, domain, amount, memberCount) for display on confirmation page
     if (registrationData) {
       sessionStorage.setItem('registrationData', JSON.stringify({
@@ -113,7 +114,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
         amount: paymentDetails.amount
       }));
     }
-    
+
     // Redirect to confirmation page with payment details
     const confirmationURL = new URLSearchParams({
       order_id: paymentDetails.orderId,
@@ -121,7 +122,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
       signature: response.razorpay_signature,
       team_id: teamId.toString(),
     }).toString();
-    
+
     window.location.href = `/confirmation?${confirmationURL}`;
   };
 
@@ -138,7 +139,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
     try {
       // Load Razorpay script only when payment is initiated
       await loadRazorpayScript();
-      
+
       if (!window.Razorpay) {
         alert('Payment gateway is not loaded. Please refresh the page and try again.');
         return;
@@ -178,17 +179,31 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    
+
     // Handle member fields (member_0_name, member_1_email, etc.)
     if (name.startsWith('member_')) {
       const [, index, field] = name.split('_');
       const memberIndex = parseInt(index);
-      
+
+      // Apply field-specific validation
+      let sanitizedValue = value;
+
+      if (field === 'phone') {
+        // Only allow digits and limit to 10 characters
+        sanitizedValue = value.replace(/\D/g, '').slice(0, 10);
+      } else if (field === 'name') {
+        // Only allow letters and spaces
+        sanitizedValue = value.replace(/[^a-zA-Z\s]/g, '');
+      } else if (field === 'rollNumber') {
+        // Allow alphanumeric characters, hyphens, and underscores
+        sanitizedValue = value.replace(/[^a-zA-Z0-9\-_]/g, '').toUpperCase();
+      }
+
       setFormData(prev => {
         const updatedMembers = [...prev.members];
         updatedMembers[memberIndex] = {
           ...updatedMembers[memberIndex],
-          [field]: value
+          [field]: sanitizedValue
         };
         return { ...prev, members: updatedMembers };
       });
@@ -313,7 +328,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
         { name: '', email: '', phone: '', college: '', rollNumber: '', role: 'Member' },
         { name: '', email: '', phone: '', college: '', rollNumber: '', role: 'Member' },
       ],
-      team_size: '1',
+      team_size: minTeamSize.toString(),
     });
   };
 
@@ -331,29 +346,29 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
       {/* Hide blur effects on mobile/tablet, only show on lg screens */}
       <div className="hidden lg:block absolute top-1/4 left-1/4 w-96 h-96 bg-white/5 rounded-full blur-lg pointer-events-none"></div>
       <div className="hidden 2xl:block absolute bottom-1/4 right-1/4 w-80 h-80 bg-white/3 rounded-full blur-lg pointer-events-none"></div>
-      
+
       <div className="max-w-5xl mx-auto relative z-10">
         <Card className="bg-white/[0.02] backdrop-blur-lg border border-white/10 rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 transition-all duration-500 hover:bg-white/[0.05] hover:border-white/20 hover:shadow-2xl hover:shadow-white/10 shadow-2xl relative overflow-hidden">
           {/* Liquid Glass Overlay - Optimized */}
           <div className="absolute inset-0 bg-gradient-to-br from-white/[0.08] via-transparent to-white/[0.03] pointer-events-none rounded-3xl"></div>
           <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
           <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
-          
+
           <CardHeader className="mb-8 sm:mb-10 md:mb-12 relative z-10">
             {/* Back Button */}
             <div className="mb-4 sm:mb-0">
-              <Link 
+              <Link
                 to="/"
                 className="inline-flex items-center gap-2 text-white/70 hover:text-white bg-white/5 hover:bg-white/10 px-3 sm:px-4 py-2 rounded-lg sm:rounded-xl border border-white/10 hover:border-white/20 backdrop-blur-sm transition-all duration-300 text-xs sm:text-sm"
               >
                 <ArrowLeft className="w-3 h-3 sm:w-4 sm:h-4" />
-               <span className="font-medium !text-white !bg-none !bg-transparent !bg-clip-border ![background-clip:unset] ![-webkit-text-fill-color:white]">
-  Back
-</span>
+                <span className="font-medium !text-white !bg-none !bg-transparent !bg-clip-border ![background-clip:unset] ![-webkit-text-fill-color:white]">
+                  Back
+                </span>
 
               </Link>
             </div>
-            
+
             <div className="text-center">
               <div className="mb-4 sm:mb-8">
                 <span className="!text-white !bg-none !bg-transparent !bg-clip-border ![background-clip:unset] ![-webkit-text-fill-color:white] text-xs sm:text-sm font-semibold tracking-wider uppercase bg-white/10 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border border-white/20 backdrop-blur-sm inline-block">
@@ -361,7 +376,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
                 </span>
               </div>
               <CardTitle className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-2 sm:mb-4 leading-tight">
-                ZIGNASA 
+                ZIGNASA
               </CardTitle>
               <CardDescription className="text-gray-300 text-base sm:text-lg md:text-xl mb-4 sm:mb-6 line-clamp-2">
                 {title} | <span className="!text-white !bg-none !bg-transparent !bg-clip-border ![background-clip:unset] ![-webkit-text-fill-color:white] font-semibold">{domain}</span> Domain
@@ -373,16 +388,16 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
               </div>
             </div>
           </CardHeader>
-          
+
           <CardContent className="relative z-10">
             <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8 md:space-y-10">
               {/* Team Information */}
               <div className="bg-white/[0.03] backdrop-blur-lg border border-white/10 rounded-2xl sm:rounded-3xl p-6 sm:p-8 hover:bg-white/[0.05] hover:border-white/15 transition-all duration-300">
                 <h3 className="text-white font-semibold mb-6 sm:mb-8 text-lg sm:text-2xl flex items-center gap-3">
                   <Users className="w-5 h-5 sm:w-6 sm:h-6 text-white/70 flex-shrink-0" />
-                 <span className="!text-white !bg-none !bg-transparent !bg-clip-border ![background-clip:unset] ![-webkit-text-fill-color:white]">
-                      Team Information
-                </span>
+                  <span className="!text-white !bg-none !bg-transparent !bg-clip-border ![background-clip:unset] ![-webkit-text-fill-color:white]">
+                    Team Information
+                  </span>
 
                 </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
@@ -417,14 +432,14 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
                   </div>
                 </div>
               </div>
-              
+
               {/* Team Lead */}
               <div className="bg-white/[0.03] backdrop-blur-lg border border-white/10 rounded-2xl sm:rounded-3xl p-6 sm:p-8 hover:bg-white/[0.05] hover:border-white/15 transition-all duration-300">
                 <h3 className="text-white font-semibold mb-6 sm:mb-8 text-lg sm:text-2xl flex items-center gap-3">
                   <User className="w-5 h-5 sm:w-6 sm:h-6 text-white/70 flex-shrink-0" />
-                 <span className="!text-white !bg-none !bg-transparent !bg-clip-border ![background-clip:unset] ![-webkit-text-fill-color:white]">
-  Team Lead Information
-</span>
+                  <span className="!text-white !bg-none !bg-transparent !bg-clip-border ![background-clip:unset] ![-webkit-text-fill-color:white]">
+                    Team Lead Information
+                  </span>
 
                 </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
@@ -436,6 +451,9 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
                       value={formData.members[0].name}
                       onChange={handleInputChange}
                       required
+                      pattern="[a-zA-Z\s]+"
+                      minLength={2}
+                      title="Please enter a valid name (letters and spaces only)"
                       className="bg-white/[0.05] backdrop-blur-sm border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-white/30 focus:border-white/50 transition-all duration-300 rounded-lg sm:rounded-xl h-10 sm:h-12 text-sm"
                       placeholder="Team lead's full name"
                     />
@@ -448,6 +466,8 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
                       value={formData.members[0].college}
                       onChange={handleInputChange}
                       required
+                      minLength={3}
+                      title="Please enter your college name"
                       className="bg-white/[0.05] backdrop-blur-sm border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-white/30 focus:border-white/50 transition-all duration-300 rounded-lg sm:rounded-xl h-10 sm:h-12 text-sm"
                       placeholder="Enter your college name"
                     />
@@ -460,6 +480,8 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
                       value={formData.members[0].email}
                       onChange={handleInputChange}
                       required
+                      pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                      title="Please enter a valid email address"
                       className="bg-white/[0.05] backdrop-blur-sm border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-white/30 focus:border-white/50 transition-all duration-300 rounded-lg sm:rounded-xl h-10 sm:h-12 text-sm"
                       placeholder="team.lead@example.com"
                     />
@@ -472,8 +494,12 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
                       value={formData.members[0].phone}
                       onChange={handleInputChange}
                       required
+                      pattern="[0-9]{10}"
+                      maxLength={10}
+                      minLength={10}
+                      title="Please enter a valid 10-digit phone number"
                       className="bg-white/[0.05] backdrop-blur-sm border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-white/30 focus:border-white/50 transition-all duration-300 rounded-lg sm:rounded-xl h-10 sm:h-12 text-sm"
-                      placeholder="+91 1234567890"
+                      placeholder="1234567890"
                     />
                   </div>
                   <div>
@@ -484,15 +510,18 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
                       value={formData.members[0].rollNumber}
                       onChange={handleInputChange}
                       required
+                      pattern="[A-Z0-9\-_]+"
+                      minLength={3}
+                      title="Please enter a valid roll number (alphanumeric, hyphens, underscores)"
                       className="bg-white/[0.05] backdrop-blur-sm border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-white/30 focus:border-white/50 transition-all duration-300 rounded-lg sm:rounded-xl h-10 sm:h-12 text-sm"
                       placeholder="Enter your roll number"
                     />
                   </div>
                 </div>
               </div>
-              
+
               {/* Team Members - Dynamic based on team size */}
-              {formData.team_size && parseInt(formData.team_size) > 1 && 
+              {formData.team_size && parseInt(formData.team_size) > 1 &&
                 formData.members.slice(1, parseInt(formData.team_size)).map((member, index) => {
                   const memberIndex = index + 1;
                   return (
@@ -500,8 +529,8 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
                       <h3 className="text-white font-semibold mb-6 sm:mb-8 text-lg sm:text-2xl flex items-center gap-3 flex-wrap">
                         <Building className="w-5 h-5 sm:w-6 sm:h-6 text-gray-400 flex-shrink-0" />
                         <span className="!text-white !bg-none !bg-transparent !bg-clip-border ![background-clip:unset] ![-webkit-text-fill-color:white]">
-  Team Member {memberIndex}
-</span>
+                          Team Member {memberIndex}
+                        </span>
 
                       </h3>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
@@ -512,6 +541,9 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
                             name={`member_${memberIndex}_name`}
                             value={formData.members[memberIndex].name}
                             onChange={handleInputChange}
+                            pattern="[a-zA-Z\s]+"
+                            minLength={2}
+                            title="Please enter a valid name (letters and spaces only)"
                             className="bg-white/[0.05] backdrop-blur-sm border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-white/30 focus:border-white/50 transition-all duration-300 rounded-lg sm:rounded-xl h-10 sm:h-12 text-sm"
                             placeholder={`Member ${memberIndex} full name`}
                           />
@@ -523,6 +555,8 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
                             name={`member_${memberIndex}_college`}
                             value={formData.members[memberIndex].college}
                             onChange={handleInputChange}
+                            minLength={3}
+                            title="Please enter college name"
                             className="bg-white/[0.05] backdrop-blur-sm border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-white/30 focus:border-white/50 transition-all duration-300 rounded-lg sm:rounded-xl h-10 sm:h-12 text-sm"
                             placeholder={`Member ${memberIndex} college`}
                           />
@@ -534,6 +568,8 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
                             name={`member_${memberIndex}_email`}
                             value={formData.members[memberIndex].email}
                             onChange={handleInputChange}
+                            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                            title="Please enter a valid email address"
                             className="bg-white/[0.05] backdrop-blur-sm border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-white/30 focus:border-white/50 transition-all duration-300 rounded-lg sm:rounded-xl h-10 sm:h-12 text-sm"
                             placeholder={`member${memberIndex}@example.com`}
                           />
@@ -545,8 +581,12 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
                             name={`member_${memberIndex}_phone`}
                             value={formData.members[memberIndex].phone}
                             onChange={handleInputChange}
+                            pattern="[0-9]{10}"
+                            maxLength={10}
+                            minLength={10}
+                            title="Please enter a valid 10-digit phone number"
                             className="bg-white/[0.05] backdrop-blur-sm border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-white/30 focus:border-white/50 transition-all duration-300 rounded-lg sm:rounded-xl h-10 sm:h-12 text-sm"
-                            placeholder="+91 1234567890"
+                            placeholder="1234567890"
                           />
                         </div>
                         <div>
@@ -556,6 +596,9 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
                             name={`member_${memberIndex}_rollNumber`}
                             value={formData.members[memberIndex].rollNumber}
                             onChange={handleInputChange}
+                            pattern="[A-Z0-9\-_]+"
+                            minLength={3}
+                            title="Please enter a valid roll number (alphanumeric, hyphens, underscores)"
                             className="bg-white/[0.05] backdrop-blur-sm border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-white/30 focus:border-white/50 transition-all duration-300 rounded-lg sm:rounded-xl h-10 sm:h-12 text-sm"
                             placeholder={`Member ${memberIndex} roll number`}
                           />
@@ -564,12 +607,12 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
                     </div>
                   );
                 })}
-              
+
               {/* Submit Buttons */}
               <div className="bg-white/[0.03] backdrop-blur-lg border border-white/10 rounded-2xl sm:rounded-3xl p-6 sm:p-8 hover:bg-white/[0.05] hover:border-white/15 transition-all duration-300">
                 <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center">
-                  <Button 
-                    type="submit" 
+                  <Button
+                    type="submit"
                     disabled={isSubmitting}
                     className="bg-gradient-to-r from-white/20 to-white/10 hover:from-white/30 hover:to-white/20 text-white font-semibold py-3 sm:py-4 px-8 sm:px-12 rounded-lg sm:rounded-2xl transition-all duration-300 shadow-lg hover:shadow-2xl hover:shadow-white/20 disabled:opacity-50 disabled:cursor-not-allowed w-full sm:w-auto h-10 sm:h-14 backdrop-blur-lg border border-white/20 text-sm sm:text-base"
                   >
@@ -583,8 +626,8 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
                       "Register Team"
                     )}
                   </Button>
-                  <Button 
-                    type="button" 
+                  <Button
+                    type="button"
                     onClick={handleReset}
                     variant="outline"
                     className="border-white/30 text-white hover:bg-white/10 hover:border-white/50 py-3 sm:py-4 px-8 sm:px-12 rounded-lg sm:rounded-2xl transition-all duration-300 backdrop-blur-sm w-full sm:w-auto h-10 sm:h-14 text-sm sm:text-base"

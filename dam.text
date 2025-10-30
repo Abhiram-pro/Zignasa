@@ -1,0 +1,807 @@
+================================================
+FILE: index.js
+================================================
+// Load environment variables early
+require('dotenv').config();
+
+const path = require('path');
+const express = require('express');
+const cors = require('cors');
+const morgan = require('morgan');
+const helmet = require('helmet');
+const compression = require('compression');
+const cookieParser = require('cookie-parser');
+const rateLimit = require('express-rate-limit');
+const routes = require('./routes/routes');
+const { testConnection } = require('./services/database');
+
+const app = express();
+
+// Trust proxy for accurate IP detection (needed for rate limiting behind proxies)
+app.set('trust proxy', 1);
+
+// Middleware
+app.use(helmet()); // security headers
+app.use(compression()); // gzip responses
+app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
+// CORS configuration
+const corsOptions = {
+  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+  optionsSuccessStatus: 200
+};
+app.use(cors(corsOptions));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+
+// Basic rate limiting
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // limit each IP to 100 requests per window
+});
+app.use(limiter);
+
+// Health check endpoint
+app.get('/health', (req, res) => {
+    const health = {
+        status: 'ok',
+        uptime: process.uptime(),
+        timestamp: new Date().toISOString(),
+        env: process.env.NODE_ENV || 'dev',
+    };
+    res.status(200).json(health);
+});
+
+app.use('/', routes);
+
+const PORT = process.env.PORT || 3000;
+
+// Test Supabase connection at server startup
+testConnection();
+
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
+
+
+================================================
+FILE: package.json
+================================================
+{
+  "dependencies": {
+    "@supabase/supabase-js": "^2.75.0",
+    "compression": "^1.7.4",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^5.1.0",
+    "express-rate-limit": "^8.1.0",
+    "helmet": "^7.0.0",
+    "morgan": "^1.10.0",
+    "nodemon": "^3.1.10",
+    "razorpay": "^2.9.6"
+  },
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
+
+
+
+================================================
+FILE: .env.example
+================================================
+PORT=5000
+NODE_ENV=development
+
+# Supabase configuration
+SUPABASE_URL=your-project-url
+SUPABASE_ANON_KEY=your-anon-key
+
+RAZAR_PAY_API_KEY=DEMO
+RAZAR_PAY_ID=DEMO
+
+
+
+================================================
+FILE: config/razorpay.js
+================================================
+const Razorpay = require('razorpay');
+
+// Support several common env var names so this works regardless of small naming differences
+const key_id = process.env.RAZORPAY_KEY_ID;
+const key_secret = process.env.RAZORPAY_SECRET;
+
+if (!key_id || !key_secret) {
+  // Don't throw here to avoid crashing apps that don't need Razorpay at runtime,
+  // but warn loudly so it's easy to detect misconfiguration.
+  console.warn('[config/razorpay] Razorpay API keys not found in environment. Expected RAZORPAY_KEY_ID and RAZORPAY_KEY_SECRET (or variants). Razorpay will not be initialized.');
+  module.exports = null;
+} else {
+  const instance = new Razorpay({
+    key_id,
+    key_secret,
+  });
+  console.log('Razorpay initialized successfully.');
+  module.exports = instance;
+}
+
+
+
+================================================
+FILE: config/supabase.js
+================================================
+const { createClient } = require('@supabase/supabase-js');
+
+// Check for required environment variables
+if (!process.env.SUPABASE_URL || !process.env.SUPABASE_ANON_KEY) {
+    console.error('Error: Missing Supabase environment variables');
+    process.exit(1);
+}
+
+// Initialize Supabase client
+const supabase = createClient(
+    process.env.SUPABASE_URL,
+    process.env.SUPABASE_ANON_KEY,
+    {
+        auth: {
+            autoRefreshToken: true,
+            persistSession: true,
+            detectSessionInUrl: false
+        }
+    }
+);
+
+module.exports = supabase;
+
+/*{
+create table public.teams (
+  id bigserial not null,
+  team_name text not null,
+  domain text not null,
+  payment_status text not null default 'Pending'::text,
+  created_at timestamp without time zone null default now(),
+  razorpay_order_id text null,
+  razorpay_payment_id text null,
+  amount_in_paise integer null,
+  team_size integer not null default 0,
+  payment_initiated_at timestamp without time zone null,
+  payment_verified_at timestamp without time zone null,
+  constraint teams_pkey primary key (id),
+  constraint teams_razorpay_order_id_unique unique (razorpay_order_id),
+  constraint teams_domain_check check (
+    (
+      domain = any (
+        array[
+          'Web Dev'::text,
+          'Agentic AI'::text,
+          'UI/UX'::text
+        ]
+      )
+    )
+  ),
+  constraint teams_payment_status_check check (
+    (
+      payment_status = any (
+        array[
+          'Pending'::text,
+          'Initiated'::text,
+          'Completed'::text,
+          'Failed'::text,
+          'Refunded'::text
+        ]
+      )
+    )
+  )
+) TABLESPACE pg_default;
+ 
+create table public.registrations (
+  id bigserial not null,
+  team_id bigint null,
+  name text not null,
+  email text not null,
+  phone text not null,
+  college text not null,
+  role text not null,
+  created_at timestamp without time zone null default now(),
+  constraint registrations_pkey primary key (id),
+  constraint registrations_team_id_fkey foreign KEY (team_id) references teams (id) on delete CASCADE,
+  constraint registrations_role_check check (
+    (
+      role = any (array['Team Lead'::text, 'Member'::text])
+    )
+  )
+) TABLESPACE pg_default;
+}*/
+
+
+================================================
+FILE: routes/razorpayRoute.js
+================================================
+const express = require('express');
+const router = express.Router();
+const razorpayInstance = require('../config/razorpay');
+const { supabase } = require('../services/database');
+const crypto = require('crypto');
+
+// Example route to create a Razorpay order
+// POST /razorpay/create-order
+// Body: { amount: number, currency?: string, receipt?: string }
+// amount is expected in rupees (e.g. 100 for ₹100). We'll convert to paise for Razorpay.
+router.post('/create-order', async (req, res) => {
+	if (!razorpayInstance) {
+		return res.status(500).json({ error: 'Razorpay not initialized. Check server environment variables.' });
+	}
+
+	try {
+		const { amount, currency = 'INR', receipt } = req.body || {};
+
+		if (amount === undefined || amount === null) {
+			return res.status(400).json({ error: 'amount is required in request body (in rupees).' });
+		}
+
+		// Accept amounts provided as either integer (rupees) or decimal (rupees). Convert to paise.
+		const amountNum = Number(amount);
+		if (!isFinite(amountNum) || amountNum <= 0) {
+			return res.status(400).json({ error: 'amount must be a positive number.' });
+		}
+
+		const amountInPaise = Math.round(amountNum * 100);
+
+		const options = {
+			amount: amountInPaise,
+			currency,
+			receipt: receipt || `rcpt_${Date.now()}`,
+			payment_capture: 1, // auto-capture
+		};
+
+		const order = await razorpayInstance.orders.create(options);
+		return res.status(201).json(order);
+	} catch (err) {
+		console.error('Error creating Razorpay order:', err);
+		return res.status(500).json({ error: 'failed to create order', details: err.message });
+	}
+});
+
+// Verify payment and finalize registration
+// POST /razorpay/verify-payment
+// Body: { teamId: number, razorpayPaymentId: string, razorpayOrderId: string, razorpaySignature: string, members: [...] }
+router.post('/verify-payment', async (req, res) => {
+	try {
+		console.log('=== Verify Payment Route Called ===');
+		console.log('Request Body:', JSON.stringify(req.body, null, 2));
+		console.log('Request Headers:', JSON.stringify(req.headers, null, 2));
+
+		const { teamId, razorpayPaymentId, razorpayOrderId, razorpaySignature, members } = req.body;
+
+		console.log('Extracted Data:', {
+			teamId,
+			razorpayPaymentId,
+			razorpayOrderId,
+			razorpaySignature: razorpaySignature ? `${razorpaySignature.substring(0, 10)}...` : 'missing',
+			membersCount: members?.length,
+		});
+
+		// Validate required fields
+		if (!teamId || !razorpayPaymentId || !razorpayOrderId || !razorpaySignature) {
+			console.error('Validation Error: Missing required fields', {
+				hasTeamId: !!teamId,
+				hasRazorpayPaymentId: !!razorpayPaymentId,
+				hasRazorpayOrderId: !!razorpayOrderId,
+				hasRazorpaySignature: !!razorpaySignature,
+			});
+			return res.status(400).json({
+				success: false,
+				message: 'Missing required payment verification fields',
+			});
+		}
+
+		if (!Array.isArray(members) || members.length === 0) {
+			console.error('Validation Error: Invalid members array', {
+				isArray: Array.isArray(members),
+				length: members?.length,
+				members: members,
+			});
+			return res.status(400).json({
+				success: false,
+				message: 'Members array is required',
+			});
+		}
+
+		// Validate each member has rollNumber (support snake_case)
+		for (let i = 0; i < members.length; i++) {
+			const m = members[i];
+			if (!m.rollNumber && m.roll_number) m.rollNumber = m.roll_number;
+			if (!m.rollNumber) {
+				console.error('Validation Error: Missing rollNumber for member', { index: i, member: m });
+				return res.status(400).json({
+					success: false,
+					message: `Member ${i + 1} is missing rollNumber`,
+				});
+			}
+		}
+
+		console.log('All validations passed');
+
+		// Verify signature
+		const body = razorpayOrderId + '|' + razorpayPaymentId;
+		console.log('Signature Verification:', {
+			body,
+			receivedSignature: razorpaySignature.substring(0, 20) + '...',
+		});
+
+		const expectedSignature = crypto
+			.createHmac('sha256', process.env.RAZORPAY_SECRET)
+			.update(body)
+			.digest('hex');
+
+		console.log('Signature Comparison:', {
+			expected: expectedSignature.substring(0, 20) + '...',
+			received: razorpaySignature.substring(0, 20) + '...',
+			match: expectedSignature === razorpaySignature,
+		});
+
+		if (expectedSignature !== razorpaySignature) {
+			console.error('Signature Mismatch Error:', {
+				expectedSignature: expectedSignature.substring(0, 30) + '...',
+				receivedSignature: razorpaySignature.substring(0, 30) + '...',
+				fullMatch: expectedSignature === razorpaySignature,
+			});
+			return res.status(400).json({
+				success: false,
+				message: 'Invalid payment signature. Possible fraud attempt.',
+			});
+		}
+
+		console.log('Signature verified successfully');
+
+		// Get team data to verify
+		console.log('Fetching team data for teamId:', teamId);
+		const { data: team, error: teamError } = await supabase
+			.from('teams')
+			.select('*')
+			.eq('id', teamId)
+			.single();
+
+		console.log('Team Fetch Result:', {
+			teamFound: !!team,
+			teamError: teamError ? JSON.stringify(teamError, null, 2) : null,
+			teamData: team ? {
+				id: team.id,
+				payment_status: team.payment_status,
+				razorpay_order_id: team.razorpay_order_id,
+			} : null,
+		});
+
+		if (teamError || !team) {
+			console.error('Team Fetch Error:', {
+				error: teamError,
+				teamExists: !!team,
+			});
+			return res.status(404).json({
+				success: false,
+				message: 'Team not found',
+			});
+		}
+
+		// Verify payment status is 'Initiated' (log only; enforce atomically below)
+		console.log('Checking payment status:', {
+			currentStatus: team.payment_status,
+			expectedStatus: 'Initiated',
+			match: team.payment_status === 'Initiated',
+		});
+
+		// Verify order IDs match
+		console.log('Verifying order IDs:', {
+			teamOrderId: team.razorpay_order_id,
+			receivedOrderId: razorpayOrderId,
+			match: team.razorpay_order_id === razorpayOrderId,
+		});
+
+		if (team.razorpay_order_id !== razorpayOrderId) {
+			console.error('Order ID Mismatch Error:', {
+				teamOrderId: team.razorpay_order_id,
+				receivedOrderId: razorpayOrderId,
+			});
+			return res.status(400).json({
+				success: false,
+				message: 'Order ID mismatch',
+			});
+		}
+
+		console.log('All verifications passed, updating team atomically...');
+
+		// Update team with payment completion details
+		const updateData = {
+			payment_status: 'Completed',
+			razorpay_payment_id: razorpayPaymentId,
+			payment_verified_at: new Date().toISOString(),
+		};
+
+		console.log('Updating team with data:', updateData);
+
+		const { error: updateTeamError, data: updatedTeam } = await supabase
+			.from('teams')
+			.update(updateData)
+			.eq('id', teamId)
+			.eq('payment_status', 'Initiated')
+			.select();
+
+		console.log('Team Update Result:', {
+			updateError: updateTeamError ? JSON.stringify(updateTeamError, null, 2) : null,
+			updatedRows: updatedTeam?.length || 0,
+		});
+
+		if (updateTeamError) {
+			console.error('Team Update Error:', JSON.stringify(updateTeamError, null, 2));
+			throw updateTeamError;
+		}
+
+		// If no rows were updated, payment was already processed (handles concurrent requests safely)
+		if (!updatedTeam || updatedTeam.length === 0) {
+			console.warn('No team rows updated; payment likely already completed. Skipping registrations insert.');
+			return res.status(409).json({
+				success: false,
+				message: 'Payment already verified for this team',
+			});
+		}
+
+		console.log('Team updated successfully');
+
+		// Prepare and insert member data
+		const memberData = members.map(member => ({
+			team_id: teamId,
+			name: member.name,
+			email: member.email,
+			phone: member.phone,
+			college: member.college,
+			role: member.role,
+			roll_number: member.rollNumber || member.roll_number
+		}));
+
+		console.log('Preparing to insert members:', {
+			memberCount: memberData.length,
+			memberData: memberData,
+		});
+
+		const { error: membersInsertError, data: insertedMembers } = await supabase
+			.from('registrations')
+			.insert(memberData)
+			.select();
+
+		console.log('Members Insert Result:', {
+			insertError: membersInsertError ? JSON.stringify(membersInsertError, null, 2) : null,
+			insertedCount: insertedMembers?.length,
+			insertedMembers: insertedMembers,
+		});
+
+		if (membersInsertError) {
+			console.error('Members Insert Error:', JSON.stringify(membersInsertError, null, 2));
+			// Handle unique violations (e.g., duplicate roll_number)
+			const errorMessage = (membersInsertError && membersInsertError.message) || '';
+			if (errorMessage.includes('duplicate key value') || errorMessage.includes('unique')) {
+				return res.status(409).json({
+					success: false,
+					message: 'Some registrations already exist (unique constraint)',
+					details: process.env.NODE_ENV === 'development' ? errorMessage : undefined,
+				});
+			}
+			throw membersInsertError;
+		}
+
+		console.log('All operations completed successfully');
+		console.log('=== Verify Payment Route Success ===');
+
+		res.status(200).json({
+			success: true,
+			message: 'Payment verified and team registration completed',
+			data: {
+				teamId,
+				paymentStatus: 'Completed',
+				paymentId: razorpayPaymentId,
+				orderId: razorpayOrderId,
+				memberCount: members.length,
+			},
+		});
+	} catch (error) {
+		console.error('=== Payment Verification Error ===');
+		console.error('Error Type:', error.constructor.name);
+		console.error('Error Message:', error.message);
+		console.error('Error Stack:', error.stack);
+		console.error('Full Error Object:', JSON.stringify(error, Object.getOwnPropertyNames(error), 2));
+		console.error('Request Body at Error:', JSON.stringify(req.body, null, 2));
+		console.error('=== End Error Log ===');
+
+		res.status(500).json({
+			success: false,
+			message: 'An error occurred during payment verification',
+			error: process.env.NODE_ENV === 'development' ? error.message : undefined,
+		});
+	}
+});
+
+module.exports = router;
+
+
+================================================
+FILE: routes/registration.js
+================================================
+const express = require('express');
+const router = express.Router();
+const { supabase } = require('../services/database');
+const razorpayInstance = require('../config/razorpay');
+
+// Registration endpoint (POST /registration)
+/*{
+{
+  "teamName": "string",
+  "domain": "string",
+  "members": [
+    {
+      "name": "string",
+      "email": "string",
+      "phone": "string",
+      "college": "string",
+      "role": "Team Lead" | "Member"
+    },
+    // ... more members (up to team size)
+  ]
+}
+}*/
+router.post('/', async (req, res) => {
+  const { teamName, domain, members } = req.body;
+  
+  try {
+
+    // Validate required fields
+    if (!teamName || typeof teamName !== 'string' || teamName.trim().length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'Missing or invalid teamName',
+      });
+    }
+
+    // Validate domain
+    const validDomains = ['Web Dev', 'Agentic AI', 'UI/UX'];
+    if (!domain || !validDomains.includes(domain)) {
+      return res.status(400).json({
+        success: false,
+        message: `Invalid domain. Must be one of: ${validDomains.join(', ')}`,
+      });
+    }
+
+    // Validate members array
+    if (!Array.isArray(members) || members.length < 1 || members.length > 5) {
+      return res.status(400).json({
+        success: false,
+        message: 'Team must have 1 to 5 members',
+      });
+    }
+
+    // Check for team lead
+    const teamLead = members.find(m => m.role === 'Team Lead');
+    if (!teamLead) {
+      return res.status(400).json({
+        success: false,
+        message: 'Team must have exactly one Team Lead',
+      });
+    }
+
+    // Check for multiple team leads
+    if (members.filter(m => m.role === 'Team Lead').length > 1) {
+      return res.status(400).json({
+        success: false,
+        message: 'Only one Team Lead is allowed per team',
+      });
+    }
+
+    // Validate each member
+    const emails = new Set();
+    const rollNumbers = new Set();
+    for (let i = 0; i < members.length; i++) {
+      const member = members[i];
+      // Normalize rollNumber to camelCase for validation logic
+      if (!member.rollNumber && member.roll_number) {
+        member.rollNumber = member.roll_number;
+      }
+      const memberNum = i + 1;
+
+      // Check for duplicate emails in the request
+      if (emails.has(member.email)) {
+        return res.status(400).json({
+          success: false,
+          message: `Duplicate email found: ${member.email}`,
+        });
+      }
+      emails.add(member.email);
+
+      // Validate required fields for each member (rollNumber required)
+      const requiredFields = ['name', 'email', 'phone', 'college', 'role', 'rollNumber'];
+      const missingFields = requiredFields.filter(field => !member[field]);
+      
+      if (missingFields.length > 0) {
+        return res.status(400).json({
+          success: false,
+          message: `Member ${memberNum} is missing required fields: ${missingFields.join(', ')}`,
+        });
+      }
+
+      // Validate role
+      if (!['Team Lead', 'Member'].includes(member.role)) {
+        return res.status(400).json({
+          success: false,
+          message: `Invalid role for member ${memberNum}. Must be 'Team Lead' or 'Member'`,
+        });
+      }
+
+      // Check duplicate roll numbers within the same request
+      if (rollNumbers.has(member.rollNumber)) {
+        return res.status(400).json({
+          success: false,
+          message: `Duplicate roll number found in request: ${member.rollNumber}`,
+        });
+      }
+      rollNumbers.add(member.rollNumber);
+    }
+
+    // Check if team name already exists
+    const { data: existingTeam, error: teamError } = await supabase
+      .from('teams')
+      .select('id')
+      .eq('team_name', teamName)
+      .single();
+
+    if (existingTeam) {
+      return res.status(400).json({
+        success: false,
+        message: 'Team name already exists',
+      });
+    }
+
+    // Check if any email is already registered
+    const { data: existingMembers, error: membersError } = await supabase
+      .from('registrations')
+      .select('email')
+      .in('email', members.map(m => m.email));
+
+    if (existingMembers && existingMembers.length > 0) {
+      const existingEmails = existingMembers.map(r => r.email);
+      return res.status(400).json({
+        success: false,
+        message: 'Some emails are already registered',
+        existingEmails,
+      });
+    }
+
+    // Calculate total amount
+    const chargePerMember = parseInt(process.env.REGISTRATION_CHARGE_PER_MEMBER || 100);
+    const totalAmountInRupees = members.length * chargePerMember;
+    const totalAmountInPaise = totalAmountInRupees * 100;
+
+    // Create Razorpay order
+    if (!razorpayInstance) {
+      return res.status(500).json({
+        success: false,
+        message: 'Payment gateway not initialized. Check server configuration.',
+      });
+    }
+
+    let razorpayOrder;
+    try {
+      razorpayOrder = await razorpayInstance.orders.create({
+        amount: totalAmountInPaise,
+        currency: 'INR',
+        receipt: `team_${teamName}_${Date.now()}`,
+        payment_capture: 1, // auto-capture
+      });
+    } catch (razorpayError) {
+      console.error('Razorpay order creation error:', razorpayError);
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to create payment order',
+        error: process.env.NODE_ENV === 'development' ? razorpayError.message : undefined,
+      });
+    }
+
+    // Create team with 'Initiated' payment status
+    const { data: newTeam, error: insertTeamError } = await supabase
+      .from('teams')
+      .insert([
+        {
+          team_name: teamName,
+          domain: domain,
+          team_size: members.length,
+          razorpay_order_id: razorpayOrder.id,
+          amount_in_paise: totalAmountInPaise,
+          payment_status: 'Initiated',
+          payment_initiated_at: new Date().toISOString(),
+        }
+      ])
+      .select()
+      .single();
+
+    if (insertTeamError) throw insertTeamError;
+    const teamId = newTeam.id;
+
+    // Return payment order details to frontend
+    // Frontend will complete payment and then call /razorpay/verify endpoint
+    res.status(201).json({
+      success: true,
+      message: 'Payment order created. Please complete payment to finalize registration.',
+      data: {
+        teamId,
+        teamName,
+        domain,
+        memberCount: members.length,
+        paymentDetails: {
+          orderId: razorpayOrder.id,
+          amount: totalAmountInRupees,
+          amountInPaise: totalAmountInPaise,
+          currency: 'INR',
+          chargePerMember: chargePerMember,
+        },
+      },
+    });
+  } catch (error) {
+    console.error('Registration error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'An error occurred during registration',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined,
+    });
+  }
+});
+
+module.exports = router;
+
+
+
+================================================
+FILE: routes/routes.js
+================================================
+const express = require('express');
+const router = express.Router();
+const razorpayRoute = require('./razorpayRoute');
+
+// Import route modules
+const registration = require('./registration');
+
+// Mount registration router at /registration
+router.use('/registration', registration);
+router.use('/razorpay', razorpayRoute);
+
+module.exports = router;
+
+
+
+================================================
+FILE: services/database.js
+================================================
+// Ensure Supabase connection is established at server start
+const supabase = require('../config/supabase');
+
+// Optionally, test the connection by fetching the current timestamp from the database
+async function testConnection() {
+	try {
+		// This will fail if the database is unreachable, but succeed if credentials are correct
+		await supabase.from('pg_catalog.pg_tables').select('tablename').limit(1);
+		console.log('✅ Supabase connection established.');
+	} catch (error) {
+		console.error('❌ Supabase connection failed:', error.message);
+	}
+}
+
+module.exports = { supabase, testConnection };
+
+
