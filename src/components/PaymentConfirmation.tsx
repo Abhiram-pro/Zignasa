@@ -69,7 +69,7 @@ const PaymentConfirmation: React.FC = () => {
 
         // Call the verify-payment endpoint with camelCase keys and required fields
         const response = await axios.post(
-          'https://zignasa-backend.onrender.com/razorpay/verify-payment',
+          'https://zignasa-backend.vercel.app/razorpay/verify-payment',
           {
             teamId: teamId || 0,
             razorpayOrderId: orderId,

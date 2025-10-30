@@ -128,7 +128,7 @@ const Home: React.FC = () => {
           import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
           
           createChat({
-            webhookUrl: 'https://commentatorial-declive-glenn.ngrok-free.app/webhook/223b953b-ef97-4800-a1be-8b05890044c1/chat',
+            webhookUrl: 'https://teja.mlritcie.in/webhook/223b953b-ef97-4800-a1be-8b05890044c1/chat',
             webhookConfig: {
               method: 'POST',
               headers: {}
@@ -181,15 +181,7 @@ const Home: React.FC = () => {
 
       initSwiper();
 
-      // Soften marquee-like client logo animation on small screens
-      const isMobile = () => (typeof window !== 'undefined') && (window.matchMedia('(max-width: 768px)').matches || ('ontouchstart' in window));
-      if (isMobile()) {
-        document.querySelectorAll('.animate-scroll-left').forEach(el => {
-          const elem = el as HTMLElement;
-          // Keep same animation but slower for subtle effect
-          elem.style.animationDuration = '35s';
-        });
-      }
+
 
       // Mobile nav toggle functionality
       const mobileNavToggleBtn = document.querySelector('.mobile-nav-toggle');
@@ -657,7 +649,7 @@ const Home: React.FC = () => {
         </section>
 
         {/* Featured Section */}
-        <section id="featured-gallery" className="py-12 md:py-16 bg-black relative overflow-hidden">
+        <section id="featured-gallery" className="py-12 md:py-16 lg:py-20 bg-black relative overflow-hidden">
           {/* Particles Background */}
           <div className="absolute inset-0 pointer-events-none">
             <Particles
@@ -673,7 +665,7 @@ const Home: React.FC = () => {
             />
           </div>
 
-          <div className="container mx-auto px-4 md:px-6 h-auto overflow-hidden relative z-10">
+          <div className="container mx-auto px-4 md:px-6 relative z-10">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 lg:gap-10 max-w-5xl mx-auto">
               <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-6 md:p-8 transition-all duration-300 group hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 shadow-2xl" data-aos="fade-up" data-aos-delay="100">
                 <div className="pb-4 md:pb-6">
@@ -700,7 +692,7 @@ const Home: React.FC = () => {
                       <BarChart3 className="w-6 h-6 md:w-7 md:h-7 text-purple-400" />
                     </div>
                     <h3 className="text-white text-xl md:text-2xl font-bold">
-                      5-Day Online Bootcamp
+                      5 Day Online Bootcamp
                     </h3>
                   </div>
                 </div>
@@ -762,7 +754,7 @@ const Home: React.FC = () => {
         </section>
 
         {/* Clients Section */}
-        <section id="clients" className="py-12 md:py-16 bg-black overflow-hidden relative">
+        <section id="clients" className="py-12 md:py-16 lg:py-20 bg-black overflow-hidden relative">
           {/* Particles Background */}
           <div className="absolute inset-0 pointer-events-none">
             <Particles
@@ -778,7 +770,7 @@ const Home: React.FC = () => {
             />
           </div>
 
-          <div className="container mx-auto px-4 md:px-6 h-auto relative z-10">
+          <div className="container mx-auto px-4 md:px-6 relative z-10">
             <div className="text-center mb-8 md:mb-12" data-aos="fade-up">
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 md:mb-6">
                 Our Partners
@@ -791,15 +783,17 @@ const Home: React.FC = () => {
             <div className="relative w-full overflow-hidden h-auto">
               <style>{`
                 @keyframes scroll-left {
-                  0% { transform: translate3d(0, 0, 0); }
-                  100% { transform: translate3d(calc(-100% / 3), 0, 0); }
+                  0% { transform: translateX(0); }
+                  100% { transform: translateX(-33.333%); }
                 }
                 .animate-scroll-left {
-                  animation: scroll-left 15s linear infinite;
-                  will-change: transform;
+                  display: flex;
+                  animation: scroll-left 30s linear infinite;
                 }
-                .animate-scroll-left:hover {
-                  animation-play-state: paused;
+                @media (max-width: 768px) {
+                  .animate-scroll-left {
+                    animation-duration: 20s;
+                  }
                 }
               `}</style>
 
@@ -807,43 +801,88 @@ const Home: React.FC = () => {
               <div className="absolute left-0 top-0 h-full w-24 md:w-32 bg-gradient-to-r from-black to-transparent z-10 pointer-events-none"></div>
               <div className="absolute right-0 top-0 h-full w-24 md:w-32 bg-gradient-to-l from-black to-transparent z-10 pointer-events-none"></div>
 
-              <div className="flex animate-scroll-left py-4">
+              <div className="animate-scroll-left py-4">
                 {/* First set of logos */}
-                <div className="flex gap-4 md:gap-6 lg:gap-8 min-w-max pr-4 md:pr-6 lg:pr-8">
+                <div className="flex gap-4 md:gap-6 lg:gap-8 min-w-max pr-4 md:pr-6 lg:pr-8 flex-shrink-0">
                   <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
-                    <img src="/assets/img/mlrit.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="MLR Institute of Technology" />
+                    <img src="/assets/img/mlrit.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
                   </div>
                   <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
-                    <img src="/assets/img/codelogo.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="Computer Society of India" />
+                    <img src="/assets/img/codelogo.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
                   </div>
                   <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
-                    <img src="/assets/img/iic.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="Institution's Innovation Council" />
+                    <img src="/assets/img/iic.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
+                  </div>
+                  <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
+                    <img src="/assets/img/clients/csi.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
+                  </div>
+                  <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
+                    <img src="/assets/new_images/deezignlogo.png" className="w-full h-24 md:h-28 lg:h-32 object-contain filter brightness-90" alt="" />
+                  </div>
+                  <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
+                    <img src="assets/new_images/ST2.webp" className="w-full h-14 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
+                  </div>
+                  <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
+                    <img src="assets/new_images/mslogo.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
+                  </div>
+                  <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
+                    <img src="assets/new_images/s2slogo.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
                   </div>
                 </div>
 
-                {/* Second set for seamless loop */}
-                <div className="flex gap-4 md:gap-6 lg:gap-8 min-w-max pr-4 md:pr-6 lg:pr-8">
+                {/* Duplicate for seamless loop */}
+                <div className="flex gap-4 md:gap-6 lg:gap-8 min-w-max pr-4 md:pr-6 lg:pr-8 flex-shrink-0">
                   <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
-                    <img src="/assets/img/clients/csi.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="MLR Institute of Technology" />
+                    <img src="/assets/img/mlrit.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
                   </div>
                   <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
-                    <img src="/assets/new_images/deezignlogo.png" className="w-full h-16 md:h-14 lg:h-16 object-contain filter brightness-90" alt="Computer Society of India" />
+                    <img src="/assets/img/codelogo.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
                   </div>
                   <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
-                    <img src="/assets/new_images/h2slogo.png" className="w-full h-14 md:h-14 lg:h-16 object-contain filter brightness-90" alt="Institution's Innovation Council" />
+                    <img src="/assets/img/iic.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
+                  </div>
+                  <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
+                    <img src="/assets/img/clients/csi.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
+                  </div>
+                  <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
+                    <img src="/assets/new_images/deezignlogo.png" className="w-full h-24 md:h-28 lg:h-32 object-contain filter brightness-90" alt="" />
+                  </div>
+                  <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
+                    <img src="assets/new_images/ST2.webp" className="w-full h-14 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
+                  </div>
+                  <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
+                    <img src="assets/new_images/mslogo.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
+                  </div>
+                  <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
+                    <img src="assets/new_images/s2slogo.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
                   </div>
                 </div>
 
-                {/* Third set for seamless loop */}
-                <div className="flex gap-4 md:gap-6 lg:gap-8 min-w-max pr-4 md:pr-6 lg:pr-8">
+                {/* Third duplicate for seamless loop */}
+                <div className="flex gap-4 md:gap-6 lg:gap-8 min-w-max pr-4 md:pr-6 lg:pr-8 flex-shrink-0">
                   <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
-                    <img src="assets/new_images/stlogo.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="MLR Institute of Technology" />
+                    <img src="/assets/img/mlrit.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
                   </div>
                   <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
-                    <img src="assets/new_images/s2slogo.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="Computer Society of India" />
+                    <img src="/assets/img/codelogo.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
                   </div>
                   <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
-                    <img src="assets/new_images/mslogo.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="Institution's Innovation Council" />
+                    <img src="/assets/img/iic.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
+                  </div>
+                  <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
+                    <img src="/assets/img/clients/csi.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
+                  </div>
+                  <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
+                    <img src="/assets/new_images/deezignlogo.png" className="w-full h-24 md:h-28 lg:h-32 object-contain filter brightness-90" alt="" />
+                  </div>
+                  <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
+                    <img src="assets/new_images/ST2.webp" className="w-full h-14 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
+                  </div>
+                  <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
+                    <img src="assets/new_images/mslogo.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
+                  </div>
+                  <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
+                    <img src="assets/new_images/s2slogo.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
                   </div>
                 </div>
               </div>
