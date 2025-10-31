@@ -31,8 +31,7 @@ interface PaymentDetails {
 
 const PaymentConfirmation: React.FC = () => {
   const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
-  
+
   const [verificationStatus, setVerificationStatus] = useState<'loading' | 'verified' | 'failed' | 'pending'>('loading');
   const [verificationData, setVerificationData] = useState<VerificationResponse['data'] | null>(null);
   const [errorMessage, setErrorMessage] = useState<string>('');
@@ -99,7 +98,7 @@ const PaymentConfirmation: React.FC = () => {
         }
       } catch (error) {
         console.error('Verification error:', error);
-        
+
         if (axios.isAxiosError(error)) {
           if (error.response?.status === 409) {
             // Payment already verified
@@ -111,8 +110,8 @@ const PaymentConfirmation: React.FC = () => {
           } else {
             setVerificationStatus('failed');
             setErrorMessage(
-              error.response?.data?.message || 
-              error.message || 
+              error.response?.data?.message ||
+              error.message ||
               'Failed to verify payment. Please contact support.'
             );
           }
@@ -138,7 +137,7 @@ const PaymentConfirmation: React.FC = () => {
         <div className="max-w-2xl mx-auto relative z-10">
           {/* Back Button */}
           <div className="mb-6 sm:mb-8">
-            <Link 
+            <Link
               to="/"
               className="inline-flex items-center gap-2 text-white/70 hover:text-white bg-white/5 hover:bg-white/10 px-3 sm:px-4 py-2 rounded-lg sm:rounded-xl border border-white/10 hover:border-white/20 backdrop-blur-sm transition-all duration-300 text-xs sm:text-sm"
             >
@@ -177,7 +176,7 @@ const PaymentConfirmation: React.FC = () => {
               {/* Registration Details */}
               <div className="space-y-4 sm:space-y-6">
                 <h3 className="text-white font-semibold text-lg sm:text-xl mb-4 sm:mb-6">Registration Details</h3>
-                
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                   <div className="bg-white/[0.03] backdrop-blur-lg border border-white/10 rounded-lg sm:rounded-xl p-4 sm:p-6 hover:bg-white/[0.05] hover:border-white/15 transition-all duration-300">
                     <p className="text-gray-400 text-xs sm:text-sm font-medium mb-2">Team Name</p>
@@ -232,7 +231,7 @@ const PaymentConfirmation: React.FC = () => {
 
               {/* Action Buttons */}
               <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 pt-4 sm:pt-6">
-                <Link 
+                <Link
                   to="/"
                   className="flex-1"
                 >
@@ -320,7 +319,7 @@ const PaymentConfirmation: React.FC = () => {
               {paymentDetails && (
                 <div className="space-y-4 sm:space-y-6">
                   <h3 className="text-white font-semibold text-lg sm:text-xl">Payment Information</h3>
-                  
+
                   <div className="bg-white/[0.03] backdrop-blur-lg border border-white/10 rounded-lg sm:rounded-xl p-4 sm:p-6 space-y-4">
                     <div>
                       <p className="text-gray-400 text-xs sm:text-sm font-medium mb-2">Payment ID</p>
@@ -350,7 +349,7 @@ const PaymentConfirmation: React.FC = () => {
 
               {/* Action Buttons */}
               <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 pt-4 sm:pt-6">
-                <Link 
+                <Link
                   to="/"
                   className="flex-1"
                 >

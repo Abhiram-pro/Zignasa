@@ -124,3 +124,12 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* Force white text color utility */
+.force-white {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important; /* for browsers that use text-fill for text color */
+  background-clip: border-box !important;       /* undo any bg-clip:text affecting this element */
+  -webkit-background-clip: border-box !important;
+  mix-blend-mode: normal !important;            /* undo weird blending from parents */
+}

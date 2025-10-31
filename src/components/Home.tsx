@@ -15,7 +15,6 @@ const Home: React.FC = () => {
   const [copiedText, setCopiedText] = useState<string>('');
   const [showToast, setShowToast] = useState(false);
   const [activeCard, setActiveCard] = useState<number | null>(null);
-  const [hoveredCard, setHoveredCard] = useState<number | null>(null);
 
   const copyToClipboard = (text: string, label: string) => {
     navigator.clipboard.writeText(text).then(() => {
@@ -33,12 +32,6 @@ const Home: React.FC = () => {
       setActiveCard(null);
     } else {
       setActiveCard(cardIndex);
-    }
-  };
-
-  const handleCardHover = (cardIndex: number | null) => {
-    if (activeCard === null) {
-      setHoveredCard(cardIndex);
     }
   };
 

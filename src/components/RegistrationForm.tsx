@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import axios from 'axios';
+import React, { useState, useCallback } from 'react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from './ui/card';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
@@ -7,7 +6,6 @@ import { Button } from './ui/button';
 import { Users, User, Building, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { teamsService, registrationsService } from '../services/databaseService';
-import type { Team, Registration } from '../services/databaseService';
 
 interface RegistrationFormProps {
   title: string;
@@ -76,6 +74,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [termsAccepted, setTermsAccepted] = useState(false);
 
   // Lazy load Razorpay script only when needed (on payment)
   const loadRazorpayScript = useCallback(async () => {
@@ -132,48 +131,6 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
       alert('Payment failed: ' + error.error.description);
     } else {
       alert('Payment cancelled or failed. Please try again.');
-    }
-  };
-
-  const initiatePayment = async (paymentDetails: PaymentDetails, teamName: string, teamId: number, members: MemberData[], registrationData?: any) => {
-    try {
-      // Load Razorpay script only when payment is initiated
-      await loadRazorpayScript();
-
-      if (!window.Razorpay) {
-        alert('Payment gateway is not loaded. Please refresh the page and try again.');
-        return;
-      }
-
-      const options = {
-        key: 'rzp_test_RYQHuUpnWD0cOK', // Replace with your actual Razorpay key
-        amount: paymentDetails.amountInPaise,
-        currency: paymentDetails.currency,
-        name: 'ZIGNASA 2K25',
-        description: `Registration for ${teamName}`,
-        order_id: paymentDetails.orderId,
-        handler: (response: any) => handlePaymentSuccess(response, paymentDetails, teamId, members, registrationData),
-        prefill: {
-          name: formData.members[0].name,
-          email: formData.members[0].email,
-          contact: formData.members[0].phone,
-        },
-        theme: {
-          color: '#000000'
-        },
-        modal: {
-          ondismiss: () => {
-            console.log('Payment modal closed');
-          }
-        }
-      };
-
-      const razorpay = new window.Razorpay(options);
-      razorpay.on('payment.failed', handlePaymentFailure);
-      razorpay.open();
-    } catch (error) {
-      console.error('Failed to load payment gateway:', error);
-      alert('Failed to load payment gateway. Please try again.');
     }
   };
 
@@ -330,6 +287,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
       ],
       team_size: minTeamSize.toString(),
     });
+    setTermsAccepted(false);
   };
 
   const handleSelectChange = (name: string, value: string) => {
@@ -348,7 +306,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
       <div className="hidden 2xl:block absolute bottom-1/4 right-1/4 w-80 h-80 bg-white/3 rounded-full blur-lg pointer-events-none"></div>
 
       <div className="max-w-5xl mx-auto relative z-10">
-        <Card className="bg-white/[0.02] backdrop-blur-lg border border-white/10 rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 transition-all duration-500 hover:bg-white/[0.05] hover:border-white/20 hover:shadow-2xl hover:shadow-white/10 shadow-2xl relative overflow-hidden">
+        <Card className="backdrop-blur-lg border border-white/10 rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 transition-all duration-500 hover:border-white/15 hover:shadow-2xl hover:shadow-white/5 shadow-2xl relative overflow-hidden" style={{ background: 'rgba(0, 0, 0, 0.3)' }}>
           {/* Liquid Glass Overlay - Optimized */}
           <div className="absolute inset-0 bg-gradient-to-br from-white/[0.08] via-transparent to-white/[0.03] pointer-events-none rounded-3xl"></div>
           <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
@@ -392,7 +350,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
           <CardContent className="relative z-10">
             <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8 md:space-y-10">
               {/* Team Information */}
-              <div className="bg-white/[0.03] backdrop-blur-lg border border-white/10 rounded-2xl sm:rounded-3xl p-6 sm:p-8 hover:bg-white/[0.05] hover:border-white/15 transition-all duration-300">
+              <div className="backdrop-blur-lg border border-white/10 rounded-2xl sm:rounded-3xl p-6 sm:p-8 hover:border-white/12 transition-all duration-300" style={{ background: 'rgba(0, 0, 0, 0.2)' }}>
                 <h3 className="text-white font-semibold mb-6 sm:mb-8 text-lg sm:text-2xl flex items-center gap-3">
                   <Users className="w-5 h-5 sm:w-6 sm:h-6 text-white/70 flex-shrink-0" />
                   <span className="!text-white !bg-none !bg-transparent !bg-clip-border ![background-clip:unset] ![-webkit-text-fill-color:white]">
@@ -434,7 +392,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
               </div>
 
               {/* Team Lead */}
-              <div className="bg-white/[0.03] backdrop-blur-lg border border-white/10 rounded-2xl sm:rounded-3xl p-6 sm:p-8 hover:bg-white/[0.05] hover:border-white/15 transition-all duration-300">
+              <div className="backdrop-blur-lg border border-white/10 rounded-2xl sm:rounded-3xl p-6 sm:p-8 hover:border-white/12 transition-all duration-300" style={{ background: 'rgba(0, 0, 0, 0.2)' }}>
                 <h3 className="text-white font-semibold mb-6 sm:mb-8 text-lg sm:text-2xl flex items-center gap-3">
                   <User className="w-5 h-5 sm:w-6 sm:h-6 text-white/70 flex-shrink-0" />
                   <span className="!text-white !bg-none !bg-transparent !bg-clip-border ![background-clip:unset] ![-webkit-text-fill-color:white]">
@@ -525,7 +483,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
                 formData.members.slice(1, parseInt(formData.team_size)).map((member, index) => {
                   const memberIndex = index + 1;
                   return (
-                    <div key={memberIndex} className="bg-white/[0.03] backdrop-blur-lg border border-white/10 rounded-2xl sm:rounded-3xl p-6 sm:p-8 hover:bg-white/[0.05] hover:border-white/15 transition-all duration-300">
+                    <div key={memberIndex} className="backdrop-blur-lg border border-white/10 rounded-2xl sm:rounded-3xl p-6 sm:p-8 hover:border-white/12 transition-all duration-300" style={{ background: 'rgba(0, 0, 0, 0.2)' }}>
                       <h3 className="text-white font-semibold mb-6 sm:mb-8 text-lg sm:text-2xl flex items-center gap-3 flex-wrap">
                         <Building className="w-5 h-5 sm:w-6 sm:h-6 text-gray-400 flex-shrink-0" />
                         <span className="!text-white !bg-none !bg-transparent !bg-clip-border ![background-clip:unset] ![-webkit-text-fill-color:white]">
@@ -608,19 +566,81 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
                   );
                 })}
 
+              {/* Terms & Conditions */}
+              <div className="backdrop-blur-lg border border-white/10 rounded-2xl sm:rounded-3xl p-6 sm:p-8 hover:border-white/12 transition-all duration-300" style={{ background: 'rgba(0, 0, 0, 0.2)' }}>
+                <h3 className="text-white font-semibold mb-4 sm:mb-6 text-lg sm:text-2xl">
+                  <span className="!text-white !bg-none !bg-transparent !bg-clip-border ![background-clip:unset] ![-webkit-text-fill-color:white]">
+                    Terms & Conditions
+                  </span>
+                </h3>
+                <div className="bg-white/[0.02] backdrop-blur-sm border border-white/10 rounded-xl p-4 sm:p-6 mb-4 sm:mb-6 max-h-64 overflow-y-auto">
+                  <ol className="text-gray-300 text-xs sm:text-sm space-y-3 sm:space-y-4 list-decimal list-inside">
+                    <li>
+                      <span className="font-semibold text-white !bg-none !bg-transparent !bg-clip-border ![background-clip:unset] ![-webkit-text-fill-color:white]">No Refund Policy:</span>
+                      <p className="ml-5 mt-1">The registration fee once paid is non-refundable under any circumstances. We appreciate your understanding, as the collected amount directly supports the event's logistics and arrangements.</p>
+                    </li>
+                    <li>
+                      <span className="font-semibold text-white !bg-none !bg-transparent !bg-clip-border ![background-clip:unset] ![-webkit-text-fill-color:white]">
+                        Organizer's Discretion:
+                      </span>
+
+                      <p className="ml-5 mt-1">In exceptional or unavoidable cases, any refund or compensation will be considered solely at the discretion of the organizers. The decision made by the organizing team shall be final and binding.</p>
+                    </li>
+                    <li>
+                      <span className="font-semibold text-white !bg-none !bg-transparent !bg-clip-border ![background-clip:unset] ![-webkit-text-fill-color:white]">
+                        Professional Conduct:
+                      </span>
+
+                      <p className="ml-5 mt-1">All participants are expected to maintain a professional and respectful decorum throughout the event. Any misconduct may lead to disqualification or removal from participation without refund.</p>
+                    </li>
+                    <li>
+                      <span className="font-semibold text-white !bg-none !bg-transparent !bg-clip-border ![background-clip:unset] ![-webkit-text-fill-color:white]">
+                        Accuracy of Information:
+                      </span>
+
+                      <p className="ml-5 mt-1">Participants confirm that all details provided during registration are true and accurate to the best of their knowledge.</p>
+                    </li>
+                    <li>
+                      <span className="font-semibold text-white !bg-none !bg-transparent !bg-clip-border ![background-clip:unset] ![-webkit-text-fill-color:white]">
+                        General Compliance:
+                      </span>
+
+                      <p className="ml-5 mt-1">The event and its participants shall adhere to all standard rules and regulations as communicated by the organizing team before and during the event.</p>
+                    </li>
+                  </ol>
+                </div>
+                <div className="flex items-start gap-3 mb-6">
+                  <input
+                    type="checkbox"
+                    id="termsCheckbox"
+                    checked={termsAccepted}
+                    onChange={(e) => setTermsAccepted(e.target.checked)}
+                    className="mt-1 w-4 h-4 sm:w-5 sm:h-5 rounded border-white/30 bg-white/5 text-white focus:ring-2 focus:ring-white/30 cursor-pointer flex-shrink-0"
+                  />
+                  <label htmlFor="termsCheckbox" className="text-gray-300 text-xs sm:text-sm cursor-pointer select-none">
+                    I have read and agree to the Terms & Conditions stated above. I understand that the registration fee is non-refundable and I will maintain professional conduct throughout the event.
+                  </label>
+                </div>
+              </div>
+
               {/* Submit Buttons */}
-              <div className="bg-white/[0.03] backdrop-blur-lg border border-white/10 rounded-2xl sm:rounded-3xl p-6 sm:p-8 hover:bg-white/[0.05] hover:border-white/15 transition-all duration-300">
+              <div className="backdrop-blur-lg border border-white/10 rounded-2xl sm:rounded-3xl p-6 sm:p-8 hover:border-white/12 transition-all duration-300" style={{ background: 'rgba(0, 0, 0, 0.2)' }}>
                 <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center">
                   <Button
                     type="submit"
-                    disabled={isSubmitting}
+                    disabled={isSubmitting || !termsAccepted}
                     className="bg-gradient-to-r from-white/20 to-white/10 hover:from-white/30 hover:to-white/20 text-white font-semibold py-3 sm:py-4 px-8 sm:px-12 rounded-lg sm:rounded-2xl transition-all duration-300 shadow-lg hover:shadow-2xl hover:shadow-white/20 disabled:opacity-50 disabled:cursor-not-allowed w-full sm:w-auto h-10 sm:h-14 backdrop-blur-lg border border-white/20 text-sm sm:text-base"
                   >
                     {isSubmitting ? (
                       <div className="flex items-center gap-2">
                         <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                        <span className="hidden sm:inline">Submitting...</span>
-                        <span className="sm:hidden">Submitting</span>
+                        <span className="hidden sm:inline text-white !bg-none !bg-transparent !bg-clip-border ![background-clip:unset] ![-webkit-text-fill-color:white]">
+                          Submitting...
+                        </span>
+                        <span className="sm:hidden text-white !bg-none !bg-transparent !bg-clip-border ![background-clip:unset] ![-webkit-text-fill-color:white]">
+                          Submitting
+                        </span>
+
                       </div>
                     ) : (
                       "Register Team"
@@ -635,6 +655,13 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
                     Reset Form
                   </Button>
                 </div>
+                {!termsAccepted && (
+                  <div className="text-center mt-4">
+                    <p className="text-yellow-400/80 text-xs sm:text-sm px-2">
+                      Please accept the Terms & Conditions to proceed with registration
+                    </p>
+                  </div>
+                )}
                 <div className="text-center mt-4 sm:mt-6">
                   <p className="text-gray-400 text-xs sm:text-sm px-2">
                     By registering, you agree to participate in ZIGNASA 2K25 competition
