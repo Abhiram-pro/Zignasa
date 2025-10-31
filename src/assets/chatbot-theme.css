@@ -1,4 +1,4 @@
-/* Omnidimension Chatbot Purple Theme Override */
+/* Deep Blue Night Sky Chatbot Theme Override */
 
 /* Target all possible chatbot elements */
 div[id*="omnidimension"],
@@ -9,9 +9,9 @@ div[class*="widget"],
 .omnidimension-widget-button,
 [id*="omnidimension"] *,
 [class*="omnidimension"] * {
-  background: linear-gradient(135deg, #a855f7 0%, #9333ea 100%) !important;
-  box-shadow: 0 4px 20px rgba(168, 85, 247, 0.4) !important;
-  border: 1px solid rgba(168, 85, 247, 0.3) !important;
+  background: linear-gradient(145deg, #0f1419 0%, #1a1f3a 25%, #252a52 50%, #1e2347 75%, #0d1117 100%) !important;
+  box-shadow: 0 15px 40px rgba(15, 20, 25, 0.8) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
 }
 
 /* Hover states */
@@ -19,8 +19,8 @@ div[id*="omnidimension"]:hover,
 div[class*="omnidimension"]:hover,
 div[id*="widget"]:hover,
 div[class*="widget"]:hover {
-  background: linear-gradient(135deg, #9333ea 0%, #7c3aed 100%) !important;
-  box-shadow: 0 6px 25px rgba(168, 85, 247, 0.6) !important;
+  background: linear-gradient(145deg, #1a1f3a 0%, #252a52 50%, #1e2347 100%) !important;
+  box-shadow: 0 20px 50px rgba(15, 20, 25, 0.9) !important;
   transform: scale(1.05) !important;
 }
 
