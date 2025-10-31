@@ -38,17 +38,13 @@ const Home: React.FC = () => {
   useEffect(() => {
     const isMobile = () => (typeof window !== 'undefined') && (window.matchMedia('(max-width: 768px)').matches || ('ontouchstart' in window));
 
-    // Scroll handler for video straightening effect (soft on mobile)
+    // Scroll handler for video straightening effect (optimized for mobile)
+    let videoTicking = false;
     const handleScroll = () => {
       const videoSection = document.getElementById('about');
       if (videoSection) {
         const rect = videoSection.getBoundingClientRect();
         const windowHeight = window.innerHeight;
-
-        // Calculate scroll progress based on section position
-        // When section is below viewport: rotation = 30deg (full lean)
-        // When section reaches center: rotation = 0deg (straight)
-        // When section goes above viewport: rotation = 30deg (lean again)
 
         const sectionCenter = rect.top + rect.height / 2;
         const viewportCenter = windowHeight / 2;
@@ -64,10 +60,20 @@ const Home: React.FC = () => {
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    const optimizedVideoScroll = () => {
+      if (!videoTicking) {
+        window.requestAnimationFrame(() => {
+          handleScroll();
+          videoTicking = false;
+        });
+        videoTicking = true;
+      }
+    };
+
+    window.addEventListener('scroll', optimizedVideoScroll, { passive: true });
     handleScroll(); // Initial call
 
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', optimizedVideoScroll);
   }, []);
 
   useEffect(() => {
@@ -87,14 +93,17 @@ const Home: React.FC = () => {
         }
       }, 1000);
 
-      // Initialize AOS (Animate On Scroll) - subtle on mobile
+      // Initialize AOS (Animate On Scroll) - optimized for mobile
       if (typeof window.AOS !== 'undefined') {
         const isMobile = () => (typeof window !== 'undefined') && (window.matchMedia('(max-width: 768px)').matches || ('ontouchstart' in window));
         window.AOS.init({
-          duration: isMobile() ? 400 : 800,
+          duration: isMobile() ? 300 : 800,
           once: true,
-          easing: 'ease-out-quart',
-          offset: isMobile() ? 40 : 120,
+          easing: 'ease-out-cubic',
+          offset: isMobile() ? 30 : 120,
+          delay: 0,
+          disable: false,
+          throttleDelay: isMobile() ? 50 : 99,
         } as any);
       }
 
@@ -311,9 +320,21 @@ const Home: React.FC = () => {
       }
     }, isMobile() ? 120 : 50);
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    // Use requestAnimationFrame for smoother scroll on mobile
+    let ticking = false;
+    const optimizedScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          handleScroll();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', optimizedScroll, { passive: true });
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('scroll', optimizedScroll);
       clearInterval(breathingInterval);
     };
   }, []);
@@ -608,7 +629,8 @@ const Home: React.FC = () => {
               transform: 'translateZ(0)',
               willChange: 'transform, opacity',
               filter: 'brightness(1.5) contrast(1.6) drop-shadow(0 0 60px rgba(168, 85, 247, 0.5))',
-              transformStyle: 'preserve-3d'
+              transformStyle: 'preserve-3d',
+              imageRendering: '-webkit-optimize-contrast'
             }}
           ></div>
 
@@ -722,7 +744,8 @@ const Home: React.FC = () => {
             data-aos-duration="1500"
             style={{
               transform: `perspective(1500px) rotateX(${videoRotation}deg) scale(0.95)`,
-              transition: 'transform 0.1s ease-out'
+              transition: 'transform 0.15s cubic-bezier(0.4, 0, 0.2, 1)',
+              willChange: 'transform'
             }}
           >
             <video
@@ -1408,7 +1431,7 @@ const Home: React.FC = () => {
                       <Phone className="w-6 h-6 text-purple-400 group-hover:animate-pulse" />
                     </div>
                     <h3 className="text-xl font-semibold text-white group-hover:text-purple-300 transition-colors duration-300">Call Us</h3>
-                    <div className="text-gray-300 space-y-3 w-full">
+                    <div className="text-gray-300 space-y-1 w-full">
                       <div
                         onClick={() => copyToClipboard('7816005757', 'phone number')}
                         className="group/item flex items-center gap-2 p-3 rounded-xl hover:bg-purple-500/10 transition-all duration-300 cursor-pointer hover:scale-105"
@@ -1438,13 +1461,13 @@ const Home: React.FC = () => {
                   {/* Animated background gradient */}
                   <div className="absolute inset-0 bg-gradient-to-br from-purple-500/0 via-purple-500/0 to-purple-500/0 group-hover:from-purple-500/5 group-hover:via-purple-500/10 group-hover:to-purple-500/5 transition-all duration-500 rounded-3xl"></div>
 
-                  <div className="relative flex flex-col items-center space-y-4">
+                  <div className="relative flex flex-col items-center justify-center space-y-4 text-center">
                     <div className="p-4 bg-purple-500/20 backdrop-blur-sm rounded-2xl border-0 group-hover:bg-purple-500/30 group-hover:scale-110 group-hover:-rotate-6 transition-all duration-500">
                       <Mail className="w-6 h-6 text-purple-400 group-hover:animate-pulse" />
                     </div>
                     <h3 className="text-xl font-semibold text-white group-hover:text-purple-300 transition-colors duration-300">Email Us</h3>
-                    <div className="flex items-center gap-2 p-3 rounded-xl hover:bg-purple-500/10 transition-all duration-300">
-                      <p className="text-gray-300 group-hover:text-purple-300 transition-colors duration-300">
+                    <div className="flex items-center justify-center gap-2 p-3 rounded-xl hover:bg-purple-500/10 transition-all duration-300">
+                      <p className="text-gray-300 group-hover:text-purple-300 transition-colors duration-300 text-center">
                         zignasa2k25@gmail.com
                       </p>
                       <Copy className="w-4 h-4 opacity-0 group-hover:opacity-100 text-purple-400 transition-all duration-300" />
