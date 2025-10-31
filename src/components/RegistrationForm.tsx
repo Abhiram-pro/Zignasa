@@ -75,6 +75,12 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [termsAccepted, setTermsAccepted] = useState(false);
+  const [toast, setToast] = useState<{ message: string; type: 'error' | 'success' | 'warning' } | null>(null);
+
+  const showToast = (message: string, type: 'error' | 'success' | 'warning' = 'error') => {
+    setToast({ message, type });
+    setTimeout(() => setToast(null), 4000);
+  };
 
   // Lazy load Razorpay script only when needed (on payment)
   const loadRazorpayScript = useCallback(async () => {
@@ -178,20 +184,51 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
     setIsSubmitting(true);
 
     try {
+      const teamSize = parseInt(formData.team_size);
+      
+      // Validate all required members have all fields filled
+      for (let i = 0; i < teamSize; i++) {
+        const member = formData.members[i];
+        const memberLabel = i === 0 ? 'Team Lead' : `Team Member ${i}`;
+        
+        if (!member.name.trim()) {
+          showToast(`Please fill in the name for ${memberLabel}`, 'warning');
+          setIsSubmitting(false);
+          return;
+        }
+        
+        if (!member.email.trim()) {
+          showToast(`Please fill in the email for ${memberLabel}`, 'warning');
+          setIsSubmitting(false);
+          return;
+        }
+        
+        if (!member.phone.trim() || member.phone.length !== 10) {
+          showToast(`Please fill in a valid 10-digit phone number for ${memberLabel}`, 'warning');
+          setIsSubmitting(false);
+          return;
+        }
+        
+        if (!member.college.trim()) {
+          showToast(`Please fill in the college for ${memberLabel}`, 'warning');
+          setIsSubmitting(false);
+          return;
+        }
+        
+        if (!member.rollNumber.trim()) {
+          showToast(`Please fill in the roll number for ${memberLabel}`, 'warning');
+          setIsSubmitting(false);
+          return;
+        }
+      }
+
       // Prepare the members data
       const teamMembers = formData.members
-        .slice(0, parseInt(formData.team_size))
-        .filter(member => member.name.trim() !== '')
+        .slice(0, teamSize)
         .map((member, index) => ({
           ...member,
           role: index === 0 ? 'Team Lead' as const : 'Member' as const
         }));
-
-      if (teamMembers.length === 0) {
-        alert('Please fill in at least one team member\'s information');
-        setIsSubmitting(false);
-        return;
-      }
 
       console.log('Creating team with data:', { teamName: formData.teamName, domain: formData.domain });
 
@@ -210,7 +247,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
 
       if (teamError || !createdTeam) {
         console.error('Team creation error:', teamError);
-        alert('Failed to create team. Please try again.');
+        showToast('Failed to create team. Please try again.', 'error');
         setIsSubmitting(false);
         return;
       }
@@ -235,7 +272,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
 
       if (hasRegistrationError) {
         console.error('Some registrations failed');
-        alert('Failed to create some registrations. Please try again.');
+        showToast('Failed to create some registrations. Please try again.', 'error');
         setIsSubmitting(false);
         return;
       }
@@ -258,7 +295,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
       const paymentLink = razorpayLinks[formData.domain];
 
       if (!paymentLink) {
-        alert('Payment link not configured for this domain');
+        showToast('Payment link not configured for this domain', 'error');
         setIsSubmitting(false);
         return;
       }
@@ -268,7 +305,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
 
     } catch (error) {
       console.error('Registration error:', error);
-      alert('An unexpected error occurred. Please try again.');
+      showToast('An unexpected error occurred. Please try again.', 'error');
     } finally {
       setIsSubmitting(false);
     }
@@ -299,6 +336,92 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
 
   return (
     <div className="min-h-screen bg-transparent py-8 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-6 relative overflow-hidden">
+      {/* Toast Notification */}
+      {toast && (
+        <div 
+          className="fixed top-4 right-4 left-4 sm:left-auto z-[9999] pointer-events-auto"
+          style={{ 
+            animation: 'slideInFromTop 0.3s ease-out'
+          }}
+        >
+          <div 
+            className="backdrop-blur-xl border rounded-xl sm:rounded-2xl p-4 sm:p-5 shadow-2xl w-full sm:min-w-[350px] sm:max-w-md"
+            style={{ 
+              background: toast.type === 'error' 
+                ? 'rgba(239, 68, 68, 0.2)' 
+                : toast.type === 'warning'
+                ? 'rgba(234, 179, 8, 0.2)'
+                : 'rgba(34, 197, 94, 0.2)',
+              borderColor: toast.type === 'error'
+                ? 'rgba(239, 68, 68, 0.5)'
+                : toast.type === 'warning'
+                ? 'rgba(234, 179, 8, 0.5)'
+                : 'rgba(34, 197, 94, 0.5)',
+              boxShadow: toast.type === 'error'
+                ? '0 20px 25px -5px rgba(239, 68, 68, 0.3), 0 10px 10px -5px rgba(239, 68, 68, 0.2)'
+                : toast.type === 'warning'
+                ? '0 20px 25px -5px rgba(234, 179, 8, 0.3), 0 10px 10px -5px rgba(234, 179, 8, 0.2)'
+                : '0 20px 25px -5px rgba(34, 197, 94, 0.3), 0 10px 10px -5px rgba(34, 197, 94, 0.2)'
+            }}
+          >
+            <div className="flex items-start gap-3">
+              <div 
+                className="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center"
+                style={{
+                  background: toast.type === 'error'
+                    ? 'rgba(239, 68, 68, 0.3)'
+                    : toast.type === 'warning'
+                    ? 'rgba(234, 179, 8, 0.3)'
+                    : 'rgba(34, 197, 94, 0.3)'
+                }}
+              >
+                {toast.type === 'error' && (
+                  <span className="text-red-300 text-base font-bold">✕</span>
+                )}
+                {toast.type === 'warning' && (
+                  <span className="text-yellow-300 text-base font-bold">!</span>
+                )}
+                {toast.type === 'success' && (
+                  <span className="text-green-300 text-base font-bold">✓</span>
+                )}
+              </div>
+              <p 
+                className="text-sm sm:text-base font-medium flex-1"
+                style={{
+                  color: toast.type === 'error'
+                    ? '#fecaca'
+                    : toast.type === 'warning'
+                    ? '#fef08a'
+                    : '#bbf7d0'
+                }}
+              >
+                {toast.message}
+              </p>
+              <button
+                onClick={() => setToast(null)}
+                className="flex-shrink-0 text-white/70 hover:text-white transition-colors ml-2"
+                style={{ fontSize: '24px', lineHeight: '1' }}
+              >
+                ×
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <style>{`
+        @keyframes slideInFromTop {
+          from {
+            opacity: 0;
+            transform: translateY(-20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      `}</style>
+
       {/* Optimized Background Effects - Reduced for performance */}
       <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-transparent pointer-events-none"></div>
       {/* Hide blur effects on mobile/tablet, only show on lg screens */}
@@ -493,12 +616,13 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
                       </h3>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                         <div>
-                          <Label className="text-gray-300 mb-2 sm:mb-3 block font-medium text-xs sm:text-sm">Full Name</Label>
+                          <Label className="text-gray-300 mb-2 sm:mb-3 block font-medium text-xs sm:text-sm">Full Name *</Label>
                           <Input
                             type="text"
                             name={`member_${memberIndex}_name`}
                             value={formData.members[memberIndex].name}
                             onChange={handleInputChange}
+                            required
                             pattern="[a-zA-Z\s]+"
                             minLength={2}
                             title="Please enter a valid name (letters and spaces only)"
@@ -507,12 +631,13 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
                           />
                         </div>
                         <div>
-                          <Label className="text-gray-300 mb-2 sm:mb-3 block font-medium text-xs sm:text-sm">College</Label>
+                          <Label className="text-gray-300 mb-2 sm:mb-3 block font-medium text-xs sm:text-sm">College *</Label>
                           <Input
                             type="text"
                             name={`member_${memberIndex}_college`}
                             value={formData.members[memberIndex].college}
                             onChange={handleInputChange}
+                            required
                             minLength={3}
                             title="Please enter college name"
                             className="bg-white/[0.05] backdrop-blur-sm border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-white/30 focus:border-white/50 transition-all duration-300 rounded-lg sm:rounded-xl h-10 sm:h-12 text-sm"
@@ -520,12 +645,13 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
                           />
                         </div>
                         <div>
-                          <Label className="text-gray-300 mb-2 sm:mb-3 block font-medium text-xs sm:text-sm">Email Address</Label>
+                          <Label className="text-gray-300 mb-2 sm:mb-3 block font-medium text-xs sm:text-sm">Email Address *</Label>
                           <Input
                             type="email"
                             name={`member_${memberIndex}_email`}
                             value={formData.members[memberIndex].email}
                             onChange={handleInputChange}
+                            required
                             pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
                             title="Please enter a valid email address"
                             className="bg-white/[0.05] backdrop-blur-sm border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-white/30 focus:border-white/50 transition-all duration-300 rounded-lg sm:rounded-xl h-10 sm:h-12 text-sm"
@@ -533,12 +659,13 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
                           />
                         </div>
                         <div>
-                          <Label className="text-gray-300 mb-2 sm:mb-3 block font-medium text-xs sm:text-sm">Phone Number</Label>
+                          <Label className="text-gray-300 mb-2 sm:mb-3 block font-medium text-xs sm:text-sm">Phone Number *</Label>
                           <Input
                             type="tel"
                             name={`member_${memberIndex}_phone`}
                             value={formData.members[memberIndex].phone}
                             onChange={handleInputChange}
+                            required
                             pattern="[0-9]{10}"
                             maxLength={10}
                             minLength={10}
@@ -548,12 +675,13 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
                           />
                         </div>
                         <div>
-                          <Label className="text-gray-300 mb-2 sm:mb-3 block font-medium text-xs sm:text-sm">Roll Number</Label>
+                          <Label className="text-gray-300 mb-2 sm:mb-3 block font-medium text-xs sm:text-sm">Roll Number *</Label>
                           <Input
                             type="text"
                             name={`member_${memberIndex}_rollNumber`}
                             value={formData.members[memberIndex].rollNumber}
                             onChange={handleInputChange}
+                            required
                             pattern="[A-Z0-9\-_]+"
                             minLength={3}
                             title="Please enter a valid roll number (alphanumeric, hyphens, underscores)"
