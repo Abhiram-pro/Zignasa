@@ -15,6 +15,7 @@ const Home: React.FC = () => {
   const [copiedText, setCopiedText] = useState<string>('');
   const [showToast, setShowToast] = useState(false);
   const [activeCard, setActiveCard] = useState<number | null>(null);
+  const [showPhoneNumbers, setShowPhoneNumbers] = useState(false);
 
   const copyToClipboard = (text: string, label: string) => {
     navigator.clipboard.writeText(text).then(() => {
@@ -1426,26 +1427,64 @@ const Home: React.FC = () => {
                   {/* Animated background gradient */}
                   <div className="absolute inset-0 bg-gradient-to-br from-purple-500/0 via-purple-500/0 to-purple-500/0 group-hover:from-purple-500/5 group-hover:via-purple-500/10 group-hover:to-purple-500/5 transition-all duration-500 rounded-3xl"></div>
 
-                  <div className="relative flex flex-col items-center space-y-4">
-                    <div className="p-4 bg-purple-500/20 backdrop-blur-sm rounded-2xl border-0 group-hover:bg-purple-500/30 group-hover:scale-110 group-hover:rotate-12 transition-all duration-500">
-                      <Phone className="w-6 h-6 text-purple-400 group-hover:animate-pulse" />
+                  <div className="relative flex flex-col items-center justify-center space-y-4 w-full mx-auto">
+                    <div className="flex flex-col items-center justify-center gap-2 mx-auto">
+                      <button
+                        onClick={() => setShowPhoneNumbers(!showPhoneNumbers)}
+                        className="p-4 bg-purple-500/20 backdrop-blur-sm rounded-2xl border-0 hover:bg-purple-500/30 hover:scale-110 hover:rotate-12 transition-all duration-500 cursor-pointer focus:outline-none flex items-center justify-center"
+                        aria-label="Toggle phone numbers"
+                      >
+                        <Phone className="w-6 h-6 text-purple-400" />
+                      </button>
+                      <p className="text-purple-300/60 text-xs font-medium animate-pulse">Click here</p>
                     </div>
                     <h3 className="text-xl font-semibold text-white group-hover:text-purple-300 transition-colors duration-300">Call Us</h3>
-                    <div className="text-gray-300 space-y-1 w-full">
-                      <div
-                        onClick={() => copyToClipboard('7816005757', 'phone number')}
-                        className="group/item flex items-center gap-2 p-3 rounded-xl hover:bg-purple-500/10 transition-all duration-300 cursor-pointer hover:scale-105"
-                      >
-                        {/*<p className="group-hover/item:text-purple-300 transition-colors duration-300"> Yashwanth Reddy - +91 7816005757 </p> */}
-                        <p className="group-hover/item:text-purple-300 transition-colors duration-300">Yashwanth - +91 7816005757</p>
-                        <Copy className="w-4 h-4 opacity-0 group-hover/item:opacity-100 text-purple-400 transition-all duration-300 flex-shrink-0" />
-                      </div>
-                      <div
-                        onClick={() => copyToClipboard('9121827709', 'phone number')}
-                        className="group/item flex items-center gap-2 p-3 rounded-xl hover:bg-purple-500/10 transition-all duration-300 cursor-pointer hover:scale-105"
-                      >
-                        <p className="group-hover/item:text-purple-300 transition-colors duration-300">M Prajith  - +91 9121827709</p>
-                        <Copy className="w-4 h-4 opacity-0 group-hover/item:opacity-100 text-purple-400 transition-all duration-300 flex-shrink-0" />
+                    
+                    {/* Phone numbers dropdown */}
+                    <div 
+                      className={`w-full max-w-xs mx-auto transition-all duration-300 ease-out origin-top ${
+                        showPhoneNumbers 
+                          ? 'opacity-100 scale-y-100 max-h-40' 
+                          : 'opacity-0 scale-y-0 max-h-0 pointer-events-none'
+                      }`}
+                    >
+                      <div className="bg-purple-900/30 backdrop-blur-xl border border-purple-500/30 rounded-xl shadow-2xl overflow-hidden">
+                        <div className="p-2 space-y-1">
+                          <div
+                            onClick={() => {
+                              copyToClipboard('7816005757', 'phone number');
+                            }}
+                            className="group/item flex items-center gap-2 p-3 rounded-lg hover:bg-purple-500/20 transition-all duration-200 cursor-pointer"
+                          >
+                            <p className="text-gray-200 group-hover/item:text-purple-300 transition-colors duration-200 text-sm flex-1">
+                              <span className="inline-block w-20 text-left font-medium text-white !bg-none !bg-transparent !bg-clip-border ![background-clip:unset] ![-webkit-text-fill-color:white]">
+                              Yashwanth
+                              </span>{' '}
+                              <span className="text-white !bg-none !bg-transparent !bg-clip-border ![background-clip:unset] ![-webkit-text-fill-color:white]">
+                              +91 7816005757
+                              </span>
+
+                            </p>
+                            <Copy className="w-3.5 h-3.5 opacity-0 group-hover/item:opacity-100 text-purple-400 transition-all duration-200 flex-shrink-0" />
+                          </div>
+                          <div
+                            onClick={() => {
+                              copyToClipboard('9121827709', 'phone number');
+                            }}
+                            className="group/item flex items-center gap-2 p-3 rounded-lg hover:bg-purple-500/20 transition-all duration-200 cursor-pointer"
+                          >
+                            <p className="text-gray-200 group-hover/item:text-purple-300 transition-colors duration-200 text-sm flex-1">
+                             <span className="inline-block w-20 text-left font-medium text-white !bg-none !bg-transparent !bg-clip-border ![background-clip:unset] ![-webkit-text-fill-color:white]">
+                                M Prajith
+                              </span>{' '}
+                              <span className="text-white !bg-none !bg-transparent !bg-clip-border ![background-clip:unset] ![-webkit-text-fill-color:white]">
+                                +91 9121827709
+                              </span>
+
+                            </p>
+                            <Copy className="w-3.5 h-3.5 opacity-0 group-hover/item:opacity-100 text-purple-400 transition-all duration-200 flex-shrink-0" />
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
