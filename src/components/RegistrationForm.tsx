@@ -6,6 +6,8 @@ import { Label } from './ui/label';
 import { Button } from './ui/button';
 import { Users, User, Building, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { teamsService, registrationsService } from '../services/databaseService';
+import type { Team, Registration } from '../services/databaseService';
 
 interface RegistrationFormProps {
   title: string;
@@ -219,81 +221,97 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
     setIsSubmitting(true);
 
     try {
-      // Prepare the data in the required format
-      const submissionData = {
-        teamName: formData.teamName,
-        domain: formData.domain,
-        members: formData.members
-          .slice(0, parseInt(formData.team_size)) // Only include members up to team size
-          .filter(member => member.name.trim() !== '') // Only include members with names
-          .map((member, index) => ({
-            ...member,
-            role: index === 0 ? 'Team Lead' : 'Member' // First member is always team lead
-          }))
-      };
+      // Prepare the members data
+      const teamMembers = formData.members
+        .slice(0, parseInt(formData.team_size))
+        .filter(member => member.name.trim() !== '')
+        .map((member, index) => ({
+          ...member,
+          role: index === 0 ? 'Team Lead' as const : 'Member' as const
+        }));
 
-      console.log('Sending request to server with data:', JSON.stringify(submissionData, null, 2));
+      if (teamMembers.length === 0) {
+        alert('Please fill in at least one team member\'s information');
+        setIsSubmitting(false);
+        return;
+      }
 
-      const response = await axios.post(
-        `https://zignasa-backend.vercel.app/registration`,
-        submissionData,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          timeout: 10000, // 10 second timeout
-        }
+      console.log('Creating team with data:', { teamName: formData.teamName, domain: formData.domain });
+
+      // Step 1: Create team in Supabase
+      const { data: createdTeam, error: teamError } = await teamsService.createTeam({
+        team_name: formData.teamName,
+        domain: formData.domain as 'Web Dev' | 'Agentic AI' | 'UI/UX',
+        payment_status: 'Pending',
+        team_size: teamMembers.length,
+        amount_in_paise: null,
+        razorpay_order_id: null,
+        razorpay_payment_id: null,
+        payment_initiated_at: null,
+        payment_verified_at: null
+      });
+
+      if (teamError || !createdTeam) {
+        console.error('Team creation error:', teamError);
+        alert('Failed to create team. Please try again.');
+        setIsSubmitting(false);
+        return;
+      }
+
+      console.log('Team created successfully:', createdTeam);
+
+      // Step 2: Create registrations for all team members
+      const registrationPromises = teamMembers.map(member =>
+        registrationsService.createRegistration({
+          team_id: createdTeam.id,
+          name: member.name,
+          email: member.email,
+          phone: member.phone,
+          college: member.college,
+          role: member.role,
+          roll_number: member.rollNumber
+        })
       );
 
-      console.log('Server response:', response);
+      const registrationResults = await Promise.all(registrationPromises);
+      const hasRegistrationError = registrationResults.some(result => result.error);
 
-      if (response.data && response.data.success) {
-        const registrationData = response.data as RegistrationResponse;
-        console.log('Registration successful! Opening payment gateway...');
-
-        // Initiate Razorpay payment with the members data and registration data
-        initiatePayment(
-          registrationData.data.paymentDetails,
-          registrationData.data.teamName,
-          registrationData.data.teamId,
-          submissionData.members as MemberData[],
-          registrationData.data
-        );
-      } else {
-        console.error('Registration failed:', response.data);
-        alert('Registration failed. Please try again.');
+      if (hasRegistrationError) {
+        console.error('Some registrations failed');
+        alert('Failed to create some registrations. Please try again.');
+        setIsSubmitting(false);
+        return;
       }
+
+      console.log('All registrations created successfully');
+
+      // Step 3: Store team info in session storage
+      sessionStorage.setItem('registrationTeamId', createdTeam.id.toString());
+      sessionStorage.setItem('registrationTeamName', formData.teamName);
+      sessionStorage.setItem('registrationDomain', formData.domain);
+      sessionStorage.setItem('registrationMembers', JSON.stringify(teamMembers));
+
+      // Step 4: Redirect to appropriate Razorpay payment link based on domain
+      const razorpayLinks: { [key: string]: string } = {
+        'Web Dev': 'https://rzp.io/rzp/32GCe1a',
+        'Agentic AI': 'https://rzp.io/rzp/YsvYiO1',
+        'UI/UX': 'https://rzp.io/rzp/9mvbA0V'
+      };
+
+      const paymentLink = razorpayLinks[formData.domain];
+
+      if (!paymentLink) {
+        alert('Payment link not configured for this domain');
+        setIsSubmitting(false);
+        return;
+      }
+
+      console.log('Redirecting to payment link:', paymentLink);
+      window.location.href = paymentLink;
+
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        console.error('Axios error details:', {
-          message: error.message,
-          response: error.response?.data,
-          status: error.response?.status,
-          config: {
-            url: error.config?.url,
-            method: error.config?.method,
-            data: error.config?.data,
-            headers: error.config?.headers,
-          },
-        });
-
-        if (error.response) {
-          // The request was made and the server responded with a status code
-          // that falls out of the range of 2xx
-          alert(`Error: ${error.response.status} - ${error.response.data?.message || 'Server error'}`);
-        } else if (error.request) {
-          // The request was made but no response was received
-          console.error('No response received:', error.request);
-          alert('No response from server. Please check your connection and try again.');
-        } else {
-          // Something happened in setting up the request that triggered an Error
-          console.error('Request setup error:', error.message);
-          alert(`Request error: ${error.message}`);
-        }
-      } else {
-        console.error('Non-Axios error:', error);
-        alert('An unexpected error occurred. Please try again.');
-      }
+      console.error('Registration error:', error);
+      alert('An unexpected error occurred. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
