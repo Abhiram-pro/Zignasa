@@ -42,6 +42,10 @@ const Domains: React.FC = () => {
         .domain-card {
           position: relative;
           overflow: hidden;
+          z-index: 5;
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+          transform: translateY(0) scale(1) !important;
+          will-change: transform, box-shadow, border-color;
         }
         
         .card-burst-bg {
@@ -68,7 +72,22 @@ const Domains: React.FC = () => {
         
         .card-content {
           position: relative;
-          z-index: 1;
+          z-index: 10;
+        }
+        
+
+        
+        .domain-card:hover {
+          transform: translateY(-12px) scale(1.05) !important;
+          box-shadow: 0 25px 50px -12px rgba(139, 92, 246, 0.4), 
+                      0 0 0 1px rgba(255, 255, 255, 0.2),
+                      0 10px 25px rgba(0, 0, 0, 0.3) !important;
+          z-index: 10 !important;
+          border-color: rgba(255, 255, 255, 0.6) !important;
+        }
+        
+        .domain-card:hover .card-content {
+          transform: translateZ(0);
         }
         
         @media (max-width: 768px) {
@@ -98,14 +117,14 @@ const Domains: React.FC = () => {
         />
       </div>
 
-      <div className="min-h-screen relative" style={{ zIndex: 1 }}>
+      <div className="min-h-screen relative" style={{ zIndex: 10 }}>
         <Navbar />
 
         <main className="main pt-12 sm:pt-16 md:pt-20 lg:pt-28 relative">
           {/* Domains Section */}
-          <section id="domains" className="py-8 sm:py-12 md:py-16 lg:py-28 bg-transparent border-0" style={{ height: '1830px' }}>
+          <section id="domains" className="py-8 sm:py-12 md:py-16 lg:py-20 bg-transparent border-0">
             <div className="container mx-auto px-4 sm:px-6 md:px-8 bg-transparent border-0">
-              <div className="text-center mb-12 sm:mb-16 md:mb-20 bg-transparent border-0" data-aos="fade-up">
+              <div className="text-center mb-8 sm:mb-12 md:mb-16 bg-transparent border-0" data-aos="fade-up">
                 <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6 leading-tight">
                   Domains For ZIGNASA - 2K25
                 </h2>
@@ -114,8 +133,8 @@ const Domains: React.FC = () => {
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 md:gap-10 lg:gap-12 max-w-full mx-auto bg-transparent border-0">
-                <div className="domain-card border border-white/30 rounded-2xl sm:rounded-2xl md:rounded-3xl p-6 sm:p-8 md:p-10 lg:p-12 transition-all duration-300 group hover:border-white/50 shadow-2xl flex flex-col" style={{ background: 'rgba(0, 0, 0, 0.85)' }} data-aos="zoom-in" data-aos-delay="100">
+              <div className="flex flex-col lg:flex-row justify-center items-stretch gap-6 sm:gap-8 md:gap-10 lg:gap-8 max-w-7xl mx-auto bg-transparent border-0">
+                <div className="domain-card border border-white/30 rounded-2xl sm:rounded-2xl md:rounded-3xl p-6 sm:p-8 md:p-10 lg:p-10 group hover:border-white/50 shadow-2xl flex flex-col w-full lg:flex-1" style={{ background: 'rgba(0, 0, 0, 0.85)' }} data-aos="zoom-in" data-aos-delay="100">
                   <div className="card-burst-bg">
                     <PrismaticBurst
                       intensity={2.5}
@@ -162,7 +181,7 @@ const Domains: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="domain-card border border-white/30 rounded-2xl sm:rounded-2xl md:rounded-3xl p-6 sm:p-8 md:p-10 lg:p-12 transition-all duration-300 group hover:border-white/50 shadow-2xl flex flex-col" style={{ background: 'rgba(0, 0, 0, 0.85)' }} data-aos="zoom-in" data-aos-delay="200">
+                <div className="domain-card border border-white/30 rounded-2xl sm:rounded-2xl md:rounded-3xl p-6 sm:p-8 md:p-10 lg:p-10 group hover:border-white/50 shadow-2xl flex flex-col w-full lg:flex-1" style={{ background: 'rgba(0, 0, 0, 0.85)' }} data-aos="zoom-in" data-aos-delay="200">
                   <div className="card-burst-bg">
                     <PrismaticBurst
                       intensity={2.5}
@@ -209,7 +228,7 @@ const Domains: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="domain-card border border-white/30 rounded-2xl sm:rounded-2xl md:rounded-3xl p-6 sm:p-8 md:p-10 lg:p-12 transition-all duration-300 group hover:border-white/50 shadow-2xl md:col-span-1 lg:col-span-1 flex flex-col" style={{ background: 'rgba(0, 0, 0, 0.85)' }} data-aos="zoom-in" data-aos-delay="300">
+                <div className="domain-card border border-white/30 rounded-2xl sm:rounded-2xl md:rounded-3xl p-6 sm:p-8 md:p-10 lg:p-10 group hover:border-white/50 shadow-2xl flex flex-col w-full lg:flex-1" style={{ background: 'rgba(0, 0, 0, 0.85)' }} data-aos="zoom-in" data-aos-delay="300">
                   <div className="card-burst-bg">
                     <PrismaticBurst
                       intensity={2.5}
