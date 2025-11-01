@@ -9,6 +9,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './
 import EmblaCarousel from './ui/EmblaCarousel';
 import { Briefcase, BarChart3, Calendar, MapPin, Phone, Mail, ExternalLink, Copy, Check } from 'lucide-react';
 import Particles from './Particles';
+import ChatWidget from './ChatWidget';
 
 const Home: React.FC = () => {
   const [videoRotation, setVideoRotation] = useState(30);
@@ -111,58 +112,7 @@ const Home: React.FC = () => {
       // Initialize EmailJS
       emailjs.init("INIJKyGM6q2Y3kSF4");
 
-      // Initialize n8n Chat Widget
-      const initN8nChat = () => {
-        // Add n8n chat CSS
-        const chatCSS = document.createElement('link');
-        chatCSS.href = 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css';
-        chatCSS.rel = 'stylesheet';
-        document.head.appendChild(chatCSS);
 
-        // Add chat container
-        const chatContainer = document.createElement('div');
-        chatContainer.id = 'n8n-chat';
-        document.body.appendChild(chatContainer);
-
-        // Load n8n chat script
-        const chatScript = document.createElement('script');
-        chatScript.type = 'module';
-        chatScript.textContent = `
-          import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
-          
-          createChat({
-            webhookUrl: 'https://teja.mlritcie.in/webhook/223b953b-ef97-4800-a1be-8b05890044c1/chat',
-            webhookConfig: {
-              method: 'POST',
-              headers: {}
-            },
-            target: '#n8n-chat',
-            mode: 'window',
-            chatInputKey: 'chatInput',
-            chatSessionKey: 'sessionId',
-            loadPreviousSession: true,
-            metadata: {},
-            showWelcomeScreen: false,
-            defaultLanguage: 'en',
-            initialMessages: [
-              "Hello! I'm Zing!😺, here to assist you. What information can I help you find today?"
-            ],
-            i18n: {
-              en: {
-                title: 'Zing',
-                subtitle: '',
-                footer: '',
-                getStarted: 'New Conversation',
-                inputPlaceholder: 'Type your question..',
-              },
-            },
-            enableStreaming: false,
-          });
-        `;
-        document.body.appendChild(chatScript);
-      };
-
-      initN8nChat();
 
       // Initialize Swiper
       const initSwiper = () => {
@@ -265,11 +215,7 @@ const Home: React.FC = () => {
     initializeApp();
 
     return () => {
-      // Cleanup n8n chat when component unmounts
-      const chatContainer = document.getElementById('n8n-chat');
-      if (chatContainer) {
-        chatContainer.remove();
-      }
+      // Cleanup event listeners
     };
   }, []);
 
@@ -340,269 +286,11 @@ const Home: React.FC = () => {
     };
   }, []);
 
+
+
   return (
     <div className="index-page bg-gradient-to-b bg-black min-h-screen">
-      {/* n8n Chat Widget Styling */}
-      <style>{`
-        :root {
-          --chat--color--primary: #A78BFA;
-          --chat--color--primary-shade-50: #9333EA;
-          --chat--color--primary--shade-100: #7C3AED;
-          --chat--color--secondary: #F472B6;
-          --chat--color-secondary-shade-50: #EC4899;
-          --chat--color-white: #FFFFFF;
-          --chat--color-light: #7B68EE;
-          --chat--color-light-shade-50: #8B7FEE;
-          --chat--color-light-shade-100: #A78BFA;
-          --chat--color-medium: #6B7280;
-          --chat--color-dark: #2D3748;
-          --chat--color-disabled: #6B7280;
-          --chat--color-typing: #E9D5FF;
-          --chat--spacing: 0.75rem;
-          --chat--border-radius: 0.75rem;
-          --chat--transition-duration: 0.2s;
-          --chat--window--width: 350px;
-          --chat--window--height: 400px;
-          --chat--header-height: auto;
-          --chat--header--padding: 0.875rem 1rem;
-          --chat--header--background: #2D3748;
-          --chat--header--color: var(--chat--color-white);
-          --chat--header--border-top: none;
-          --chat--header--border-bottom: none;
-          --chat--heading--font-size: 1.15em;
-          --chat--subtitle--font-size: 0.85em;
-          --chat--subtitle--line-height: 1.4;
-          --chat--textarea--height: 38px;
-          --chat--message--font-size: 0.85rem;
-          --chat--message--padding: 0.625rem 0.875rem;
-          --chat--message--border-radius: 0.75rem;
-          --chat--message-line-height: 1.4;
-          --chat--message--bot--background: #3D4A5C;
-          --chat--message--bot--color: #FFFFFF;
-          --chat--message--bot--border: none;
-          --chat--message--user--background: #3D4A5C;
-          --chat--message--user--color: #FFFFFF;
-          --chat--message--user--border: none;
-          --chat--message--pre--background: rgba(0, 0, 0, 0.2);
-          --chat--toggle--background: linear-gradient(135deg, #A78BFA 0%, #F472B6 100%);
-          --chat--toggle--hover--background: linear-gradient(135deg, #9333EA 0%, #EC4899 100%);
-          --chat--toggle--active--background: linear-gradient(135deg, #7C3AED 0%, #DB2777 100%);
-          --chat--toggle--color: var(--chat--color-white);
-          --chat--toggle--size: 68px;
-        }
 
-        #n8n-chat {
-          background: linear-gradient(135deg, #7B68EE 0%, #A78BFA 100%);
-          border-radius: 1rem;
-          overflow: hidden;
-          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        }
-
-        [class*="messages"],
-        .chat-messages-container {
-          background: linear-gradient(135deg, #7B68EE 0%, #A78BFA 100%) !important;
-          padding: 1.25rem 0.75rem !important;
-        }
-
-        .chat-message-bot {
-          position: relative !important;
-          background: #3D4A5C !important;
-          color: #FFFFFF !important;
-          border-radius: 0.625rem !important;
-          box-shadow: none !important;
-          margin: 1rem 0.5rem !important;
-          padding: 0.75rem 0.875rem !important;
-          padding-left: 2.75rem !important;
-          max-width: 85% !important;
-          font-weight: 400 !important;
-          line-height: 1.5 !important;
-          border: 1px solid rgba(0, 0, 0, 0.08) !important;
-          font-size: 0.875rem !important;
-        }
-
-        .chat-message-user {
-          position: relative !important;
-          background: #3D4A5C !important;
-          color: #FFFFFF !important;
-          border-radius: 0.625rem !important;
-          box-shadow: none !important;
-          margin: 1rem 0.5rem !important;
-          padding: 0.75rem 0.875rem !important;
-          padding-left: 2.75rem !important;
-          max-width: 85% !important;
-          font-weight: 400 !important;
-          line-height: 1.5 !important;
-          border: 1px solid rgba(0, 0, 0, 0.08) !important;
-          font-size: 0.875rem !important;
-        }
-
-        .chat-message-bot::before,
-        .chat-message-user::before {
-          content: '';
-          position: absolute;
-          left: 0.625rem;
-          top: 0.75rem;
-          width: 26px;
-          height: 26px;
-          background: linear-gradient(135deg, #A78BFA 0%, #C4B5FD 100%);
-          border-radius: 50%;
-          box-shadow: 0 2px 6px rgba(167, 139, 250, 0.3);
-        }
-
-        .chat-message-bot::after,
-        .chat-message-user::after {
-          content: 'ZING!';
-          position: absolute;
-          left: 2.75rem;
-          top: 0.5rem;
-          font-size: 0.65rem;
-          font-weight: 600;
-          color: #E9D5FF;
-          text-transform: uppercase;
-          letter-spacing: 0.3px;
-        }
-
-        .chat-toggle {
-          box-shadow: 0 10px 40px rgba(167, 139, 250, 0.5) !important;
-          transition: all 0.3s ease !important;
-          position: relative !important;
-          overflow: hidden !important;
-        }
-
-        .chat-toggle::after {
-          content: '' !important;
-          position: absolute !important;
-          top: 50% !important;
-          left: 50% !important;
-          transform: translate(-50%, -50%) !important;
-          width: 70% !important;
-          height: 70% !important;
-          background-image: url('https://i.ibb.co/fVwm2N9X/Chat-Bot-1.png') !important;
-          background-size: contain !important;
-          background-position: center !important;
-          background-repeat: no-repeat !important;
-          z-index: 10 !important;
-        }
-
-        .chat-toggle:hover {
-          box-shadow: 0 12px 50px rgba(167, 139, 250, 0.7) !important;
-          transform: translateY(-2px) scale(1.03) !important;
-        }
-
-        .chat-toggle svg,
-        .chat-toggle img,
-        .chat-toggle [class*="icon"],
-        .chat-toggle > * {
-          opacity: 0 !important;
-          visibility: hidden !important;
-        }
-
-        .chat-input,
-        [class*="input"] {
-          background: #2D3748 !important;
-          padding: 0.5rem 0.625rem !important;
-          border-top: none !important;
-          display: flex !important;
-          align-items: center !important;
-          gap: 0.5rem !important;
-        }
-
-        .chat-input textarea,
-        [class*="input"] textarea {
-          background: #3D4A5C !important;
-          border: 1px solid rgba(167, 139, 250, 0.25) !important;
-          color: #FFFFFF !important;
-          border-radius: 0.625rem !important;
-          padding: 0.5rem 0.75rem !important;
-          font-size: 0.8rem !important;
-          resize: none !important;
-          line-height: 1.3 !important;
-          height: 38px !important;
-          min-height: 38px !important;
-          max-height: 38px !important;
-        }
-
-        .chat-input textarea::placeholder {
-          color: #9CA3AF !important;
-          opacity: 0.6 !important;
-        }
-
-        .chat-input textarea:focus {
-          border-color: rgba(167, 139, 250, 0.5) !important;
-          box-shadow: none !important;
-          outline: none !important;
-        }
-
-        .chat-input button,
-        [class*="send"] {
-          background: linear-gradient(135deg, #A78BFA 0%, #F472B6 100%) !important;
-          color: #FFFFFF !important;
-          border: none !important;
-          border-radius: 50% !important;
-          width: 36px !important;
-          height: 36px !important;
-          min-width: 36px !important;
-          max-width: 36px !important;
-          min-height: 36px !important;
-          max-height: 36px !important;
-          box-shadow: 0 2px 8px rgba(167, 139, 250, 0.3) !important;
-          transition: all 0.2s ease !important;
-          flex-shrink: 0 !important;
-          padding: 0 !important;
-          display: flex !important;
-          align-items: center !important;
-          justify-content: center !important;
-        }
-
-        .chat-input button:hover {
-          box-shadow: 0 3px 12px rgba(167, 139, 250, 0.5) !important;
-          transform: scale(1.05) !important;
-        }
-
-        [class*="header"] {
-          background: #2D3748 !important;
-        }
-
-        [class*="header"] > div,
-        [class*="header"] > [class*="content"] {
-          display: flex !important;
-          flex-direction: row !important;
-          align-items: center !important;
-          gap: 0.625rem !important;
-        }
-
-        [class*="header"] > div::before,
-        [class*="header"] > [class*="content"]::before {
-          content: '';
-          width: 32px;
-          height: 32px;
-          background-image: url('https://i.ibb.co/fVwm2N9X/Chat-Bot-1.png');
-          background-size: contain;
-          background-repeat: no-repeat;
-          background-position: center;
-          flex-shrink: 0;
-          order: -1;
-        }
-
-        [class*="header"] [class*="title"],
-        [class*="header"] h1,
-        [class*="header"] h2,
-        [class*="header"] h3,
-        [class*="heading"] {
-          color: #E9D5FF !important;
-          font-weight: 600 !important;
-          font-size: 1.1em !important;
-          margin: 0 !important;
-          display: inline-block !important;
-        }
-
-        [class*="header"] [class*="text"],
-        [class*="header"] [class*="info"] {
-          display: flex !important;
-          flex-direction: row !important;
-          align-items: center !important;
-        }
-      `}</style>
 
       <Navbar />
 
@@ -1544,6 +1232,9 @@ const Home: React.FC = () => {
 
       {/* Preloader */}
       <div id="preloader" className="bg-black"></div>
+
+      {/* Zing Chat Widget */}
+      <ChatWidget />
     </div>
   );
 };
