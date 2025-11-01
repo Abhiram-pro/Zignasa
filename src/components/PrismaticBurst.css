@@ -1,0 +1,41 @@
+.prismatic-burst-container {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  overflow: hidden !important;
+  pointer-events: none !important;
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+.prismatic-burst-container canvas {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  display: block !important;
+  transform: translateZ(0);
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .prismatic-burst-container {
+    transform: translate3d(0, 0, 0) !important;
+    backface-visibility: hidden !important;
+  }
+  
+  .prismatic-burst-container canvas {
+    transform: translate3d(0, 0, 0) !important;
+    backface-visibility: hidden !important;
+  }
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .prismatic-burst-container {
+    display: none;
+  }
+}

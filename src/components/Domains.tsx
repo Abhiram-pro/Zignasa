@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Button } from './ui/button';
 import { Users } from 'lucide-react';
 import { Navbar } from './ui/navbar';
-import Dither from './Dither';
+import PrismaticBurst from './PrismaticBurst';
 
 const Domains: React.FC = () => {
 
@@ -14,47 +14,48 @@ const Domains: React.FC = () => {
           background: #000 !important;
         }
         
-        .dither-wrapper {
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          z-index: 0;
-          pointer-events: none;
-        }
-        
-        .dither-wrapper canvas {
+        .prismatic-wrapper {
+          position: fixed !important;
+          top: 0 !important;
+          left: 0 !important;
           width: 100% !important;
           height: 100% !important;
-          display: block;
+          z-index: -1 !important;
+          pointer-events: none !important;
         }
         
         @media (max-width: 768px) {
-          .dither-wrapper {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            width: 100vw;
-            height: 100vh;
-            min-height: -webkit-fill-available;
+          .prismatic-wrapper {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            z-index: -1 !important;
+          }
+          
+          /* Override registration CSS conflicts */
+          body {
+            display: block !important;
+            align-items: unset !important;
+            justify-content: unset !important;
+            padding: 0 !important;
           }
         }
       `}</style>
 
-      {/* Dither Background - Fixed full screen */}
-      <div className="dither-wrapper" style={{ opacity: 0.5 }}>
-        <Dither
-          waveColor={[0.4, 0.2, 0.5]}
-          disableAnimation={false}
-          enableMouseInteraction={false}
-          mouseRadius={0.3}
-          colorNum={3}
-          waveAmplitude={0.28}
-          waveFrequency={2}
-          waveSpeed={0.04}
+      {/* PrismaticBurst Background - Fixed full screen */}
+      <div className="prismatic-wrapper" style={{ opacity: 0.6 }}>
+        <PrismaticBurst
+          intensity={1.5}
+          speed={0.3}
+          animationType="rotate3d"
+          colors={['#6366f1', '#8b5cf6', '#a855f7', '#c084fc', '#e879f9']}
+          distort={2}
+          rayCount={8}
+          mixBlendMode="lighten"
         />
       </div>
 
@@ -63,7 +64,7 @@ const Domains: React.FC = () => {
 
         <main className="main pt-12 sm:pt-16 md:pt-20 lg:pt-28 relative">
           {/* Domains Section */}
-          <section id="domains" className="py-8 sm:py-12 md:py-16 lg:py-28 bg-transparent border-0" style={{ height: '1830px' }}>
+          <section id="domains" className="py-8 sm:py-12 md:py-16 lg:py-20 bg-transparent border-0">
             <div className="container mx-auto px-4 sm:px-6 md:px-8 bg-transparent border-0">
               <div className="text-center mb-12 sm:mb-16 md:mb-20 bg-transparent border-0" data-aos="fade-up">
                 <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6 leading-tight">

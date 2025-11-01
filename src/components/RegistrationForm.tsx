@@ -335,7 +335,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
   };
 
   return (
-    <div className="min-h-screen bg-transparent py-8 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-6 relative overflow-hidden">
+    <div className="h-screen bg-transparent py-8 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-6 relative overflow-hidden">
       {/* Toast Notification */}
       {toast && (
         <div 
