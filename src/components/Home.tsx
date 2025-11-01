@@ -799,7 +799,7 @@ const Home: React.FC = () => {
 
 
         {/* FAQ Section */}
-        <section id="faq" className="py-28 bg-black border-0 max-h-[1150px] relative overflow-hidden">
+        <section id="faq" className="py-28 bg-black border-0 max-h-[1270px] relative overflow-hidden">
           {/* Particles Background */}
           <div className="absolute inset-0 pointer-events-none">
             <Particles
@@ -1164,7 +1164,7 @@ const Home: React.FC = () => {
                             <p className="text-gray-200 group-hover/item:text-purple-300 transition-colors duration-200 text-sm flex-1">
                              <span className="inline-block w-20 text-left font-medium text-white !bg-none !bg-transparent !bg-clip-border ![background-clip:unset] ![-webkit-text-fill-color:white]">
                                 M Prajith
-                              </span>{' '}
+                              </span>
                               <span className="text-white !bg-none !bg-transparent !bg-clip-border ![background-clip:unset] ![-webkit-text-fill-color:white]">
                                 +91 9121827709
                               </span>

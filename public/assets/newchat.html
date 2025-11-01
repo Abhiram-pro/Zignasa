@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zing AI Chat Widget</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f0f2f5;
+            height: 100vh;
+            position: relative;
+        }
+
+        /* Demo page content */
+        .page-content {
+            padding: 40px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .page-content h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .page-content p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        /* Floating chat button */
+        .chat-toggle-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, #8B5CF6, #A855F7, #C084FC);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 6px 24px rgba(139, 92, 246, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: white;
+            transition: all 0.3s ease;
+            z-index: 1001;
+            backdrop-filter: blur(10px);
+            outline: none;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .chat-toggle-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 32px rgba(139, 92, 246, 0.6);
+            background: linear-gradient(135deg, #7C3AED, #9333EA, #A855F7);
+        }
+
+        .chat-toggle-btn.active {
+            background: linear-gradient(135deg, #8B5CF6, #A855F7, #C084FC);
+            box-shadow: 0 6px 24px rgba(139, 92, 246, 0.4);
+        }
+
+        /* Chat widget container */
+        .chat-widget {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            width: 320px;
+            height: 420px;
+            background: linear-gradient(145deg, #1E1B4B, #312E81, #1E293B);
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(139, 92, 246, 0.1);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 1000;
+            animation: slideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            backdrop-filter: blur(20px);
+        }
+
+        /* Particle background canvas */
+        .particles-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 20px;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Ensure content is above particles */
+        .chat-header,
+        .chat-messages,
+        .typing-indicator,
+        .chat-input-container {
+            position: relative;
+            z-index: 2;
+        }
+
+        .chat-widget.active {
+            display: flex;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Chat header */
+        .chat-header {
+            display: flex;
+            align-items: center;
+            padding: 16px 20px;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(99, 102, 241, 0.05));
+            border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+
+
+        .bot-avatar {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #8B5CF6, #6366F1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            transform: rotate(45deg);
+            box-shadow: 0 3px 12px rgba(139, 92, 246, 0.3);
+        }
+
+        .bot-avatar::before {
+            content: '◆';
+            color: white;
+            font-size: 14px;
+            transform: rotate(-45deg);
+        }
+
+        .header-info {
+            flex: 1;
+        }
+
+        .header-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: white;
+        }
+
+        .header-subtitle {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 1px;
+        }
+
+        .menu-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 18px;
+            cursor: pointer;
+            padding: 6px;
+            border-radius: 6px;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .menu-btn:hover {
+            background: rgba(139, 92, 246, 0.2);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        /* Chat messages */
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background: transparent;
+        }
+
+        .message-container {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .message-container.user {
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 7px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transform: rotate(45deg);
+        }
+
+        .message-avatar.bot {
+            background: linear-gradient(135deg, #8B5CF6, #6366F1);
+            box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3);
+        }
+
+        .message-avatar.user {
+            background: linear-gradient(135deg, #6B7280, #4B5563);
+            box-shadow: 0 2px 8px rgba(107, 114, 128, 0.3);
+        }
+
+        .message-avatar::before {
+            content: '◆';
+            color: white;
+            font-size: 12px;
+            transform: rotate(-45deg);
+        }
+
+        .message {
+            max-width: 200px;
+            padding: 10px 14px;
+            border-radius: 16px;
+            font-size: 13px;
+            line-height: 1.4;
+            word-wrap: break-word;
+        }
+
+        .message.user {
+            background: linear-gradient(135deg, #8B5CF6, #6366F1);
+            color: white;
+            border-bottom-right-radius: 6px;
+            box-shadow: 0 4px 16px rgba(139, 92, 246, 0.2);
+        }
+
+        .message.bot {
+            background: rgba(255, 255, 255, 0.05);
+            color: rgba(255, 255, 255, 0.95);
+            border-bottom-left-radius: 6px;
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+
+
+        /* Typing indicator */
+        .typing-indicator {
+            display: none;
+            align-items: center;
+            gap: 10px;
+            padding: 0 20px 10px 20px;
+        }
+
+        .typing-avatar {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #8B5CF6, #6366F1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: rotate(45deg);
+            box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3);
+        }
+
+        .typing-avatar::before {
+            content: '◆';
+            color: white;
+            font-size: 14px;
+            transform: rotate(-45deg);
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 12px 16px;
+            border-radius: 18px;
+            border-bottom-left-radius: 6px;
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .typing-dot {
+            width: 6px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes typing {
+            0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Chat input */
+        .chat-input-container {
+            padding: 16px;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.05), rgba(99, 102, 241, 0.02));
+            backdrop-filter: blur(10px);
+        }
+
+        .input-wrapper {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            padding: 10px 16px;
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            backdrop-filter: blur(10px);
+            transition: all 0.2s ease;
+        }
+
+        .input-wrapper:focus-within {
+            border-color: rgba(139, 92, 246, 0.4);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+        }
+
+        .chat-input {
+            flex: 1;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 13px;
+            outline: none;
+        }
+
+        .chat-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .send-btn {
+            background: linear-gradient(135deg, #8B5CF6, #6366F1);
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            margin-left: 8px;
+            padding: 8px;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.6;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 6px rgba(139, 92, 246, 0.2);
+        }
+
+        .send-btn.active {
+            opacity: 1;
+            transform: scale(1.02);
+            box-shadow: 0 3px 12px rgba(139, 92, 246, 0.4);
+        }
+
+        .send-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* Scrollbar */
+        .chat-messages::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .chat-messages::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 480px) {
+            .chat-widget {
+                width: calc(100vw - 16px);
+                height: calc(100vh - 100px);
+                right: 8px;
+                bottom: 70px;
+            }
+            
+            .chat-toggle-btn {
+                right: 16px;
+                bottom: 16px;
+                width: 50px;
+                height: 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Demo page content -->
+    <div class="page-content">
+        <h1>Welcome to Our Website</h1>
+        <p>This is a demo page showing how the chat widget works. The chat widget appears as a floating button in the bottom right corner.</p>
+        <p>Click the chat button to open the Zing AI assistant and start a conversation.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+    </div>
+
+    <!-- Floating chat button -->
+    <button class="chat-toggle-btn" id="chatToggle">
+        <span id="chatIcon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h4l4 4 4-4h4c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
+            </svg>
+        </span>
+    </button>
+
+    <!-- Chat widget -->
+    <div class="chat-widget" id="chatWidget">
+        <canvas class="particles-canvas" id="particlesCanvas"></canvas>
+        <div class="chat-header">
+            <div class="bot-avatar"></div>
+            <div class="header-info">
+                <div class="header-title">Zing</div>
+                <div class="header-subtitle">AI Assistant</div>
+            </div>
+            <button class="menu-btn">⋮</button>
+        </div>
+
+        <div class="chat-messages" id="chatMessages">
+            <div class="message-container bot">
+                <div class="message-avatar bot"></div>
+                <div class="message bot">
+                    Hi there! I'm Zing😺, your AI assistant. How can I help you today?
+                </div>
+            </div>
+        </div>
+
+        <div class="typing-indicator" id="typingIndicator">
+            <div class="typing-avatar"></div>
+            <div class="typing-dots">
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+            </div>
+        </div>
+
+        <div class="chat-input-container">
+            <div class="input-wrapper">
+                <input 
+                    type="text" 
+                    class="chat-input" 
+                    id="chatInput" 
+                    placeholder="Send message..."
+                    onkeypress="handleKeyPress(event)"
+                >
+                <button class="send-btn" id="sendBtn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let sessionId = generateSessionId();
+        let isTyping = false;
+        let isOpen = false;
+
+        // Particle Animation System
+        class ParticleSystem {
+            constructor(canvas) {
+                this.canvas = canvas;
+                this.ctx = canvas.getContext('2d');
+                this.particles = [];
+                this.particleCount = 120;
+                this.time = 0;
+                this.animationId = null;
+                
+                this.init();
+                this.resize();
+                this.animate();
+            }
+
+            init() {
+                this.particles = [];
+                for (let i = 0; i < this.particleCount; i++) {
+                    this.particles.push({
+                        x: Math.random() * this.canvas.width,
+                        y: Math.random() * this.canvas.height,
+                        z: Math.random() * 500,
+                        vx: (Math.random() - 0.5) * 1.5,
+                        vy: (Math.random() - 0.5) * 1.5,
+                        vz: (Math.random() - 0.5) * 3,
+                        size: Math.random() * 4 + 2, // Much larger particles
+                        opacity: Math.random() * 0.9 + 0.4, // Higher opacity
+                        hue: Math.random() * 40 + 260, // Pure purple range (260-300)
+                        phase: Math.random() * Math.PI * 2,
+                        twinkle: Math.random() * 0.5 + 0.5
+                    });
+                }
+            }
+
+            resize() {
+                const rect = this.canvas.getBoundingClientRect();
+                this.canvas.width = rect.width * window.devicePixelRatio;
+                this.canvas.height = rect.height * window.devicePixelRatio;
+                this.canvas.style.width = rect.width + 'px';
+                this.canvas.style.height = rect.height + 'px';
+                this.ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+            }
+
+            animate() {
+                this.time += 0.02;
+                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+                this.particles.forEach((particle, index) => {
+                    // Update position with more dramatic floating motion
+                    particle.x += particle.vx + Math.sin(this.time + particle.phase) * 1.2;
+                    particle.y += particle.vy + Math.cos(this.time + particle.phase * 0.7) * 0.8;
+                    particle.z += particle.vz;
+
+                    // Wrap around edges
+                    if (particle.x < -20) particle.x = this.canvas.width + 20;
+                    if (particle.x > this.canvas.width + 20) particle.x = -20;
+                    if (particle.y < -20) particle.y = this.canvas.height + 20;
+                    if (particle.y > this.canvas.height + 20) particle.y = -20;
+                    if (particle.z < 0) particle.z = 500;
+                    if (particle.z > 500) particle.z = 0;
+
+                    // Calculate size and opacity with more dramatic effects
+                    const depth = 1 - (particle.z / 500);
+                    const twinkleEffect = Math.sin(this.time * particle.twinkle + particle.phase) * 0.5 + 0.5;
+                    const size = particle.size * depth * (0.8 + twinkleEffect * 0.6);
+                    const opacity = particle.opacity * depth * (0.6 + twinkleEffect * 0.4);
+
+                    // Pure purple colors only
+                    const hue = particle.hue + Math.sin(this.time * 0.3 + particle.phase) * 10; // Smaller hue variation
+                    const saturation = 75 + Math.sin(this.time * 0.7 + particle.phase) * 20; // Rich purple saturation
+                    const lightness = 65 + Math.sin(this.time * 1.2 + particle.phase) * 30; // Good brightness range
+
+                    // Draw particle with enhanced glow
+                    this.ctx.save();
+                    this.ctx.globalAlpha = opacity;
+                    
+                    // Create gradient for glow effect
+                    const gradient = this.ctx.createRadialGradient(
+                        particle.x, particle.y, 0,
+                        particle.x, particle.y, size * 3
+                    );
+                    gradient.addColorStop(0, `hsl(${hue}, ${saturation}%, ${lightness}%)`);
+                    gradient.addColorStop(0.4, `hsl(${hue}, ${saturation}%, ${lightness - 10}%)`);
+                    gradient.addColorStop(1, `hsla(${hue}, ${saturation}%, ${lightness - 20}%, 0)`);
+                    
+                    this.ctx.fillStyle = gradient;
+                    this.ctx.shadowBlur = size * 4;
+                    this.ctx.shadowColor = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+                    
+                    this.ctx.beginPath();
+                    this.ctx.arc(particle.x, particle.y, size * 2, 0, Math.PI * 2);
+                    this.ctx.fill();
+                    
+                    // Draw bright center
+                    this.ctx.globalAlpha = opacity * 1.5;
+                    this.ctx.fillStyle = `hsl(${hue}, ${saturation}%, ${Math.min(lightness + 20, 95)}%)`;
+                    this.ctx.shadowBlur = size;
+                    this.ctx.beginPath();
+                    this.ctx.arc(particle.x, particle.y, size * 0.6, 0, Math.PI * 2);
+                    this.ctx.fill();
+                    
+                    this.ctx.restore();
+                });
+
+                this.animationId = requestAnimationFrame(() => this.animate());
+            }
+
+            destroy() {
+                if (this.animationId) {
+                    cancelAnimationFrame(this.animationId);
+                }
+            }
+        }
+
+        let particleSystem = null;
+
+        function generateSessionId() {
+            return 'session_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+        }
+
+        function toggleChat() {
+            console.log('Toggle chat clicked, isOpen:', isOpen); // Debug log
+            
+            const widget = document.getElementById('chatWidget');
+            const toggleBtn = document.getElementById('chatToggle');
+            const icon = document.getElementById('chatIcon');
+            
+            if (isOpen) {
+                closeChat();
+            } else {
+                widget.classList.add('active');
+                toggleBtn.classList.add('active');
+                icon.innerHTML = `
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                    </svg>
+                `;
+                isOpen = true;
+
+                // Initialize particle system when chat opens
+                setTimeout(() => {
+                    const canvas = document.getElementById('particlesCanvas');
+                    if (canvas && !particleSystem) {
+                        particleSystem = new ParticleSystem(canvas);
+                    }
+                }, 100);
+                
+                // Focus input when opened
+                setTimeout(() => {
+                    const input = document.getElementById('chatInput');
+                    if (input) {
+                        input.focus();
+                    }
+                }, 400);
+            }
+        }
+
+        function closeChat() {
+            console.log('Close chat clicked'); // Debug log
+            
+            const widget = document.getElementById('chatWidget');
+            const toggleBtn = document.getElementById('chatToggle');
+            const icon = document.getElementById('chatIcon');
+            
+            widget.classList.remove('active');
+            toggleBtn.classList.remove('active');
+            icon.innerHTML = `
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h4l4 4 4-4h4c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
+                </svg>
+            `;
+            isOpen = false;
+
+            // Destroy particle system when chat closes
+            if (particleSystem) {
+                particleSystem.destroy();
+                particleSystem = null;
+            }
+        }
+
+        function addMessage(text, type) {
+            const messagesContainer = document.getElementById('chatMessages');
+            
+            const messageContainer = document.createElement('div');
+            messageContainer.className = `message-container ${type}`;
+            
+            const avatar = document.createElement('div');
+            avatar.className = `message-avatar ${type}`;
+            
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}`;
+            messageDiv.textContent = text;
+            
+            messageContainer.appendChild(avatar);
+            messageContainer.appendChild(messageDiv);
+            messagesContainer.appendChild(messageContainer);
+            
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function showTyping() {
+            const typingIndicator = document.getElementById('typingIndicator');
+            typingIndicator.style.display = 'flex';
+            isTyping = true;
+            
+            const messagesContainer = document.getElementById('chatMessages');
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function hideTyping() {
+            const typingIndicator = document.getElementById('typingIndicator');
+            typingIndicator.style.display = 'none';
+            isTyping = false;
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (!message || isTyping) return;
+            
+            addMessage(message, 'user');
+            input.value = '';
+            updateSendButton();
+            
+            showTyping();
+            
+            const payload = {
+                chatInput: message,
+                sessionId: sessionId
+            };
+            
+            try {
+                const response = await fetch('https://teja.mlritcie.in/webhook/223b953b-ef97-4800-a1be-8b05890044c1/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+                
+                hideTyping();
+                
+                if (response.ok) {
+                    const result = await response.text();
+                    
+                    // Try to parse JSON response
+                    let messageText = result;
+                    try {
+                        const jsonResponse = JSON.parse(result);
+                        if (jsonResponse.output) {
+                            messageText = jsonResponse.output;
+                        } else if (jsonResponse.message) {
+                            messageText = jsonResponse.message;
+                        } else if (jsonResponse.text) {
+                            messageText = jsonResponse.text;
+                        }
+                    } catch (e) {
+                        // If not JSON, use the raw text
+                        messageText = result;
+                    }
+                    
+                    addMessage(messageText || 'Message received', 'bot');
+                } else {
+                    addMessage('Sorry, there was an error processing your message.', 'bot');
+                }
+            } catch (error) {
+                hideTyping();
+                console.error('Error sending message:', error);
+                addMessage('Sorry, there was a connection error.', 'bot');
+            }
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        function updateSendButton() {
+            const sendBtn = document.getElementById('sendBtn');
+            const input = document.getElementById('chatInput');
+            if (input.value.trim()) {
+                sendBtn.classList.add('active');
+            } else {
+                sendBtn.classList.remove('active');
+            }
+        }
+
+
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Chat toggle button
+            document.getElementById('chatToggle').addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                toggleChat();
+            });
+
+
+
+            // Send button
+            document.getElementById('sendBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                sendMessage();
+            });
+
+            // Input field
+            document.getElementById('chatInput').addEventListener('input', updateSendButton);
+
+            // Close chat when clicking outside
+            document.addEventListener('click', function(event) {
+                const widget = document.getElementById('chatWidget');
+                const toggleBtn = document.getElementById('chatToggle');
+                
+                if (isOpen && !widget.contains(event.target) && !toggleBtn.contains(event.target)) {
+                    closeChat();
+                }
+            });
+
+            // Handle window resize for particle system
+            window.addEventListener('resize', function() {
+                if (particleSystem) {
+                    particleSystem.resize();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
