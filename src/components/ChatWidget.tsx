@@ -28,6 +28,7 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({
   const [sessionId] = useState(() => `session_${Math.random().toString(36).slice(2, 9)}_${Date.now()}`);
   
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationRef = useRef<number | undefined>(undefined);
@@ -193,7 +194,12 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({
 
   // Auto scroll to bottom when new messages arrive
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTo({
+        top: messagesContainerRef.current.scrollHeight,
+        behavior: 'smooth'
+      });
+    }
   }, [messages]);
 
   // Focus input when chat opens
@@ -261,7 +267,26 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({
 
 
   const toggleChat = useCallback(() => {
-    setIsOpen(prev => !prev);
+    setIsOpen(prev => {
+      const newState = !prev;
+      
+      // Prevent body scroll on mobile when chat is open
+      if (typeof window !== 'undefined' && window.innerWidth <= 640) {
+        if (newState) {
+          document.body.classList.add('chat-open');
+          document.body.style.top = `-${window.scrollY}px`;
+        } else {
+          const scrollY = document.body.style.top;
+          document.body.classList.remove('chat-open');
+          document.body.style.top = '';
+          if (scrollY) {
+            window.scrollTo(0, parseInt(scrollY || '0') * -1);
+          }
+        }
+      }
+      
+      return newState;
+    });
   }, []);
 
   return (
@@ -301,7 +326,10 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({
             background: 'linear-gradient(145deg, #0f1419 0%, #1a1f3a 25%, #252a52 50%, #1e2347 75%, #0d1117 100%)',
             border: '1px solid rgba(255, 255, 255, 0.1)',
             boxShadow: '0 15px 40px rgba(15, 20, 25, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
-            animation: 'slideUpScale 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)'
+            animation: 'slideUpScale 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
+            transform: 'translateZ(0)',
+            willChange: 'transform',
+            isolation: 'isolate'
           }}
         >
           <style>{`
@@ -400,7 +428,15 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({
           </div>
 
           {/* Messages Area - Compact */}
-          <div className="relative z-10 flex-1 overflow-y-auto p-3 space-y-2.5" style={{ scrollbarWidth: 'thin', scrollbarColor: 'rgba(255, 255, 255, 0.2) transparent' }}>
+          <div 
+            ref={messagesContainerRef}
+            className="relative z-10 flex-1 overflow-y-auto p-3 space-y-2.5" 
+            style={{ 
+              scrollbarWidth: 'thin', 
+              scrollbarColor: 'rgba(255, 255, 255, 0.2) transparent',
+              overscrollBehavior: 'contain'
+            }}
+          >
             {messages.map((message) => (
               <div
                 key={message.id}
@@ -543,18 +579,31 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({
           .chat-widget {
             width: calc(100vw - 2rem) !important;
             max-width: none !important;
-            height: 350px !important;
+            height: 420px !important;
             right: 1rem !important;
             bottom: 4rem !important;
+            position: fixed !important;
+            transform: translateZ(0) !important;
+            isolation: isolate !important;
+          }
+          
+          /* Prevent body scroll when chat is open on mobile */
+          body.chat-open {
+            overflow: hidden !important;
+            position: fixed !important;
+            width: 100% !important;
           }
         }
         
         @media (max-width: 480px) {
           .chat-widget {
             width: calc(100vw - 1rem) !important;
-            height: 320px !important;
+            height: 400px !important;
             right: 0.5rem !important;
             bottom: 3.5rem !important;
+            position: fixed !important;
+            transform: translateZ(0) !important;
+            isolation: isolate !important;
           }
         }
       `}</style>
