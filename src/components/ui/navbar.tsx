@@ -67,12 +67,16 @@ export function Navbar() {
       <nav
         id="navbar"
         className={cn(
-          "fixed top-4 left-1/2 transform -translate-x-1/2 z-50 transition-all duration-300 ease-in-out",
+          "fixed left-1/2 transform -translate-x-1/2 z-50 transition-all duration-300 ease-in-out",
           "rounded-full border border-white/20 backdrop-blur-md max-w-fit",
+          "top-4 md:top-4",
           isScrolled
             ? "bg-black/60 shadow-lg shadow-black/25"
             : "bg-gradient-to-r from-black/40 to-black/30"
         )}
+        style={{
+          top: 'max(env(safe-area-inset-top, 0px) + 1rem, 1rem)'
+        }}
       >
         {/* Desktop Navigation - Logo and Links */}
         <div className="hidden md:flex items-center px-6 py-3 min-w-fit gap-4">

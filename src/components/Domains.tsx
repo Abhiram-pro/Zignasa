@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Button } from './ui/button';
 import { Users } from 'lucide-react';
 import { Navbar } from './ui/navbar';
-import Dither from './Dither';
+import PrismaticBurst from './ui/PrismaticBurst';
 
 const Domains: React.FC = () => {
 
@@ -14,24 +14,65 @@ const Domains: React.FC = () => {
           background: #000 !important;
         }
         
-        .dither-wrapper {
+        .page-burst-bg {
           position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          min-height: 800px;
+          z-index: 0;
+          pointer-events: none;
+          opacity: 0.6;
+        }
+        
+        .page-burst-bg .prismatic-burst-container {
+          width: 100% !important;
+          height: 100% !important;
+          min-height: 800px !important;
+        }
+        
+        .page-burst-bg canvas {
+          width: 100% !important;
+          height: 100% !important;
+          min-height: 800px !important;
+          display: block !important;
+        }
+        
+        .domain-card {
+          position: relative;
+          overflow: hidden;
+        }
+        
+        .card-burst-bg {
+          position: absolute;
           top: 0;
           left: 0;
           width: 100%;
           height: 100%;
           z-index: 0;
           pointer-events: none;
+          opacity: 0.6;
         }
         
-        .dither-wrapper canvas {
+        .card-burst-bg .prismatic-burst-container {
           width: 100% !important;
           height: 100% !important;
-          display: block;
+        }
+        
+        .card-burst-bg canvas {
+          width: 100% !important;
+          height: 100% !important;
+          display: block !important;
+        }
+        
+        .card-content {
+          position: relative;
+          z-index: 1;
         }
         
         @media (max-width: 768px) {
-          .dither-wrapper {
+          .page-burst-bg {
             position: fixed;
             top: 0;
             left: 0;
@@ -39,26 +80,25 @@ const Domains: React.FC = () => {
             bottom: 0;
             width: 100vw;
             height: 100vh;
-            min-height: -webkit-fill-available;
+            min-height: 800px;
           }
         }
       `}</style>
 
-      {/* Dither Background - Fixed full screen */}
-      <div className="dither-wrapper" style={{ opacity: 0.5 }}>
-        <Dither
-          waveColor={[0.4, 0.2, 0.5]}
-          disableAnimation={false}
-          enableMouseInteraction={false}
-          mouseRadius={0.3}
-          colorNum={3}
-          waveAmplitude={0.28}
-          waveFrequency={2}
-          waveSpeed={0.04}
+      {/* Page Background PrismaticBurst */}
+      <div className="page-burst-bg">
+        <PrismaticBurst
+          intensity={3.5}
+          speed={0.15}
+          animationType="rotate"
+          colors={['#6B21A8', '#7C3AED', '#8B5CF6', '#A78BFA']}
+          distort={4}
+          rayCount={6}
+          mixBlendMode="screen"
         />
       </div>
 
-      <div className="min-h-screen relative" style={{ zIndex: 1, background: 'transparent', position: 'relative' }}>
+      <div className="min-h-screen relative" style={{ zIndex: 1 }}>
         <Navbar />
 
         <main className="main pt-12 sm:pt-16 md:pt-20 lg:pt-28 relative">
@@ -75,8 +115,19 @@ const Domains: React.FC = () => {
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 md:gap-10 lg:gap-12 max-w-full mx-auto bg-transparent border-0">
-                <div className="border border-white/30 rounded-2xl sm:rounded-2xl md:rounded-3xl p-6 sm:p-8 md:p-10 lg:p-12 transition-all duration-300 group hover:border-white/50 shadow-2xl flex flex-col" style={{ background: 'rgba(0, 0, 0, 0.3)' }} data-aos="zoom-in" data-aos-delay="100">
-                  <div className="text-left pb-6 sm:pb-8 flex-grow">
+                <div className="domain-card border border-white/30 rounded-2xl sm:rounded-2xl md:rounded-3xl p-6 sm:p-8 md:p-10 lg:p-12 transition-all duration-300 group hover:border-white/50 shadow-2xl flex flex-col" style={{ background: 'rgba(0, 0, 0, 0.85)' }} data-aos="zoom-in" data-aos-delay="100">
+                  <div className="card-burst-bg">
+                    <PrismaticBurst
+                      intensity={2.5}
+                      speed={0.1}
+                      animationType="rotate"
+                      colors={['#6B21A8', '#7C3AED', '#8B5CF6']}
+                      distort={2}
+                      rayCount={4}
+                      mixBlendMode="screen"
+                    />
+                  </div>
+                  <div className="card-content text-left pb-6 sm:pb-8 flex-grow">
                     <h3 className="text-2xl sm:text-2xl md:text-3xl font-bold text-white mb-4 sm:mb-6 leading-tight" style={{ color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff' }}>
                       Web Dev
                     </h3>
@@ -98,7 +149,7 @@ const Domains: React.FC = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="mt-auto">
+                  <div className="card-content mt-auto">
                     <div className="bg-white/5 backdrop-blur-sm rounded-xl sm:rounded-2xl p-3 sm:p-4 border border-white/10 mb-4 sm:mb-6">
                       <div className="flex items-center gap-2 text-white flex-wrap">
                         <Users className="w-4 h-4 sm:w-5 sm:h-5 text-purple-400 flex-shrink-0" />
@@ -111,8 +162,19 @@ const Domains: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="border border-white/30 rounded-2xl sm:rounded-2xl md:rounded-3xl p-6 sm:p-8 md:p-10 lg:p-12 transition-all duration-300 group hover:border-white/50 shadow-2xl flex flex-col" style={{ background: 'rgba(0, 0, 0, 0.3)' }} data-aos="zoom-in" data-aos-delay="200">
-                  <div className="text-left pb-6 sm:pb-8 flex-grow">
+                <div className="domain-card border border-white/30 rounded-2xl sm:rounded-2xl md:rounded-3xl p-6 sm:p-8 md:p-10 lg:p-12 transition-all duration-300 group hover:border-white/50 shadow-2xl flex flex-col" style={{ background: 'rgba(0, 0, 0, 0.85)' }} data-aos="zoom-in" data-aos-delay="200">
+                  <div className="card-burst-bg">
+                    <PrismaticBurst
+                      intensity={2.5}
+                      speed={0.12}
+                      animationType="rotate"
+                      colors={['#7C3AED', '#8B5CF6', '#A78BFA']}
+                      distort={2}
+                      rayCount={5}
+                      mixBlendMode="screen"
+                    />
+                  </div>
+                  <div className="card-content text-left pb-6 sm:pb-8 flex-grow">
                     <h3 className="text-2xl sm:text-2xl md:text-3xl font-bold text-white mb-4 sm:mb-6 leading-tight" style={{ color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff' }}>
                       Agentic AI
                     </h3>
@@ -134,7 +196,7 @@ const Domains: React.FC = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="mt-auto">
+                  <div className="card-content mt-auto">
                     <div className="bg-white/5 backdrop-blur-sm rounded-xl sm:rounded-2xl p-3 sm:p-4 border border-white/10 mb-4 sm:mb-6">
                       <div className="flex items-center gap-2 text-white flex-wrap">
                         <Users className="w-4 h-4 sm:w-5 sm:h-5 text-purple-400 flex-shrink-0" />
@@ -147,8 +209,19 @@ const Domains: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="border border-white/30 rounded-2xl sm:rounded-2xl md:rounded-3xl p-6 sm:p-8 md:p-10 lg:p-12 transition-all duration-300 group hover:border-white/50 shadow-2xl md:col-span-1 lg:col-span-1 flex flex-col" style={{ background: 'rgba(0, 0, 0, 0.3)' }} data-aos="zoom-in" data-aos-delay="300">
-                  <div className="text-left pb-6 sm:pb-8 flex-grow">
+                <div className="domain-card border border-white/30 rounded-2xl sm:rounded-2xl md:rounded-3xl p-6 sm:p-8 md:p-10 lg:p-12 transition-all duration-300 group hover:border-white/50 shadow-2xl md:col-span-1 lg:col-span-1 flex flex-col" style={{ background: 'rgba(0, 0, 0, 0.85)' }} data-aos="zoom-in" data-aos-delay="300">
+                  <div className="card-burst-bg">
+                    <PrismaticBurst
+                      intensity={2.5}
+                      speed={0.08}
+                      animationType="rotate"
+                      colors={['#5B21B6', '#6D28D9', '#7C3AED']}
+                      distort={2}
+                      rayCount={6}
+                      mixBlendMode="screen"
+                    />
+                  </div>
+                  <div className="card-content text-left pb-6 sm:pb-8 flex-grow">
                     <h3 className="text-2xl sm:text-2xl md:text-3xl font-bold text-white mb-4 sm:mb-6 leading-tight" style={{ color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff' }}>
                       UI/UX
                     </h3>
@@ -170,7 +243,7 @@ const Domains: React.FC = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="mt-auto">
+                  <div className="card-content mt-auto">
                     <div className="bg-white/5 backdrop-blur-sm rounded-xl sm:rounded-2xl p-3 sm:p-4 border border-white/10 mb-4 sm:mb-6">
                       <div className="flex items-center gap-2 text-white flex-wrap">
                         <Users className="w-4 h-4 sm:w-5 sm:h-5 text-purple-400 flex-shrink-0" />
