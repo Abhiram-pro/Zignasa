@@ -311,21 +311,15 @@ export default function Dither({
   enableMouseInteraction = true,
   mouseRadius = 1
 }: DitherProps) {
-  // Simple mobile detection
-  const isMobile = typeof window !== 'undefined' && (
-    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-    window.innerWidth <= 768
-  );
-
   return (
     <Canvas
       className="dither-container"
       camera={{ position: [0, 0, 6] }}
-      dpr={isMobile ? 1 : Math.min(window.devicePixelRatio, 2)}
+      dpr={Math.min(window.devicePixelRatio, 2)}
       gl={{ 
-        antialias: !isMobile, 
+        antialias: true, 
         preserveDrawingBuffer: true,
-        powerPreference: isMobile ? 'low-power' : 'high-performance'
+        powerPreference: 'high-performance'
       }}
     >
       <DitheredWaves
