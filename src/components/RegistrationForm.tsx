@@ -76,6 +76,9 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [toast, setToast] = useState<{ message: string; type: 'error' | 'success' | 'warning' } | null>(null);
+  const [isCheckingTeamName, setIsCheckingTeamName] = useState(false);
+  const [teamNameError, setTeamNameError] = useState<string | null>(null);
+  const [debounceTimeout, setDebounceTimeout] = useState<NodeJS.Timeout | null>(null);
 
   const showToast = (message: string, type: 'error' | 'success' | 'warning' = 'error') => {
     setToast({ message, type });
@@ -140,8 +143,65 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
     }
   };
 
+  const checkTeamNameUniqueness = async (teamName: string) => {
+    const trimmedName = teamName.trim();
+    
+    if (!trimmedName) {
+      setTeamNameError(null);
+      return;
+    }
+
+    setIsCheckingTeamName(true);
+    setTeamNameError(null);
+
+    try {
+      console.log('Checking team name uniqueness for:', trimmedName);
+      const { exists, error } = await teamsService.checkTeamNameExists(trimmedName);
+      
+      if (error) {
+        console.error('Error checking team name:', error);
+        setTeamNameError('Unable to verify team name. Please try again.');
+        return;
+      }
+
+      console.log('Team name exists?', exists);
+
+      if (exists) {
+        setTeamNameError('This team name is already taken. Please choose a different name.');
+      } else {
+        setTeamNameError(null);
+      }
+    } catch (error) {
+      console.error('Error checking team name:', error);
+      setTeamNameError('Unable to verify team name. Please try again.');
+    } finally {
+      setIsCheckingTeamName(false);
+    }
+  };
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+
+    // Handle team name with debounced uniqueness check
+    if (name === 'teamName') {
+      setFormData(prev => ({
+        ...prev,
+        [name]: value
+      }));
+      
+      // Clear any existing timeout
+      if (debounceTimeout) {
+        clearTimeout(debounceTimeout);
+      }
+      
+      // Set new timeout
+      const timeoutId = setTimeout(() => {
+        checkTeamNameUniqueness(value);
+      }, 500);
+      
+      setDebounceTimeout(timeoutId);
+      return;
+    }
 
     // Handle member fields (member_0_name, member_1_email, etc.)
     if (name.startsWith('member_')) {
@@ -184,6 +244,34 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
     setIsSubmitting(true);
 
     try {
+      // Check if team name is unique before proceeding
+      if (teamNameError) {
+        showToast('Please choose a different team name.', 'error');
+        setIsSubmitting(false);
+        return;
+      }
+
+      // Double-check team name uniqueness
+      const trimmedTeamName = formData.teamName.trim();
+      console.log('Final team name check before submission:', trimmedTeamName);
+      
+      const { exists, error: checkError } = await teamsService.checkTeamNameExists(trimmedTeamName);
+      if (checkError) {
+        console.error('Team name check error:', checkError);
+        showToast('Unable to verify team name. Please try again.', 'error');
+        setIsSubmitting(false);
+        return;
+      }
+
+      console.log('Final check - team name exists?', exists);
+
+      if (exists) {
+        showToast('This team name is already taken. Please choose a different name.', 'error');
+        setTeamNameError('This team name is already taken. Please choose a different name.');
+        setIsSubmitting(false);
+        return;
+      }
+
       const teamSize = parseInt(formData.team_size);
       
       // Validate all required members have all fields filled
@@ -484,15 +572,28 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
                   <div>
                     <Label className="text-gray-300 mb-3 sm:mb-4 block font-medium text-xs sm:text-sm">Team Name *</Label>
-                    <Input
-                      type="text"
-                      name="teamName"
-                      value={formData.teamName}
-                      onChange={handleInputChange}
-                      required
-                      className="bg-white/[0.05] backdrop-blur-sm border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-white/30 focus:border-white/50 transition-all duration-300 rounded-lg sm:rounded-xl h-10 sm:h-12 text-sm"
-                      placeholder="Enter your team name"
-                    />
+                    <div className="relative">
+                      <Input
+                        type="text"
+                        name="teamName"
+                        value={formData.teamName}
+                        onChange={handleInputChange}
+                        required
+                        className={`bg-white/[0.05] backdrop-blur-sm border ${teamNameError ? 'border-red-500/50' : 'border-white/20'} text-white placeholder-gray-400 focus:ring-2 focus:ring-white/30 focus:border-white/50 transition-all duration-300 rounded-lg sm:rounded-xl h-10 sm:h-12 text-sm pr-10`}
+                        placeholder="Enter your team name"
+                      />
+                      {isCheckingTeamName && (
+                        <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                          <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                        </div>
+                      )}
+                    </div>
+                    {teamNameError && (
+                      <p className="text-red-400 text-xs mt-2">{teamNameError}</p>
+                    )}
+                    {!teamNameError && formData.teamName && !isCheckingTeamName && (
+                      <p className="text-green-400 text-xs mt-2">✓ Team name is available</p>
+                    )}
                   </div>
                   <div>
                     <Label className="text-gray-300 mb-3 sm:mb-4 block font-medium text-xs sm:text-sm">Team Size *</Label>

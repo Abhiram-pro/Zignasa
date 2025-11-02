@@ -295,6 +295,10 @@ const Domains: React.FC = () => {
                         <div className="w-2 h-2 bg-purple-400 rounded-full mt-1 sm:mt-0 flex-shrink-0"></div>
                         <span className="text-white text-sm sm:text-base" style={{ color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff' }}>MongoDB Database Design</span>
                       </div>
+                      <div className="flex items-start sm:items-center gap-2 sm:gap-3">
+                        <div className="w-2 h-2 bg-purple-400 rounded-full mt-1 sm:mt-0 flex-shrink-0"></div>
+                        <span className="text-white text-sm sm:text-base font-semibold" style={{ color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff' }}>Registration Fee: ₹399</span>
+                      </div>
                     </div>
                   </div>
                   <div className="card-content mt-auto">
@@ -344,6 +348,10 @@ const Domains: React.FC = () => {
                         <div className="w-2 h-2 bg-purple-400 rounded-full mt-1 sm:mt-0 flex-shrink-0"></div>
                         <span className="text-white text-sm sm:text-base" style={{ color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff' }}>Real-World Applications</span>
                       </div>
+                      <div className="flex items-start sm:items-center gap-2 sm:gap-3">
+                        <div className="w-2 h-2 bg-purple-400 rounded-full mt-1 sm:mt-0 flex-shrink-0"></div>
+                        <span className="text-white text-sm sm:text-base font-semibold" style={{ color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff' }}>Registration Fee: ₹399</span>
+                      </div>
                     </div>
                   </div>
                   <div className="card-content mt-auto">
@@ -392,6 +400,10 @@ const Domains: React.FC = () => {
                       <div className="flex items-start sm:items-center gap-2 sm:gap-3">
                         <div className="w-2 h-2 bg-purple-400 rounded-full mt-1 sm:mt-0 flex-shrink-0"></div>
                         <span className="text-white text-sm sm:text-base" style={{ color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff' }}>Visual Design & Accessibility</span>
+                      </div>
+                      <div className="flex items-start sm:items-center gap-2 sm:gap-3">
+                        <div className="w-2 h-2 bg-purple-400 rounded-full mt-1 sm:mt-0 flex-shrink-0"></div>
+                        <span className="text-white text-sm sm:text-base font-semibold" style={{ color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff' }}>Registration Fee: ₹399</span>
                       </div>
                     </div>
                   </div>

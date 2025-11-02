@@ -219,6 +219,41 @@ export const teamsService = {
       return { error };
     }
   },
+
+  /**
+   * Check if team name exists (case-insensitive)
+   */
+  async checkTeamNameExists(teamName: string) {
+    try {
+      // Trim the team name to avoid whitespace issues
+      const trimmedName = teamName.trim();
+      
+      if (!trimmedName) {
+        return { exists: false, error: null };
+      }
+
+      const { data, error } = await supabase
+        .from('teams')
+        .select('id, team_name')
+        .ilike('team_name', trimmedName);
+
+      if (error) {
+        console.error('Supabase error checking team name:', error);
+        throw error;
+      }
+
+      console.log('Team name check result:', { 
+        searchedName: trimmedName, 
+        foundTeams: data,
+        exists: data && data.length > 0 
+      });
+
+      return { exists: data && data.length > 0, error: null };
+    } catch (error) {
+      console.error('Error checking team name:', error);
+      return { exists: false, error };
+    }
+  },
 };
 
 /**
