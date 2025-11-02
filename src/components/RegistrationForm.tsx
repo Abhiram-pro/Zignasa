@@ -335,7 +335,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
   };
 
   return (
-    <div className="min-h-screen bg-transparent py-8 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-6 relative overflow-hidden">
+    <div className="min-h-screen bg-transparent py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       {/* Toast Notification */}
       {toast && (
         <div 
@@ -428,16 +428,16 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
       <div className="hidden lg:block absolute top-1/4 left-1/4 w-96 h-96 bg-white/5 rounded-full blur-lg pointer-events-none"></div>
       <div className="hidden 2xl:block absolute bottom-1/4 right-1/4 w-80 h-80 bg-white/3 rounded-full blur-lg pointer-events-none"></div>
 
-      <div className="max-w-5xl mx-auto relative z-10">
-        <Card className="backdrop-blur-lg border border-white/10 rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 transition-all duration-500 hover:border-white/15 hover:shadow-2xl hover:shadow-white/5 shadow-2xl relative overflow-hidden" style={{ background: 'rgba(0, 0, 0, 0.3)' }}>
+      <div className="max-w-6xl mx-auto relative z-10">
+        <Card className="backdrop-blur-lg border border-white/10 rounded-2xl sm:rounded-3xl p-8 sm:p-10 md:p-12 lg:p-16 transition-all duration-500 hover:border-white/15 hover:shadow-2xl hover:shadow-white/5 shadow-2xl relative overflow-hidden" style={{ background: 'rgba(0, 0, 0, 0.3)' }}>
           {/* Liquid Glass Overlay - Optimized */}
           <div className="absolute inset-0 bg-gradient-to-br from-white/[0.08] via-transparent to-white/[0.03] pointer-events-none rounded-3xl"></div>
           <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
           <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
 
-          <CardHeader className="mb-8 sm:mb-10 md:mb-12 relative z-10">
+          <CardHeader className="mb-10 sm:mb-12 md:mb-16 relative z-10">
             {/* Back Button */}
-            <div className="mb-4 sm:mb-0">
+            <div className="mb-6 sm:mb-8">
               <Link
                 to="/"
                 className="inline-flex items-center gap-2 text-white/70 hover:text-white bg-white/5 hover:bg-white/10 px-3 sm:px-4 py-2 rounded-lg sm:rounded-xl border border-white/10 hover:border-white/20 backdrop-blur-sm transition-all duration-300 text-xs sm:text-sm"
@@ -451,15 +451,15 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
             </div>
 
             <div className="text-center">
-              <div className="mb-4 sm:mb-8">
+              <div className="mb-6 sm:mb-10">
                 <span className="!text-white !bg-none !bg-transparent !bg-clip-border ![background-clip:unset] ![-webkit-text-fill-color:white] text-xs sm:text-sm font-semibold tracking-wider uppercase bg-white/10 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border border-white/20 backdrop-blur-sm inline-block">
                   Registration Portal
                 </span>
               </div>
-              <CardTitle className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-2 sm:mb-4 leading-tight">
+              <CardTitle className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4 sm:mb-6 leading-tight">
                 ZIGNASA
               </CardTitle>
-              <CardDescription className="text-gray-300 text-base sm:text-lg md:text-xl mb-4 sm:mb-6 line-clamp-2">
+              <CardDescription className="text-gray-300 text-base sm:text-lg md:text-xl mb-6 sm:mb-8 line-clamp-2">
                 {title} | <span className="!text-white !bg-none !bg-transparent !bg-clip-border ![background-clip:unset] ![-webkit-text-fill-color:white] font-semibold">{domain}</span> Domain
               </CardDescription>
               <div className="flex items-center justify-center gap-2">
@@ -471,19 +471,19 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
           </CardHeader>
 
           <CardContent className="relative z-10">
-            <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8 md:space-y-10">
+            <form onSubmit={handleSubmit} className="space-y-8 sm:space-y-10 md:space-y-12">
               {/* Team Information */}
-              <div className="backdrop-blur-lg border border-white/10 rounded-2xl sm:rounded-3xl p-6 sm:p-8 hover:border-white/12 transition-all duration-300" style={{ background: 'rgba(0, 0, 0, 0.2)' }}>
-                <h3 className="text-white font-semibold mb-6 sm:mb-8 text-lg sm:text-2xl flex items-center gap-3">
+              <div className="backdrop-blur-lg border border-white/10 rounded-2xl sm:rounded-3xl p-8 sm:p-10 hover:border-white/12 transition-all duration-300" style={{ background: 'rgba(0, 0, 0, 0.2)' }}>
+                <h3 className="text-white font-semibold mb-8 sm:mb-10 text-lg sm:text-2xl flex items-center gap-3">
                   <Users className="w-5 h-5 sm:w-6 sm:h-6 text-white/70 flex-shrink-0" />
                   <span className="!text-white !bg-none !bg-transparent !bg-clip-border ![background-clip:unset] ![-webkit-text-fill-color:white]">
                     Team Information
                   </span>
 
                 </h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
                   <div>
-                    <Label className="text-gray-300 mb-2 sm:mb-3 block font-medium text-xs sm:text-sm">Team Name *</Label>
+                    <Label className="text-gray-300 mb-3 sm:mb-4 block font-medium text-xs sm:text-sm">Team Name *</Label>
                     <Input
                       type="text"
                       name="teamName"
@@ -495,7 +495,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
                     />
                   </div>
                   <div>
-                    <Label className="text-gray-300 mb-2 sm:mb-3 block font-medium text-xs sm:text-sm">Team Size *</Label>
+                    <Label className="text-gray-300 mb-3 sm:mb-4 block font-medium text-xs sm:text-sm">Team Size *</Label>
                     <select
                       name="team_size"
                       value={formData.team_size}
@@ -515,17 +515,17 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
               </div>
 
               {/* Team Lead */}
-              <div className="backdrop-blur-lg border border-white/10 rounded-2xl sm:rounded-3xl p-6 sm:p-8 hover:border-white/12 transition-all duration-300" style={{ background: 'rgba(0, 0, 0, 0.2)' }}>
-                <h3 className="text-white font-semibold mb-6 sm:mb-8 text-lg sm:text-2xl flex items-center gap-3">
+              <div className="backdrop-blur-lg border border-white/10 rounded-2xl sm:rounded-3xl p-8 sm:p-10 hover:border-white/12 transition-all duration-300" style={{ background: 'rgba(0, 0, 0, 0.2)' }}>
+                <h3 className="text-white font-semibold mb-8 sm:mb-10 text-lg sm:text-2xl flex items-center gap-3">
                   <User className="w-5 h-5 sm:w-6 sm:h-6 text-white/70 flex-shrink-0" />
                   <span className="!text-white !bg-none !bg-transparent !bg-clip-border ![background-clip:unset] ![-webkit-text-fill-color:white]">
                     Team Lead Information
                   </span>
 
                 </h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
                   <div>
-                    <Label className="text-gray-300 mb-2 sm:mb-3 block font-medium text-xs sm:text-sm">Full Name *</Label>
+                    <Label className="text-gray-300 mb-3 sm:mb-4 block font-medium text-xs sm:text-sm">Full Name *</Label>
                     <Input
                       type="text"
                       name="member_0_name"
@@ -540,7 +540,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
                     />
                   </div>
                   <div>
-                    <Label className="text-gray-300 mb-2 sm:mb-3 block font-medium text-xs sm:text-sm">College *</Label>
+                    <Label className="text-gray-300 mb-3 sm:mb-4 block font-medium text-xs sm:text-sm">College *</Label>
                     <Input
                       type="text"
                       name="member_0_college"
@@ -554,7 +554,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
                     />
                   </div>
                   <div>
-                    <Label className="text-gray-300 mb-2 sm:mb-3 block font-medium text-xs sm:text-sm">Email Address *</Label>
+                    <Label className="text-gray-300 mb-3 sm:mb-4 block font-medium text-xs sm:text-sm">Email Address *</Label>
                     <Input
                       type="email"
                       name="member_0_email"
@@ -568,7 +568,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
                     />
                   </div>
                   <div>
-                    <Label className="text-gray-300 mb-2 sm:mb-3 block font-medium text-xs sm:text-sm">Phone Number *</Label>
+                    <Label className="text-gray-300 mb-3 sm:mb-4 block font-medium text-xs sm:text-sm">Phone Number *</Label>
                     <Input
                       type="tel"
                       name="member_0_phone"
@@ -584,7 +584,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
                     />
                   </div>
                   <div>
-                    <Label className="text-gray-300 mb-2 sm:mb-3 block font-medium text-xs sm:text-sm">Roll Number *</Label>
+                    <Label className="text-gray-300 mb-3 sm:mb-4 block font-medium text-xs sm:text-sm">Roll Number *</Label>
                     <Input
                       type="text"
                       name="member_0_rollNumber"
@@ -606,17 +606,17 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
                 formData.members.slice(1, parseInt(formData.team_size)).map((member, index) => {
                   const memberIndex = index + 1;
                   return (
-                    <div key={memberIndex} className="backdrop-blur-lg border border-white/10 rounded-2xl sm:rounded-3xl p-6 sm:p-8 hover:border-white/12 transition-all duration-300" style={{ background: 'rgba(0, 0, 0, 0.2)' }}>
-                      <h3 className="text-white font-semibold mb-6 sm:mb-8 text-lg sm:text-2xl flex items-center gap-3 flex-wrap">
+                    <div key={memberIndex} className="backdrop-blur-lg border border-white/10 rounded-2xl sm:rounded-3xl p-8 sm:p-10 hover:border-white/12 transition-all duration-300" style={{ background: 'rgba(0, 0, 0, 0.2)' }}>
+                      <h3 className="text-white font-semibold mb-8 sm:mb-10 text-lg sm:text-2xl flex items-center gap-3 flex-wrap">
                         <Building className="w-5 h-5 sm:w-6 sm:h-6 text-gray-400 flex-shrink-0" />
                         <span className="!text-white !bg-none !bg-transparent !bg-clip-border ![background-clip:unset] ![-webkit-text-fill-color:white]">
                           Team Member {memberIndex}
                         </span>
 
                       </h3>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
                         <div>
-                          <Label className="text-gray-300 mb-2 sm:mb-3 block font-medium text-xs sm:text-sm">Full Name *</Label>
+                          <Label className="text-gray-300 mb-3 sm:mb-4 block font-medium text-xs sm:text-sm">Full Name *</Label>
                           <Input
                             type="text"
                             name={`member_${memberIndex}_name`}
@@ -631,7 +631,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
                           />
                         </div>
                         <div>
-                          <Label className="text-gray-300 mb-2 sm:mb-3 block font-medium text-xs sm:text-sm">College *</Label>
+                          <Label className="text-gray-300 mb-3 sm:mb-4 block font-medium text-xs sm:text-sm">College *</Label>
                           <Input
                             type="text"
                             name={`member_${memberIndex}_college`}
@@ -645,7 +645,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
                           />
                         </div>
                         <div>
-                          <Label className="text-gray-300 mb-2 sm:mb-3 block font-medium text-xs sm:text-sm">Email Address *</Label>
+                          <Label className="text-gray-300 mb-3 sm:mb-4 block font-medium text-xs sm:text-sm">Email Address *</Label>
                           <Input
                             type="email"
                             name={`member_${memberIndex}_email`}
@@ -659,7 +659,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
                           />
                         </div>
                         <div>
-                          <Label className="text-gray-300 mb-2 sm:mb-3 block font-medium text-xs sm:text-sm">Phone Number *</Label>
+                          <Label className="text-gray-300 mb-3 sm:mb-4 block font-medium text-xs sm:text-sm">Phone Number *</Label>
                           <Input
                             type="tel"
                             name={`member_${memberIndex}_phone`}
@@ -675,7 +675,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
                           />
                         </div>
                         <div>
-                          <Label className="text-gray-300 mb-2 sm:mb-3 block font-medium text-xs sm:text-sm">Roll Number *</Label>
+                          <Label className="text-gray-300 mb-3 sm:mb-4 block font-medium text-xs sm:text-sm">Roll Number *</Label>
                           <Input
                             type="text"
                             name={`member_${memberIndex}_rollNumber`}
@@ -695,14 +695,14 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
                 })}
 
               {/* Terms & Conditions */}
-              <div className="backdrop-blur-lg border border-white/10 rounded-2xl sm:rounded-3xl p-6 sm:p-8 hover:border-white/12 transition-all duration-300" style={{ background: 'rgba(0, 0, 0, 0.2)' }}>
-                <h3 className="text-white font-semibold mb-4 sm:mb-6 text-lg sm:text-2xl">
+              <div className="backdrop-blur-lg border border-white/10 rounded-2xl sm:rounded-3xl p-8 sm:p-10 hover:border-white/12 transition-all duration-300" style={{ background: 'rgba(0, 0, 0, 0.2)' }}>
+                <h3 className="text-white font-semibold mb-6 sm:mb-8 text-lg sm:text-2xl">
                   <span className="!text-white !bg-none !bg-transparent !bg-clip-border ![background-clip:unset] ![-webkit-text-fill-color:white]">
                     Terms & Conditions
                   </span>
                 </h3>
-                <div className="bg-white/[0.02] backdrop-blur-sm border border-white/10 rounded-xl p-4 sm:p-6 mb-4 sm:mb-6 max-h-64 overflow-y-auto">
-                  <ol className="text-gray-300 text-xs sm:text-sm space-y-3 sm:space-y-4 list-decimal list-inside">
+                <div className="bg-white/[0.02] backdrop-blur-sm border border-white/10 rounded-xl p-6 sm:p-8 mb-6 sm:mb-8 max-h-72 overflow-y-auto">
+                  <ol className="text-gray-300 text-xs sm:text-sm space-y-4 sm:space-y-5 list-decimal list-inside">
                     <li>
                       <span className="font-semibold text-white !bg-none !bg-transparent !bg-clip-border ![background-clip:unset] ![-webkit-text-fill-color:white]">No Refund Policy:</span>
                       <p className="ml-5 mt-1">The registration fee once paid is non-refundable under any circumstances. We appreciate your understanding, as the collected amount directly supports the event's logistics and arrangements.</p>
@@ -737,7 +737,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
                     </li>
                   </ol>
                 </div>
-                <div className="flex items-start gap-3 mb-6">
+                <div className="flex items-start gap-4 mb-6">
                   <input
                     type="checkbox"
                     id="termsCheckbox"
@@ -752,8 +752,8 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
               </div>
 
               {/* Submit Buttons */}
-              <div className="backdrop-blur-lg border border-white/10 rounded-2xl sm:rounded-3xl p-6 sm:p-8 hover:border-white/12 transition-all duration-300" style={{ background: 'rgba(0, 0, 0, 0.2)' }}>
-                <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center">
+              <div className="backdrop-blur-lg border border-white/10 rounded-2xl sm:rounded-3xl p-8 sm:p-10 hover:border-white/12 transition-all duration-300" style={{ background: 'rgba(0, 0, 0, 0.2)' }}>
+                <div className="flex flex-col sm:flex-row gap-5 sm:gap-8 justify-center items-center">
                   <Button
                     type="submit"
                     disabled={isSubmitting || !termsAccepted}
@@ -784,13 +784,13 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
                   </Button>
                 </div>
                 {!termsAccepted && (
-                  <div className="text-center mt-4">
+                  <div className="text-center mt-6">
                     <p className="text-yellow-400/80 text-xs sm:text-sm px-2">
                       Please accept the Terms & Conditions to proceed with registration
                     </p>
                   </div>
                 )}
-                <div className="text-center mt-4 sm:mt-6">
+                <div className="text-center mt-6 sm:mt-8">
                   <p className="text-gray-400 text-xs sm:text-sm px-2">
                     By registering, you agree to participate in ZIGNASA 2K25 competition
                   </p>

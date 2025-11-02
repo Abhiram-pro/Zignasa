@@ -918,11 +918,11 @@ const Home: React.FC = () => {
                       </svg>
                     </div>
                     <AccordionTrigger className="text-[18px] font-semibold text-white hover:text-indigo-300 transition-colors duration-200 flex-1 leading-tight text-left">
-                      How do I attend online workshops?
+                      Who can participate in Zignasa?
                     </AccordionTrigger>
                   </div>
                   <AccordionContent className="text-[14px] text-gray-300 leading-relaxed w-full">
-                    Workshop links and schedules will be shared via email with all registered participants. Just join through the provided link and get insights from industry mentors to prepare yourself before the main hackathon.
+                    Zignasa 2k25 welcomes everyone with a passion for innovation whether you’re just starting out or already building projects. You don’t need prior experience; all that matters is your curiosity, creativity, and willingness to learn and create something impactful.
                   </AccordionContent>
                   <div className="absolute bottom-0 right-0 w-[170px] opacity-20">
                     <div className="w-full h-full bg-gradient-to-tl from-white/30 to-transparent rounded-tl-[100px]"></div>
@@ -996,8 +996,8 @@ const Home: React.FC = () => {
                 (
                   <div className="bg-white/5 backdrop-blur-xl border-0 rounded-2xl sm:rounded-3xl p-6 sm:p-8 text-center hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 transition-all duration-300 shadow-2xl h-full flex flex-col max-w-sm mx-auto">
                     <div className="flex flex-col items-center space-y-4 sm:space-y-6 flex-grow justify-center">
-                      <div className="relative">
-                        <img src="/assets/img/coordinators/muralikrishna.jpg" className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 object-cover rounded-full border-3 sm:border-4 border-purple-400/30" alt="Mr. B Murali Krishna" />
+                      <div className="relative flex items-center justify-center">
+                        <img src="assets/new_images/e.jpeg" className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 object-cover object-top rounded-full border-3 sm:border-4 border-purple-400/30 mx-auto" alt="Mr. B Murali Krishna" />
                       </div>
                       <div className="text-center">
                         <h3 className="text-lg sm:text-xl font-bold text-white mb-1 sm:mb-2">Mr. B Murali Krishna</h3>
@@ -1010,7 +1010,7 @@ const Home: React.FC = () => {
                   <div className="bg-white/5 backdrop-blur-xl border-0 rounded-2xl sm:rounded-3xl p-6 sm:p-8 text-center hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 transition-all duration-300 shadow-2xl h-full flex flex-col max-w-sm mx-auto">
                     <div className="flex flex-col items-center space-y-4 sm:space-y-6 flex-grow justify-center">
                       <div className="relative">
-                        <img src="/assets/img/coordinators/sapthami.jpg" className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 object-cover rounded-full border-3 sm:border-4 border-purple-400/30" alt="Mrs. I Sapthami" />
+                        <img src="assets/new_images/j.jpeg" className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 object-cover rounded-full border-3 sm:border-4 border-purple-400/30" alt="Mrs. I Sapthami" />
                       </div>
                       <div className="text-center">
                         <h3 className="text-lg sm:text-xl font-bold text-white mb-1 sm:mb-2">Mrs. I Sapthami</h3>
