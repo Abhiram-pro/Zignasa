@@ -229,25 +229,12 @@ const Domains: React.FC = () => {
         }
       `}</style>
 
-      {/* Page Background Dither - Desktop only */}
-      <div className="page-dither-bg hidden md:block">
-        <Dither
-          waveSpeed={0.04}
-          waveFrequency={2}
-          waveAmplitude={0.28}
-          waveColor={[0.4, 0.2, 0.5]}
-          colorNum={3}
-          pixelSize={3}
-          disableAnimation={false}
-          enableMouseInteraction={false}
-          mouseRadius={0.3}
-        />
-      </div>
+
 
       <div className="min-h-screen sm:min-h-screen relative" style={{ zIndex: 10 }}>
         <Navbar />
 
-        <main className="main pt-16 sm:pt-16 md:pt-20 lg:pt-28 relative pb-4">
+        <main className="main pt-28 sm:pt-32 md:pt-36 lg:pt-40 relative pb-4">
           {/* Domains Section */}
           <section id="domains" className="py-6 sm:py-8 md:py-12 lg:py-16 bg-transparent border-0">
             <div className="container mx-auto px-4 sm:px-6 md:px-8 bg-transparent border-0">
@@ -297,7 +284,7 @@ const Domains: React.FC = () => {
                       </div>
                       <div className="flex items-start sm:items-center gap-2 sm:gap-3">
                         <div className="w-2 h-2 bg-purple-400 rounded-full mt-1 sm:mt-0 flex-shrink-0"></div>
-                        <span className="text-white text-sm sm:text-base font-semibold" style={{ color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff' }}>Registration Fee: ₹399</span>
+                        <span className="text-white text-sm sm:text-base font-semibold" style={{ color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff' }}>Registration Fee: ₹399 Per Person</span>
                       </div>
                     </div>
                   </div>
@@ -309,7 +296,7 @@ const Domains: React.FC = () => {
                       </div>
                     </div>
                     <Button asChild className="w-full bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white font-medium py-3 sm:py-4 px-4 rounded-xl sm:rounded-2xl transition-all duration-300 border border-white/20 hover:border-white/30 text-sm sm:text-base">
-                      <Link to="/webdev">Explore Domain</Link>
+                      <Link to="https://konfhub.com/zignasa2k25">Explore Domain</Link>
                     </Button>
                   </div>
                 </div>
@@ -350,7 +337,7 @@ const Domains: React.FC = () => {
                       </div>
                       <div className="flex items-start sm:items-center gap-2 sm:gap-3">
                         <div className="w-2 h-2 bg-purple-400 rounded-full mt-1 sm:mt-0 flex-shrink-0"></div>
-                        <span className="text-white text-sm sm:text-base font-semibold" style={{ color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff' }}>Registration Fee: ₹399</span>
+                        <span className="text-white text-sm sm:text-base font-semibold" style={{ color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff' }}>Registration Fee: ₹399 Per Person</span>
                       </div>
                     </div>
                   </div>
@@ -362,7 +349,7 @@ const Domains: React.FC = () => {
                       </div>
                     </div>
                     <Button asChild className="w-full bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white font-medium py-3 sm:py-4 px-4 rounded-xl sm:rounded-2xl transition-all duration-300 border border-white/20 hover:border-white/30 text-sm sm:text-base">
-                      <Link to="/AgenticAI">Explore Domain</Link>
+                      <Link to="https://konfhub.com/zignasa2k25">Explore Domain</Link>
                     </Button>
                   </div>
                 </div>
@@ -403,7 +390,7 @@ const Domains: React.FC = () => {
                       </div>
                       <div className="flex items-start sm:items-center gap-2 sm:gap-3">
                         <div className="w-2 h-2 bg-purple-400 rounded-full mt-1 sm:mt-0 flex-shrink-0"></div>
-                        <span className="text-white text-sm sm:text-base font-semibold" style={{ color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff' }}>Registration Fee: ₹399</span>
+                        <span className="text-white text-sm sm:text-base font-semibold" style={{ color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff' }}>Registration Fee: ₹399 Per Person</span>
                       </div>
                     </div>
                   </div>
@@ -415,7 +402,7 @@ const Domains: React.FC = () => {
                       </div>
                     </div>
                     <Button asChild className="w-full bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white font-medium py-3 sm:py-4 px-4 rounded-xl sm:rounded-2xl transition-all duration-300 border border-white/20 hover:border-white/30 text-sm sm:text-base">
-                      <Link to="/UX">Explore Domain</Link>
+                      <Link to="https://konfhub.com/zignasa2k25">Explore Domain</Link>
                     </Button>
                   </div>
                 </div>
