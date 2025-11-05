@@ -406,6 +406,60 @@ const Domains: React.FC = () => {
                     </Button>
                   </div>
                 </div>
+
+                <div className="domain-card border border-white/30 rounded-xl sm:rounded-2xl md:rounded-3xl p-4 sm:p-6 md:p-8 lg:p-10 group hover:border-white/50 shadow-2xl flex flex-col w-full lg:flex-1 app-card" data-aos="zoom-in" data-aos-delay="400">
+                  <div className="card-dither-bg">
+                    <Dither
+                      waveSpeed={0.04}
+                      waveFrequency={2}
+                      waveAmplitude={0.28}
+                      waveColor={[0.4, 0.2, 0.5]}
+                      colorNum={3}
+                      pixelSize={3}
+                      disableAnimation={false}
+                      enableMouseInteraction={false}
+                      mouseRadius={0.3}
+                    />
+                  </div>
+                  <div className="card-content text-left pb-4 sm:pb-6 flex-grow">
+                    <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-3 sm:mb-4 leading-tight" style={{ color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff' }}>
+                      Vibe Coding
+                    </h3>
+                    <p className="text-white text-sm sm:text-base md:text-lg leading-relaxed mb-3 sm:mb-4" style={{ color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff' }}>
+                      Step into the future of development with Vibe Coding a fusion of creativity, logic, and interactivity. Participants will reimagine problem-solving through modern coding practices that emphasize innovation, design thinking, and real-time adaptability.
+
+                    </p>
+                    <div className="space-y-1.5 sm:space-y-2 text-white">
+                      <div className="flex items-start sm:items-center gap-2 sm:gap-3">
+                        <div className="w-2 h-2 bg-purple-400 rounded-full mt-1 sm:mt-0 flex-shrink-0"></div>
+                        <span className="text-white text-sm sm:text-base" style={{ color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff' }}>Interactive and creative coding experiences </span>
+                      </div>
+                      <div className="flex items-start sm:items-center gap-2 sm:gap-3">
+                        <div className="w-2 h-2 bg-purple-400 rounded-full mt-1 sm:mt-0 flex-shrink-0"></div>
+                        <span className="text-white text-sm sm:text-base" style={{ color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff' }}>Rapid prototyping and real-world solutioning</span>
+                      </div>
+                      <div className="flex items-start sm:items-center gap-2 sm:gap-3">
+                        <div className="w-2 h-2 bg-purple-400 rounded-full mt-1 sm:mt-0 flex-shrink-0"></div>
+                        <span className="text-white text-sm sm:text-base" style={{ color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff' }}>Cross-disciplinary innovation blending tech and design </span>
+                      </div>
+                      <div className="flex items-start sm:items-center gap-2 sm:gap-3">
+                        <div className="w-2 h-2 bg-purple-400 rounded-full mt-1 sm:mt-0 flex-shrink-0"></div>
+                        <span className="text-white text-sm sm:text-base font-semibold" style={{ color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff' }}>Registration Fee: ₹399 Per Person</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="card-content mt-auto">
+                    <div className="bg-white/5 backdrop-blur-sm rounded-xl sm:rounded-2xl p-3 sm:p-4 border border-white/10 mb-4 sm:mb-6">
+                      <div className="flex items-center gap-2 text-white flex-wrap">
+                        <Users className="w-4 h-4 sm:w-5 sm:h-5 text-purple-400 flex-shrink-0" />
+                        <span className="text-white text-sm sm:text-base" style={{ color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff' }}>Team Size: 3 - 5 persons</span>
+                      </div>
+                    </div>
+                    <Button asChild className="w-full bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white font-medium py-3 sm:py-4 px-4 rounded-xl sm:rounded-2xl transition-all duration-300 border border-white/20 hover:border-white/30 text-sm sm:text-base">
+                      <Link to="https://konfhub.com/zignasa2k25">Explore Domain</Link>
+                    </Button>
+                  </div>
+                </div>
               </div>
             </div>
           </section>
