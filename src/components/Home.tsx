@@ -596,7 +596,7 @@ const Home: React.FC = () => {
         </section>
 
         {/* Gallery Section */}
-        <section id="gallery" className="py-8 md:py-24 bg-black relative overflow-hidden   max-h-[900px]">
+        <section id="gallery" className="py-8 md:py-24 bg-black relative overflow-hidden   max-h-[900px] md:max-h-[1050px]">
           {/* Background Elements */}
           <div className="absolute inset-0 bg-gradient-to-b from-black to-black pointer-events-none"></div>
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl pointer-events-none"></div>
@@ -632,7 +632,7 @@ const Home: React.FC = () => {
             </div>
 
             {/* Gallery Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-3 sm:gap-4 md:gap-6" data-aos="fade-up" data-aos-delay="200">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-6 lg:max-w-4xl lg:mx-auto" data-aos="fade-up" data-aos-delay="200">
               {[
                 { id: 1, src: "assets/new_images/WhatsApp Image 2025-11-04 at 22.32.59 (3).jpeg", alt: "Innovation Workshop" },
                 { id: 2, src: "/assets/new_images/WhatsApp Image 2025-11-04 at 22.32.59 (2).jpeg", alt: "Team Collaboration" },
