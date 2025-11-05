@@ -596,7 +596,7 @@ const Home: React.FC = () => {
         </section>
 
         {/* Gallery Section */}
-        <section id="gallery" className="py-8 md:py-24 bg-black relative overflow-hidden ">
+        <section id="gallery" className="py-8 md:py-24 bg-black relative overflow-hidden   max-h-[900px]">
           {/* Background Elements */}
           <div className="absolute inset-0 bg-gradient-to-b from-black to-black pointer-events-none"></div>
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl pointer-events-none"></div>
@@ -616,7 +616,7 @@ const Home: React.FC = () => {
             />
           </div>
 
-          <div className="container mx-auto px-3 sm:px-4 md:px-6 py-8 relative z-10 h-[482px] md:h-[800px]">
+          <div className="container mx-auto px-3 sm:px-4 md:px-6 py-8 relative z-10">
             <div className="text-center mb-6 md:mb-16" data-aos="fade-up">
               <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-3 md:mb-6 tracking-tight">
                 Gallery
@@ -631,161 +631,34 @@ const Home: React.FC = () => {
               </div>
             </div>
 
-            {/* Stacked Cards Layout */}
-            <div className="relative flex items-center justify-center min-h-[350px] sm:min-h-[400px] md:min-h-[650px] max-h-[450px] sm:max-h-[500px] md:max-h-none" data-aos="fade-up" data-aos-delay="200">
-              {/* Card 1 - Far Left Back */}
-              <div
-                onClick={() => handleCardClick(1)}
-                className="absolute w-[120px] sm:w-[180px] md:w-[280px] lg:w-[320px] aspect-[3/4] rounded-lg sm:rounded-xl md:rounded-2xl overflow-hidden shadow-2xl cursor-pointer group"
-                style={{
-                  transform: activeCard === 1
-                    ? 'translate(0rem, -1rem) rotate(0deg) scale(1.2)'
-                    : activeCard !== null
-                      ? 'translate(calc(-13rem - (100vw - 768px) * 0.08), calc(6rem + (100vw - 768px) * 0.016)) rotate(-26deg) scale(0.68)'
-                      : 'translate(calc(-12rem - (100vw - 768px) * 0.07), calc(5.5rem + (100vw - 768px) * 0.014)) rotate(-23deg) scale(0.75)',
-                  zIndex: activeCard === 1 ? 50 : 1,
-                  transition: 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)',
-                  willChange: 'transform'
-                }}
-              >
-                <img
-                  src="/assets/img/pic4.jpg"
-                  alt="Innovation Workshop"
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                />
-              </div>
-
-              {/* Card 2 - Left Back */}
-              <div
-                onClick={() => handleCardClick(2)}
-                className="absolute w-[120px] sm:w-[180px] md:w-[280px] lg:w-[320px] aspect-[3/4] rounded-lg sm:rounded-xl md:rounded-2xl overflow-hidden shadow-2xl cursor-pointer group"
-                style={{
-                  transform: activeCard === 2
-                    ? 'translate(0rem, -1rem) rotate(0deg) scale(1.2)'
-                    : activeCard !== null
-                      ? 'translate(calc(-9.5rem - (100vw - 768px) * 0.055), calc(4rem + (100vw - 768px) * 0.012)) rotate(-19deg) scale(0.76)'
-                      : 'translate(calc(-8.5rem - (100vw - 768px) * 0.05), calc(3.2rem + (100vw - 768px) * 0.010)) rotate(-16deg) scale(0.82)',
-                  zIndex: activeCard === 2 ? 50 : 2,
-                  transition: 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)',
-                  willChange: 'transform'
-                }}
-              >
-                <img
-                  src="/assets/img/pic1.jpg"
-                  alt="Team Collaboration"
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                />
-              </div>
-
-              {/* Card 3 - Left Front */}
-              <div
-                onClick={() => handleCardClick(3)}
-                className="absolute w-[120px] sm:w-[180px] md:w-[280px] lg:w-[320px] aspect-[3/4] rounded-lg sm:rounded-xl md:rounded-2xl overflow-hidden shadow-2xl cursor-pointer group"
-                style={{
-                  transform: activeCard === 3
-                    ? 'translate(0rem, -1rem) rotate(0deg) scale(1.2)'
-                    : activeCard !== null
-                      ? 'translate(calc(-5.5rem - (100vw - 768px) * 0.032), calc(1.8rem + (100vw - 768px) * 0.006)) rotate(-12deg) scale(0.84)'
-                      : 'translate(calc(-4.5rem - (100vw - 768px) * 0.028), calc(1.2rem + (100vw - 768px) * 0.005)) rotate(-9deg) scale(0.90)',
-                  zIndex: activeCard === 3 ? 50 : 3,
-                  transition: 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)',
-                  willChange: 'transform'
-                }}
-              >
-                <img
-                  src="/assets/img/pic8.jpg"
-                  alt="Creative Session"
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                />
-              </div>
-
-              {/* Card 4 - Center (Main) */}
-              <div
-                onClick={() => handleCardClick(4)}
-                className="absolute w-[120px] sm:w-[180px] md:w-[280px] lg:w-[320px] aspect-[3/4] rounded-lg sm:rounded-xl md:rounded-2xl overflow-hidden shadow-2xl cursor-pointer group"
-                style={{
-                  transform: activeCard === 4
-                    ? 'translate(0rem, -1rem) rotate(0deg) scale(1.2)'
-                    : activeCard !== null
-                      ? 'translate(0rem, 1rem) rotate(0deg) scale(0.92)'
-                      : 'translate(0rem, 0rem) rotate(0deg) scale(1)',
-                  zIndex: activeCard === 4 ? 50 : 10,
-                  transition: 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)',
-                  willChange: 'transform'
-                }}
-              >
-                <img
-                  src="/assets/img/pic2.jpg"
-                  alt="Tech Showcase"
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                />
-              </div>
-
-              {/* Card 5 - Right Front */}
-              <div
-                onClick={() => handleCardClick(5)}
-                className="absolute w-[120px] sm:w-[180px] md:w-[280px] lg:w-[320px] aspect-[3/4] rounded-lg sm:rounded-xl md:rounded-2xl overflow-hidden shadow-2xl cursor-pointer group"
-                style={{
-                  transform: activeCard === 5
-                    ? 'translate(0rem, -1rem) rotate(0deg) scale(1.2)'
-                    : activeCard !== null
-                      ? 'translate(calc(5.5rem + (100vw - 768px) * 0.032), calc(1.8rem + (100vw - 768px) * 0.006)) rotate(12deg) scale(0.84)'
-                      : 'translate(calc(4.5rem + (100vw - 768px) * 0.028), calc(1.2rem + (100vw - 768px) * 0.005)) rotate(9deg) scale(0.90)',
-                  zIndex: activeCard === 5 ? 50 : 3,
-                  transition: 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)',
-                  willChange: 'transform'
-                }}
-              >
-                <img
-                  src="/assets/img/rep3.png"
-                  alt="Learning Hub"
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                />
-              </div>
-
-              {/* Card 6 - Right Back */}
-              <div
-                onClick={() => handleCardClick(6)}
-                className="absolute w-[120px] sm:w-[180px] md:w-[280px] lg:w-[320px] aspect-[3/4] rounded-lg sm:rounded-xl md:rounded-2xl overflow-hidden shadow-2xl cursor-pointer group"
-                style={{
-                  transform: activeCard === 6
-                    ? 'translate(0rem, -1rem) rotate(0deg) scale(1.2)'
-                    : activeCard !== null
-                      ? 'translate(calc(9.5rem + (100vw - 768px) * 0.055), calc(4rem + (100vw - 768px) * 0.012)) rotate(19deg) scale(0.76)'
-                      : 'translate(calc(8.5rem + (100vw - 768px) * 0.05), calc(3.2rem + (100vw - 768px) * 0.010)) rotate(16deg) scale(0.82)',
-                  zIndex: activeCard === 6 ? 50 : 2,
-                  transition: 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)',
-                  willChange: 'transform'
-                }}
-              >
-                <img
-                  src="/assets/img/rep1.JPG"
-                  alt="Event Highlights"
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                />
-              </div>
-
-              {/* Card 7 - Far Right Back */}
-              <div
-                onClick={() => handleCardClick(7)}
-                className="absolute w-[120px] sm:w-[180px] md:w-[280px] lg:w-[320px] aspect-[3/4] rounded-lg sm:rounded-xl md:rounded-2xl overflow-hidden shadow-2xl cursor-pointer group"
-                style={{
-                  transform: activeCard === 7
-                    ? 'translate(0rem, -1rem) rotate(0deg) scale(1.2)'
-                    : activeCard !== null
-                      ? 'translate(calc(13rem + (100vw - 768px) * 0.08), calc(6rem + (100vw - 768px) * 0.016)) rotate(26deg) scale(0.68)'
-                      : 'translate(calc(12rem + (100vw - 768px) * 0.07), calc(5.5rem + (100vw - 768px) * 0.014)) rotate(23deg) scale(0.75)',
-                  zIndex: activeCard === 7 ? 50 : 1,
-                  transition: 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)',
-                  willChange: 'transform'
-                }}
-              >
-                <img
-                  src="/assets/img/pic5.jpg"
-                  alt="Achievement Moments"
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                />
-              </div>
+            {/* Gallery Grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-3 sm:gap-4 md:gap-6" data-aos="fade-up" data-aos-delay="200">
+              {[
+                { id: 1, src: "assets/new_images/WhatsApp Image 2025-11-04 at 22.32.59 (3).jpeg", alt: "Innovation Workshop" },
+                { id: 2, src: "/assets/new_images/WhatsApp Image 2025-11-04 at 22.32.59 (2).jpeg", alt: "Team Collaboration" },
+                { id: 3, src: "/assets/img/pic8.jpg", alt: "Creative Session" },
+                { id: 4, src: "assets/new_images/WhatsApp Image 2025-11-04 at 22.32.59 (10).jpeg", alt: "Tech Showcase" },
+                { id: 5, src: "/assets/img/rep3.png", alt: "Learning Hub" },
+                { id: 6, src: "/assets/new_images/WhatsApp Image 2025-11-04 at 22.32.59 (6).jpeg", alt: "Event Highlights" }
+              ].map((card) => (
+                <div
+                  key={card.id}
+                  className="relative rounded-xl md:rounded-2xl overflow-hidden group cursor-pointer border-2 border-white/20 hover:border-purple-400/50 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105"
+                >
+                  <div className="relative w-full aspect-square">
+                    <img
+                      src={card.src}
+                      alt={card.alt}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4">
+                        <p className="text-white text-xs sm:text-sm font-medium">{card.alt}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </section>
