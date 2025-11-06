@@ -870,7 +870,7 @@ const Home: React.FC = () => {
                   <div className="bg-white/5 backdrop-blur-xl border-0 rounded-2xl sm:rounded-3xl p-6 sm:p-8 text-center hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 transition-all duration-300 shadow-2xl h-full flex flex-col max-w-sm mx-auto">
                     <div className="flex flex-col items-center space-y-4 sm:space-y-6 flex-grow justify-center">
                       <div className="relative flex items-center justify-center">
-                        <img src="assets/new_images/e.jpeg" className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 object-cover object-top rounded-full border-3 sm:border-4 border-purple-400/30 mx-auto" alt="Mr. B Murali Krishna" />
+                        <img src="assets/new_images/mk.jpeg" className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 object-cover object-top rounded-full border-3 sm:border-4 border-purple-400/30 mx-auto" alt="Mr. B Murali Krishna" />
                       </div>
                       <div className="text-center">
                         <h3 className="text-lg sm:text-xl font-bold text-white mb-1 sm:mb-2">Mr. B Murali Krishna</h3>
