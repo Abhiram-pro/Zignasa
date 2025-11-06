@@ -489,15 +489,15 @@ const Home: React.FC = () => {
               <style>{`
                 @keyframes scroll-left {
                   0% { transform: translateX(0); }
-                  100% { transform: translateX(-33.333%); }
+                  100% { transform: translateX(-50%); }
                 }
                 .animate-scroll-left {
                   display: flex;
-                  animation: scroll-left 30s linear infinite;
+                  animation: scroll-left 20s linear infinite;
                 }
                 @media (max-width: 768px) {
                   .animate-scroll-left {
-                    animation-duration: 20s;
+                    animation-duration: 15s;
                   }
                 }
               `}</style>
@@ -533,6 +533,9 @@ const Home: React.FC = () => {
                   <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
                     <img src="assets/new_images/s2slogo.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
                   </div>
+                   <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
+                    <img src="assets/new_images/image-removebg-preview.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
+                  </div>
                 </div>
 
                 {/* Duplicate for seamless loop */}
@@ -561,6 +564,9 @@ const Home: React.FC = () => {
                   <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
                     <img src="assets/new_images/s2slogo.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
                   </div>
+                   <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
+                    <img src="assets/new_images/image-removebg-preview.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
+                  </div>
                 </div>
 
                 {/* Third duplicate for seamless loop */}
@@ -588,6 +594,9 @@ const Home: React.FC = () => {
                   </div>
                   <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
                     <img src="assets/new_images/s2slogo.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
+                  </div>
+                   <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
+                    <img src="assets/new_images/image-removebg-preview.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
                   </div>
                 </div>
               </div>
