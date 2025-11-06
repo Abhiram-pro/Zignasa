@@ -487,116 +487,113 @@ const Home: React.FC = () => {
 
             <div className="relative w-full overflow-hidden h-auto">
               <style>{`
-                @keyframes scroll-left {
-                  0% { transform: translateX(0); }
-                  100% { transform: translateX(-50%); }
+                @keyframes scroll-infinite {
+                  from { transform: translateX(0); }
+                  to { transform: translateX(-100%); }
                 }
-                .animate-scroll-left {
+                .scroll-container {
                   display: flex;
-                  animation: scroll-left 20s linear infinite;
+                  width: fit-content;
+                  animation: scroll-infinite 35s linear infinite;
+                }
+                .scroll-container:hover {
+                  animation-play-state: paused;
                 }
                 @media (max-width: 768px) {
-                  .animate-scroll-left {
-                    animation-duration: 15s;
+                  .scroll-container {
+                    animation-duration: 25s;
                   }
                 }
               `}</style>
 
               {/* Fade overlays on corners */}
-              <div className="absolute left-0 top-0 h-full w-24 md:w-32 bg-gradient-to-r from-black to-transparent z-10 pointer-events-none"></div>
-              <div className="absolute right-0 top-0 h-full w-24 md:w-32 bg-gradient-to-l from-black to-transparent z-10 pointer-events-none"></div>
+              <div className="absolute left-0 top-0 h-full w-32 md:w-40 lg:w-48 bg-gradient-to-r from-black via-black/80 to-transparent z-10 pointer-events-none"></div>
+              <div className="absolute right-0 top-0 h-full w-32 md:w-40 lg:w-48 bg-gradient-to-l from-black via-black/80 to-transparent z-10 pointer-events-none"></div>
 
-              <div className="animate-scroll-left py-4">
-                {/* First set of logos */}
-                <div className="flex gap-4 md:gap-6 lg:gap-8 min-w-max pr-4 md:pr-6 lg:pr-8 flex-shrink-0">
-                  <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
-                    <img src="/assets/img/mlrit.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
+              <div className="flex py-4">
+                <div className="scroll-container">
+                  {/* First set of logos */}
+                  <div className="flex gap-4 md:gap-6 lg:gap-8 pr-4 md:pr-6 lg:pr-8">
+                    <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl flex-shrink-0">
+                      <img src="/assets/img/mlrit.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
+                    </div>
+                    <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl flex-shrink-0">
+                      <img src="/assets/img/codelogo.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
+                    </div>
+                    <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl flex-shrink-0">
+                      <img src="/assets/img/iic.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
+                    </div>
+                    <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl flex-shrink-0">
+                      <img src="/assets/img/clients/csi.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
+                    </div>
+                    <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl flex-shrink-0">
+                      <img src="/assets/new_images/deezignlogo.png" className="w-full h-24 md:h-28 lg:h-32 object-contain filter brightness-90" alt="" />
+                    </div>
+                    <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl flex-shrink-0">
+                      <img src="assets/new_images/ST2.webp" className="w-full h-14 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
+                    </div>
+                    <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl flex-shrink-0">
+                      <img src="assets/new_images/mslogo.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
+                    </div>
+                    <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl flex-shrink-0">
+                      <img src="assets/new_images/image-removebg-preview.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter invert brightness-0 saturate-0" alt="" />
+                    </div>
                   </div>
-                  <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
-                    <img src="/assets/img/codelogo.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
-                  </div>
-                  <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
-                    <img src="/assets/img/iic.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
-                  </div>
-                  <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
-                    <img src="/assets/img/clients/csi.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
-                  </div>
-                  <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
-                    <img src="/assets/new_images/deezignlogo.png" className="w-full h-24 md:h-28 lg:h-32 object-contain filter brightness-90" alt="" />
-                  </div>
-                  <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
-                    <img src="assets/new_images/ST2.webp" className="w-full h-14 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
-                  </div>
-                  <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
-                    <img src="assets/new_images/mslogo.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
-                  </div>
-                  <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
-                    <img src="assets/new_images/s2slogo.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
-                  </div>
-                   <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
-                    <img src="assets/new_images/image-removebg-preview.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
-                  </div>
-                </div>
 
-                {/* Duplicate for seamless loop */}
-                <div className="flex gap-4 md:gap-6 lg:gap-8 min-w-max pr-4 md:pr-6 lg:pr-8 flex-shrink-0">
-                  <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
-                    <img src="/assets/img/mlrit.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
+                  {/* Duplicate for seamless loop */}
+                  <div className="flex gap-4 md:gap-6 lg:gap-8 pr-4 md:pr-6 lg:pr-8">
+                    <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl flex-shrink-0">
+                      <img src="/assets/img/mlrit.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
+                    </div>
+                    <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl flex-shrink-0">
+                      <img src="/assets/img/codelogo.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
+                    </div>
+                    <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl flex-shrink-0">
+                      <img src="/assets/img/iic.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
+                    </div>
+                    <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl flex-shrink-0">
+                      <img src="/assets/img/clients/csi.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
+                    </div>
+                    <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl flex-shrink-0">
+                      <img src="/assets/new_images/deezignlogo.png" className="w-full h-24 md:h-28 lg:h-32 object-contain filter brightness-90" alt="" />
+                    </div>
+                    <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl flex-shrink-0">
+                      <img src="assets/new_images/ST2.webp" className="w-full h-14 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
+                    </div>
+                    <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl flex-shrink-0">
+                      <img src="assets/new_images/mslogo.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
+                    </div>
+                    <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl flex-shrink-0">
+                      <img src="assets/new_images/image-removebg-preview.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter invert brightness-0 saturate-0" alt="" />
+                    </div>
                   </div>
-                  <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
-                    <img src="/assets/img/codelogo.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
-                  </div>
-                  <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
-                    <img src="/assets/img/iic.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
-                  </div>
-                  <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
-                    <img src="/assets/img/clients/csi.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
-                  </div>
-                  <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
-                    <img src="/assets/new_images/deezignlogo.png" className="w-full h-24 md:h-28 lg:h-32 object-contain filter brightness-90" alt="" />
-                  </div>
-                  <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
-                    <img src="assets/new_images/ST2.webp" className="w-full h-14 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
-                  </div>
-                  <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
-                    <img src="assets/new_images/mslogo.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
-                  </div>
-                  <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
-                    <img src="assets/new_images/s2slogo.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
-                  </div>
-                   <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
-                    <img src="assets/new_images/image-removebg-preview.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
-                  </div>
-                </div>
 
-                {/* Third duplicate for seamless loop */}
-                <div className="flex gap-4 md:gap-6 lg:gap-8 min-w-max pr-4 md:pr-6 lg:pr-8 flex-shrink-0">
-                  <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
-                    <img src="/assets/img/mlrit.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
-                  </div>
-                  <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
-                    <img src="/assets/img/codelogo.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
-                  </div>
-                  <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
-                    <img src="/assets/img/iic.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
-                  </div>
-                  <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
-                    <img src="/assets/img/clients/csi.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
-                  </div>
-                  <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
-                    <img src="/assets/new_images/deezignlogo.png" className="w-full h-24 md:h-28 lg:h-32 object-contain filter brightness-90" alt="" />
-                  </div>
-                  <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
-                    <img src="assets/new_images/ST2.webp" className="w-full h-14 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
-                  </div>
-                  <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
-                    <img src="assets/new_images/mslogo.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
-                  </div>
-                  <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
-                    <img src="assets/new_images/s2slogo.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
-                  </div>
-                   <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl">
-                    <img src="assets/new_images/image-removebg-preview.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
+                  {/* Third set for extra coverage */}
+                  <div className="flex gap-4 md:gap-6 lg:gap-8 pr-4 md:pr-6 lg:pr-8">
+                    <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl flex-shrink-0">
+                      <img src="/assets/img/mlrit.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
+                    </div>
+                    <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl flex-shrink-0">
+                      <img src="/assets/img/codelogo.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
+                    </div>
+                    <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl flex-shrink-0">
+                      <img src="/assets/img/iic.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
+                    </div>
+                    <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl flex-shrink-0">
+                      <img src="/assets/img/clients/csi.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
+                    </div>
+                    <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl flex-shrink-0">
+                      <img src="/assets/new_images/deezignlogo.png" className="w-full h-24 md:h-28 lg:h-32 object-contain filter brightness-90" alt="" />
+                    </div>
+                    <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl flex-shrink-0">
+                      <img src="assets/new_images/ST2.webp" className="w-full h-14 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
+                    </div>
+                    <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl flex-shrink-0">
+                      <img src="assets/new_images/mslogo.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
+                    </div>
+                    <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl flex-shrink-0">
+                      <img src="assets/new_images/image-removebg-preview.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter invert brightness-0 saturate-0" alt="" />
+                    </div>
                   </div>
                 </div>
               </div>
