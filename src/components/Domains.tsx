@@ -49,12 +49,17 @@ const Domains: React.FC = () => {
           z-index: 5;
           transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
           transform: translateY(0) scale(1);
-          will-change: transform;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
           background: rgba(255, 255, 255, 0.05);
-          backdrop-filter: blur(10px);
-          -webkit-backdrop-filter: blur(10px);
+        }
+        
+        @media (min-width: 1024px) {
+          .domain-card {
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            will-change: transform;
+          }
         }
         
         .card-dither-bg {
@@ -75,14 +80,7 @@ const Domains: React.FC = () => {
           height: 100% !important;
           display: block !important;
         }
-        
-
-        
-
-        
-
-        
-
+      
         
         .card-content {
           position: relative;
@@ -91,16 +89,18 @@ const Domains: React.FC = () => {
         
 
         
-        .domain-card:hover {
-          transform: translateY(-12px) scale(1.03);
-          box-shadow: 0 25px 50px -12px rgba(124, 58, 237, 0.5), 
-                      0 0 0 1px rgba(255, 255, 255, 0.3),
-                      inset 0 1px 0 rgba(255, 255, 255, 0.2);
-          z-index: 10;
-          border-color: rgba(124, 58, 237, 0.7);
-          background: rgba(255, 255, 255, 0.1);
-          backdrop-filter: blur(12px);
-          -webkit-backdrop-filter: blur(12px);
+        @media (min-width: 1024px) {
+          .domain-card:hover {
+            transform: translateY(-12px) scale(1.03);
+            box-shadow: 0 25px 50px -12px rgba(124, 58, 237, 0.5), 
+                        0 0 0 1px rgba(255, 255, 255, 0.3),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            z-index: 10;
+            border-color: rgba(124, 58, 237, 0.7);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+          }
         }
         
         .domain-card:hover .card-dither-bg {
@@ -174,11 +174,11 @@ const Domains: React.FC = () => {
             z-index: 1;
           }
           
-          /* Liquid glass for mobile */
+          /* Simplified background for mobile - no blur for performance */
           .domain-card {
-            background: rgba(255, 255, 255, 0.05) !important;
-            backdrop-filter: blur(10px) !important;
-            -webkit-backdrop-filter: blur(10px) !important;
+            background: rgba(255, 255, 255, 0.08) !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
           }
           
           .card-dither-bg {
@@ -292,7 +292,7 @@ const Domains: React.FC = () => {
                     <div className="bg-white/5 backdrop-blur-sm rounded-xl sm:rounded-2xl p-3 sm:p-4 border border-white/10 mb-4 sm:mb-6">
                       <div className="flex items-center gap-2 text-white flex-wrap">
                         <Users className="w-4 h-4 sm:w-5 sm:h-5 text-purple-400 flex-shrink-0" />
-                        <span className="text-white text-sm sm:text-base" style={{ color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff' }}>Team Size: 3 - 5 persons</span>
+                        <span className="text-white text-sm sm:text-base" style={{ color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff' }}>Team Size: 1 - 5 persons</span>
                       </div>
                     </div>
                     <Button asChild className="w-full bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white font-medium py-3 sm:py-4 px-4 rounded-xl sm:rounded-2xl transition-all duration-300 border border-white/20 hover:border-white/30 text-sm sm:text-base">
@@ -345,7 +345,7 @@ const Domains: React.FC = () => {
                     <div className="bg-white/5 backdrop-blur-sm rounded-xl sm:rounded-2xl p-3 sm:p-4 border border-white/10 mb-4 sm:mb-6">
                       <div className="flex items-center gap-2 text-white flex-wrap">
                         <Users className="w-4 h-4 sm:w-5 sm:h-5 text-purple-400 flex-shrink-0" />
-                        <span className="text-white text-sm sm:text-base" style={{ color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff' }}>Team Size: 3 - 5 persons</span>
+                        <span className="text-white text-sm sm:text-base" style={{ color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff' }}>Team Size: 1 - 5 persons</span>
                       </div>
                     </div>
                     <Button asChild className="w-full bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white font-medium py-3 sm:py-4 px-4 rounded-xl sm:rounded-2xl transition-all duration-300 border border-white/20 hover:border-white/30 text-sm sm:text-base">
@@ -398,7 +398,7 @@ const Domains: React.FC = () => {
                     <div className="bg-white/5 backdrop-blur-sm rounded-xl sm:rounded-2xl p-3 sm:p-4 border border-white/10 mb-4 sm:mb-6">
                       <div className="flex items-center gap-2 text-white flex-wrap">
                         <Users className="w-4 h-4 sm:w-5 sm:h-5 text-purple-400 flex-shrink-0" />
-                        <span className="text-white text-sm sm:text-base" style={{ color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff' }}>Team Size: 1 - 3 persons</span>
+                        <span className="text-white text-sm sm:text-base" style={{ color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff' }}>Team Size: 1 - 5 persons</span>
                       </div>
                     </div>
                     <Button asChild className="w-full bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white font-medium py-3 sm:py-4 px-4 rounded-xl sm:rounded-2xl transition-all duration-300 border border-white/20 hover:border-white/30 text-sm sm:text-base">
@@ -452,7 +452,7 @@ const Domains: React.FC = () => {
                     <div className="bg-white/5 backdrop-blur-sm rounded-xl sm:rounded-2xl p-3 sm:p-4 border border-white/10 mb-4 sm:mb-6">
                       <div className="flex items-center gap-2 text-white flex-wrap">
                         <Users className="w-4 h-4 sm:w-5 sm:h-5 text-purple-400 flex-shrink-0" />
-                        <span className="text-white text-sm sm:text-base" style={{ color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff' }}>Team Size: 3 - 5 persons</span>
+                        <span className="text-white text-sm sm:text-base" style={{ color: '#ffffff', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff' }}>Team Size: 1 - 5 persons</span>
                       </div>
                     </div>
                     <Button asChild className="w-full bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white font-medium py-3 sm:py-4 px-4 rounded-xl sm:rounded-2xl transition-all duration-300 border border-white/20 hover:border-white/30 text-sm sm:text-base">

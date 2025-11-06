@@ -396,7 +396,7 @@ const Home: React.FC = () => {
                       <BarChart3 className="w-6 h-6 md:w-7 md:h-7 text-purple-400" />
                     </div>
                     <h3 className="text-white text-xl md:text-2xl font-bold">
-                      5 Day Online Bootcamp
+                      3 Day Online Bootcamp
                     </h3>
                   </div>
                 </div>
