@@ -12,7 +12,7 @@ interface ChatWidgetProps {
 }
 
 const ChatWidget: React.FC<ChatWidgetProps> = ({ 
-  webhookUrl = 'https://teja.mlritcie.in/webhook/223b953b-ef97-4800-a1be-8b05890044c1/chat' 
+  webhookUrl = 'https://needless69.app.n8n.cloud/webhook/223b953b-ef97-4800-a1be-8b05890044c1/chat' 
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
@@ -219,6 +219,31 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({
     setMessages(prev => [...prev, newMessage]);
   }, []);
 
+  // Function to convert markdown to HTML
+  const formatMessageToHTML = (text: string): string => {
+    return text
+      // Convert **bold** to <strong> tags
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      // Convert \n to <br> tags
+      .replace(/\\n/g, '<br>')
+      // Convert numbered lists
+      .replace(/(\d+)\.\s/g, '<br>$1. ')
+      // Clean up multiple line breaks
+      .replace(/(<br>){3,}/g, '<br><br>')
+      // Convert email addresses to clickable links
+      .replace(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/gi, '<a href="mailto:$1" style="color: #60a5fa; text-decoration: underline;">$1</a>')
+      // Convert phone numbers to clickable links (various formats)
+      .replace(/(\+?\d{1,4}[\s-]?)?(\(?\d{3,4}\)?[\s-]?)?\d{3,4}[\s-]?\d{3,4}/g, (match) => {
+        // Only convert if it looks like a phone number (has enough digits)
+        const digitsOnly = match.replace(/\D/g, '');
+        if (digitsOnly.length >= 10) {
+          return `<a href="tel:${digitsOnly}" style="color: #60a5fa; text-decoration: underline;">${match}</a>`;
+        }
+        return match;
+      })
+      .trim();
+  };
+
   const sendMessage = useCallback(async () => {
     const message = inputValue.trim();
     if (!message || isTyping) return;
@@ -252,7 +277,9 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({
           // Use raw text if not JSON
         }
 
-        addMessage(botMessage || 'I received your message!', 'bot');
+        // Format the message to HTML
+        const formattedMessage = formatMessageToHTML(botMessage || 'I received your message!');
+        addMessage(formattedMessage, 'bot');
       } else {
         addMessage('Sorry, I encountered an error. Please try again.', 'bot');
       }
@@ -472,9 +499,8 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({
                       : 'bg-white/8 text-white/95 border border-white/15 rounded-bl-md shadow-lg'
                   }`}
                   style={{ backdropFilter: 'blur(15px)' }}
-                >
-                  {message.text}
-                </div>
+                  dangerouslySetInnerHTML={{ __html: message.text }}
+                />
               </div>
             ))}
             
