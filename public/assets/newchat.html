@@ -674,6 +674,30 @@
             }
         }
 
+        function formatMessageToHTML(text) {
+            return text
+                // Convert **bold** to <strong> tags
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                // Convert \n to <br> tags
+                .replace(/\\n/g, '<br>')
+                // Convert numbered lists
+                .replace(/(\d+)\.\s/g, '<br>$1. ')
+                // Clean up multiple line breaks
+                .replace(/(<br>){3,}/g, '<br><br>')
+                // Convert email addresses to clickable links
+                .replace(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/gi, '<a href="mailto:$1" style="color: #60a5fa; text-decoration: underline;">$1</a>')
+                // Convert phone numbers to clickable links (various formats)
+                .replace(/(\+?\d{1,4}[\s-]?)?(\(?\d{3,4}\)?[\s-]?)?\d{3,4}[\s-]?\d{3,4}/g, function(match) {
+                    // Only convert if it looks like a phone number (has enough digits)
+                    const digitsOnly = match.replace(/\D/g, '');
+                    if (digitsOnly.length >= 10) {
+                        return '<a href="tel:' + digitsOnly + '" style="color: #60a5fa; text-decoration: underline;">' + match + '</a>';
+                    }
+                    return match;
+                })
+                .trim();
+        }
+
         function addMessage(text, type) {
             const messagesContainer = document.getElementById('chatMessages');
             
@@ -685,7 +709,14 @@
             
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${type}`;
-            messageDiv.textContent = text;
+            
+            // Format the message if it's from bot
+            if (type === 'bot') {
+                const formattedHTML = formatMessageToHTML(text);
+                messageDiv.innerHTML = formattedHTML;
+            } else {
+                messageDiv.textContent = text;
+            }
             
             messageContainer.appendChild(avatar);
             messageContainer.appendChild(messageDiv);
