@@ -12,7 +12,7 @@ interface ChatWidgetProps {
 }
 
 const ChatWidget: React.FC<ChatWidgetProps> = ({ 
-  webhookUrl = 'https://teja.mlritcie.in/webhook/223b953b-ef97-4800-a1be-8b05890044c1/chat' 
+  webhookUrl = 'https://needless69.app.n8n.cloud/webhook/223b953b-ef97-4800-a1be-8b05890044c1/chat' 
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
