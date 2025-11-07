@@ -538,6 +538,9 @@ const Home: React.FC = () => {
                     <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl flex-shrink-0">
                       <img src="assets/new_images/image-removebg-preview.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter invert brightness-0 saturate-0" alt="" />
                     </div>
+                    <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl flex-shrink-0">
+                      <img src="assets/new_images/Friends of Figma Logo_cwnKCy7.webp" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
+                    </div>
                   </div>
 
                   {/* Duplicate for seamless loop */}
@@ -566,6 +569,9 @@ const Home: React.FC = () => {
                     <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl flex-shrink-0">
                       <img src="assets/new_images/image-removebg-preview.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter invert brightness-0 saturate-0" alt="" />
                     </div>
+                    <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl flex-shrink-0">
+                      <img src="assets/new_images/Friends of Figma Logo_cwnKCy7.webp" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
+                    </div>
                   </div>
 
                   {/* Third set for extra coverage */}
@@ -593,6 +599,40 @@ const Home: React.FC = () => {
                     </div>
                     <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl flex-shrink-0">
                       <img src="assets/new_images/image-removebg-preview.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter invert brightness-0 saturate-0" alt="" />
+                    </div>
+                    <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl flex-shrink-0">
+                      <img src="assets/new_images/Friends of Figma Logo_cwnKCy7.webp" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
+                    </div>
+                  </div>
+
+                  {/* Fourth set for extra coverage */}
+                  <div className="flex gap-4 md:gap-6 lg:gap-8 pr-4 md:pr-6 lg:pr-8">
+                    <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl flex-shrink-0">
+                      <img src="/assets/img/mlrit.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
+                    </div>
+                    <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl flex-shrink-0">
+                      <img src="/assets/img/codelogo.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
+                    </div>
+                    <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl flex-shrink-0">
+                      <img src="/assets/img/iic.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
+                    </div>
+                    <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl flex-shrink-0">
+                      <img src="/assets/img/clients/csi.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
+                    </div>
+                    <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl flex-shrink-0">
+                      <img src="/assets/new_images/deezignlogo.png" className="w-full h-24 md:h-28 lg:h-32 object-contain filter brightness-90" alt="" />
+                    </div>
+                    <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl flex-shrink-0">
+                      <img src="assets/new_images/ST2.webp" className="w-full h-14 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
+                    </div>
+                    <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl flex-shrink-0">
+                      <img src="assets/new_images/mslogo.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
+                    </div>
+                    <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl flex-shrink-0">
+                      <img src="assets/new_images/image-removebg-preview.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter invert brightness-0 saturate-0" alt="" />
+                    </div>
+                    <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl flex-shrink-0">
+                      <img src="assets/new_images/Friends of Figma Logo_cwnKCy7.webp" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
                     </div>
                   </div>
                 </div>
