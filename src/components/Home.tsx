@@ -15,7 +15,6 @@ const Home: React.FC = () => {
   const [videoRotation, setVideoRotation] = useState(30);
   const [copiedText, setCopiedText] = useState<string>('');
   const [showToast, setShowToast] = useState(false);
-  const [activeCard, setActiveCard] = useState<number | null>(null);
   const [showPhoneNumbers, setShowPhoneNumbers] = useState(false);
 
   const copyToClipboard = (text: string, label: string) => {

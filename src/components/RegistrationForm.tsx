@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from './ui/card';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
@@ -29,14 +29,6 @@ interface FormData {
   domain: string;
   members: MemberData[];
   team_size: string; // Keeping this for form state management
-}
-
-interface PaymentDetails {
-  orderId: string;
-  amount: number;
-  amountInPaise: number;
-  currency: string;
-  chargePerMember: number;
 }
 
 // interface RegistrationResponse {
