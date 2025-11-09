@@ -29,13 +29,7 @@ const Home: React.FC = () => {
     });
   };
 
-  const handleCardClick = (cardIndex: number) => {
-    if (activeCard === cardIndex) {
-      setActiveCard(null);
-    } else {
-      setActiveCard(cardIndex);
-    }
-  };
+
 
   useEffect(() => {
     const isMobile = () => (typeof window !== 'undefined') && (window.matchMedia('(max-width: 768px)').matches || ('ontouchstart' in window));

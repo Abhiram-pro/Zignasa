@@ -39,17 +39,17 @@ interface PaymentDetails {
   chargePerMember: number;
 }
 
-interface RegistrationResponse {
-  success: boolean;
-  message: string;
-  data: {
-    teamId: number;
-    teamName: string;
-    domain: string;
-    memberCount: number;
-    paymentDetails: PaymentDetails;
-  };
-}
+// interface RegistrationResponse {
+//   success: boolean;
+//   message: string;
+//   data: {
+//     teamId: number;
+//     teamName: string;
+//     domain: string;
+//     memberCount: number;
+//     paymentDetails: PaymentDetails;
+//   };
+// }
 
 const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endpoint, minTeamSize = 1, maxTeamSize = 5 }) => {
   // Generate team size options based on minTeamSize and maxTeamSize
@@ -86,62 +86,62 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ title, domain, endp
   };
 
   // Lazy load Razorpay script only when needed (on payment)
-  const loadRazorpayScript = useCallback(async () => {
-    if (window.Razorpay) {
-      return Promise.resolve();
-    }
+  // const loadRazorpayScript = useCallback(async () => {
+  //   if (window.Razorpay) {
+  //     return Promise.resolve();
+  //   }
 
-    return new Promise((resolve, reject) => {
-      const script = document.createElement('script');
-      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
-      script.defer = true; // Only use defer, not async
-      script.onload = () => {
-        console.log('Razorpay script loaded');
-        resolve(null);
-      };
-      script.onerror = () => {
-        console.error('Failed to load Razorpay script');
-        reject(new Error('Razorpay script failed to load'));
-      };
-      document.body.appendChild(script);
-    });
-  }, []);
+  //   return new Promise((resolve, reject) => {
+  //     const script = document.createElement('script');
+  //     script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+  //     script.defer = true; // Only use defer, not async
+  //     script.onload = () => {
+  //       console.log('Razorpay script loaded');
+  //       resolve(null);
+  //     };
+  //     script.onerror = () => {
+  //       console.error('Failed to load Razorpay script');
+  //       reject(new Error('Razorpay script failed to load'));
+  //     };
+  //     document.body.appendChild(script);
+  //   });
+  // }, []);
 
-  const handlePaymentSuccess = async (response: any, paymentDetails: PaymentDetails, teamId: number, members: MemberData[], registrationData?: any) => {
-    console.log('Payment successful:', response);
+  // const handlePaymentSuccess = async (response: any, paymentDetails: PaymentDetails, teamId: number, members: MemberData[], registrationData?: any) => {
+  //   console.log('Payment successful:', response);
 
-    // Store members in sessionStorage for verification
-    sessionStorage.setItem('registrationMembers', JSON.stringify(members));
+  //   // Store members in sessionStorage for verification
+  //   sessionStorage.setItem('registrationMembers', JSON.stringify(members));
 
-    // Store registration data (teamName, domain, amount, memberCount) for display on confirmation page
-    if (registrationData) {
-      sessionStorage.setItem('registrationData', JSON.stringify({
-        teamName: registrationData.teamName,
-        domain: registrationData.domain,
-        memberCount: registrationData.memberCount,
-        amount: paymentDetails.amount
-      }));
-    }
+  //   // Store registration data (teamName, domain, amount, memberCount) for display on confirmation page
+  //   if (registrationData) {
+  //     sessionStorage.setItem('registrationData', JSON.stringify({
+  //       teamName: registrationData.teamName,
+  //       domain: registrationData.domain,
+  //       memberCount: registrationData.memberCount,
+  //       amount: paymentDetails.amount
+  //     }));
+  //   }
 
-    // Redirect to confirmation page with payment details
-    const confirmationURL = new URLSearchParams({
-      order_id: paymentDetails.orderId,
-      payment_id: response.razorpay_payment_id,
-      signature: response.razorpay_signature,
-      team_id: teamId.toString(),
-    }).toString();
+  //   // Redirect to confirmation page with payment details
+  //   const confirmationURL = new URLSearchParams({
+  //     order_id: paymentDetails.orderId,
+  //     payment_id: response.razorpay_payment_id,
+  //     signature: response.razorpay_signature,
+  //     team_id: teamId.toString(),
+  //   }).toString();
 
-    window.location.href = `/confirmation?${confirmationURL}`;
-  };
+  //   window.location.href = `/confirmation?${confirmationURL}`;
+  // };
 
-  const handlePaymentFailure = (error: any) => {
-    console.error('Payment failed:', error);
-    if (error.error && error.error.description) {
-      alert('Payment failed: ' + error.error.description);
-    } else {
-      alert('Payment cancelled or failed. Please try again.');
-    }
-  };
+  // const handlePaymentFailure = (error: any) => {
+  //   console.error('Payment failed:', error);
+  //   if (error.error && error.error.description) {
+  //     alert('Payment failed: ' + error.error.description);
+  //   } else {
+  //     alert('Payment cancelled or failed. Please try again.');
+  //   }
+  // };
 
   const checkTeamNameUniqueness = async (teamName: string) => {
     const trimmedName = teamName.trim();
