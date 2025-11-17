@@ -9,6 +9,7 @@ import AgenticAIRegistration from './components/AgenticAIRegistration';
 import WebDevRegistration from './components/WebDevRegistration';
 import UX from './components/UX';
 import PaymentConfirmation from './components/PaymentConfirmation';
+import OpenChallenge from './components/OpenChallenge';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/webdev" element={<WebDevRegistration />} />
           <Route path="/UX" element={<UX />} />
           <Route path="/confirmation" element={<PaymentConfirmation />} />
+          <Route path="/open-challenge" element={<OpenChallenge />} />
         </Routes>
       </div>
     </Router>
