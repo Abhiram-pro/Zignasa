@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Label } from './ui/label';
 import { Button } from './ui/button';
 import FloatingLines from './FloatingLines';
@@ -17,8 +18,10 @@ const inputClass = "w-full bg-transparent border border-white/30 text-white roun
 const textareaClass = "w-full bg-transparent border border-white/30 text-white rounded-xl p-4 focus:ring-2 focus:ring-pink-400/60 focus:border-pink-400/60 transition-colors duration-200 resize-none placeholder:text-gray-400 hover:border-white/40 invalid:border-red-400/50";
 
 const OpenChallenge: React.FC = () => {
+  const navigate = useNavigate();
   const [teamSize, setTeamSize] = useState<number>(3);
   const [teamName, setTeamName] = useState<string>('');
+  const [showSuccessNotification, setShowSuccessNotification] = useState(false);
   const [participants, setParticipants] = useState<ParticipantData[]>(
     Array(3).fill(null).map(() => ({
       name: '',
@@ -155,41 +158,36 @@ const OpenChallenge: React.FC = () => {
     }
     setIsSubmitting(true);
     try {
-      const GOOGLE_SCRIPT_URL = process.env.REACT_APP_GOOGLE_SCRIPT_URL;
-      if (!GOOGLE_SCRIPT_URL) {
-        alert('Google Script URL not configured. Please check your .env file.');
-        setIsSubmitting(false);
-        return;
-      }
+      const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyGlhve3s5X3Dxt-Mg6p5bwbtdFAf5-gmbpRV3Eg3upHI4C-oC3by-Zxu7gzcHFtrzf5Q/exec';
 
       // Prepare data for Google Sheets - each participant as a separate row
-      const formData = participants.slice(0, teamSize).map(participant => [
-        teamName,
-        participant.name,
-        participant.mobile,
-        participant.email,
-        participant.skills,
-        participant.linkedin || '',
-        participant.github || '',
-        participant.hackathons || '',
-        new Date().toLocaleString()
-      ]);
+      const formData = participants.slice(0, teamSize).map(participant => ({
+        teamName: teamName,
+        fullName: participant.name,
+        mobileNumber: participant.mobile,
+        emailAddress: participant.email,
+        skills: participant.skills,
+        linkedinProfile: participant.linkedin || '',
+        githubProfile: participant.github || '',
+        hackathonsExperience: participant.hackathons || '',
+        timestamp: new Date().toLocaleString()
+      }));
 
       console.log('Submitting to:', GOOGLE_SCRIPT_URL);
       console.log('Data:', formData);
 
       const response = await fetch(GOOGLE_SCRIPT_URL, {
         method: 'POST',
-        mode: 'no-cors',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'text/plain',
         },
         body: JSON.stringify(formData)
       });
 
       console.log('Response status:', response.status);
 
-      alert('Registration submitted successfully! 🎉');
+      // Show success notification
+      setShowSuccessNotification(true);
       
       // Reset form
       setTeamName('');
@@ -203,6 +201,11 @@ const OpenChallenge: React.FC = () => {
         github: '',
         hackathons: ''
       })));
+
+      // Redirect to home after 2 seconds
+      setTimeout(() => {
+        navigate('/');
+      }, 2000);
     } catch (error) {
       console.error('Submission error:', error);
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
@@ -214,6 +217,20 @@ const OpenChallenge: React.FC = () => {
 
   return (
     <div className="min-h-screen relative overflow-x-hidden" style={{ background: 'transparent' }}>
+      {/* Success Notification */}
+      {showSuccessNotification && (
+        <div className="fixed top-8 right-8 z-50 animate-slide-in">
+          <div className="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-6 py-4 rounded-xl shadow-2xl flex items-center gap-3 border border-green-400/30">
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            </svg>
+            <div>
+              <p className="font-bold">Registration Successful!</p>
+              <p className="text-sm text-green-100">Redirecting to home...</p>
+            </div>
+          </div>
+        </div>
+      )}
       <div className="fixed inset-0 z-0" style={{ opacity: 0.53 }}>
         <FloatingLines
           linesGradient={['#3b82f6', '#8b5cf6', '#a855f7', '#ec4899']}
@@ -375,9 +392,15 @@ const OpenChallenge: React.FC = () => {
                       type="url"
                       value={participant.github}
                       onChange={(e) => handleParticipantChange(index, 'github', e.target.value)}
-                      className={inputClass}
+                      className={`${inputClass} ${validationErrors[`${index}-github`] ? 'border-red-400' : ''}`}
                       placeholder="https://github.com/yourusername"
                     />
+                    {validationErrors[`${index}-github`] && (
+                      <p className="text-red-400 text-xs mt-1 flex items-center gap-1">
+                        <span>⚠️</span>
+                        {validationErrors[`${index}-github`]}
+                      </p>
+                    )}
                   </div>
                   <div>
                     <Label className="text-gray-300 mb-2 block font-medium text-sm">Participated in any Hackathons? (If yes, mention details or share links)</Label>
@@ -568,6 +591,22 @@ const OpenChallenge: React.FC = () => {
           background-position: right 1rem center;
           background-size: 1.25rem;
           padding-right: 3rem;
+        }
+        
+        /* Success notification animation */
+        @keyframes slide-in {
+          from {
+            transform: translateX(400px);
+            opacity: 0;
+          }
+          to {
+            transform: translateX(0);
+            opacity: 1;
+          }
+        }
+        
+        .animate-slide-in {
+          animation: slide-in 0.4s ease-out;
         }
 
       `}</style>
