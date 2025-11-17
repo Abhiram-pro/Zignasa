@@ -216,6 +216,7 @@ const OpenChallenge: React.FC = () => {
     <div className="min-h-screen relative overflow-x-hidden" style={{ background: 'transparent' }}>
       <div className="fixed inset-0 z-0" style={{ opacity: 0.53 }}>
         <FloatingLines
+          linesGradient={['#3b82f6', '#8b5cf6', '#a855f7', '#ec4899']}
           enabledWaves={['top', 'middle', 'bottom']}
           lineCount={[8, 10, 8]}
           lineDistance={[6, 7, 6]}
