@@ -340,7 +340,7 @@ const Home: React.FC = () => {
               className="bg-purple-500 hover:bg-purple-600 text-white px-8 py-3 text-lg font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
               asChild
             >
-              <Link to="/domains">Register Now</Link>
+              <Link to="/open-challenge">Open Challenge</Link>
             </Button>
           </div>
         </section>

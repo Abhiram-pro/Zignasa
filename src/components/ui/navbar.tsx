@@ -14,7 +14,7 @@ const navItems: NavItem[] = [
   { to: '#about', label: 'About' },
   { to: '#gallery', label: 'Gallery' },
   { to: '#contact', label: 'Contact' },
-  { to: '/domains', label: 'Register Now' }
+  { to: '/open-challenge', label: 'Open Challenge' }
 ];
 
 export function Navbar() {

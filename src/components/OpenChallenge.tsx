@@ -2,6 +2,7 @@ import React, { useState, useMemo, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Label } from './ui/label';
 import { Button } from './ui/button';
+import { ArrowLeft } from 'lucide-react';
 import FloatingLines from './FloatingLines';
 
 interface ParticipantData {
@@ -33,6 +34,28 @@ const OpenChallenge: React.FC = () => {
       hackathons: ''
     }))
   );
+
+  // Scroll animation observer
+  React.useEffect(() => {
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate-in-view');
+        }
+      });
+    }, observerOptions);
+
+    // Observe all elements with scroll-animate class
+    const elements = document.querySelectorAll('.scroll-animate');
+    elements.forEach(el => observer.observe(el));
+
+    return () => observer.disconnect();
+  }, [teamSize]); // Re-run when team size changes to observe new participant cards
 
   const handleTeamSizeChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
     const newSize = parseInt(e.target.value);
@@ -103,9 +126,11 @@ const OpenChallenge: React.FC = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [validationErrors, setValidationErrors] = useState<{ [key: string]: string }>({});
+  const [isCheckingTeamName, setIsCheckingTeamName] = useState(false);
+  const [teamNameError, setTeamNameError] = useState<string>('');
 
   const isFormValid = useMemo(() => {
-    if (!teamName.trim()) return false;
+    if (!teamName.trim() || teamNameError || isCheckingTeamName) return false;
     
     // Stricter email validation
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -143,10 +168,49 @@ const OpenChallenge: React.FC = () => {
     return true;
   }, [teamName, teamSize, participants]);
 
+  const checkTeamNameUniqueness = useCallback(async (name: string) => {
+    if (!name.trim()) {
+      setTeamNameError('');
+      return;
+    }
+    
+    setIsCheckingTeamName(true);
+    try {
+      const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyGlhve3s5X3Dxt-Mg6p5bwbtdFAf5-gmbpRV3Eg3upHI4C-oC3by-Zxu7gzcHFtrzf5Q/exec';
+      const response = await fetch(`${GOOGLE_SCRIPT_URL}?action=checkTeamName&teamName=${encodeURIComponent(name.trim())}`);
+      const data = await response.json();
+      
+      if (data.exists) {
+        setTeamNameError('This team name is already taken. Please choose a different name.');
+      } else {
+        setTeamNameError('');
+      }
+    } catch (error) {
+      console.error('Error checking team name:', error);
+      // Don't block submission if check fails
+      setTeamNameError('');
+    } finally {
+      setIsCheckingTeamName(false);
+    }
+  }, []);
+
+  const handleTeamNameChange = useCallback((value: string) => {
+    setTeamName(value);
+    // Debounce the uniqueness check
+    const timeoutId = setTimeout(() => {
+      checkTeamNameUniqueness(value);
+    }, 500);
+    return () => clearTimeout(timeoutId);
+  }, [checkTeamNameUniqueness]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!teamName.trim()) {
       alert('Please enter a team name');
+      return;
+    }
+    if (teamNameError) {
+      alert('Please choose a unique team name');
       return;
     }
     for (let i = 0; i < participants.length; i++) {
@@ -216,78 +280,117 @@ const OpenChallenge: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen relative overflow-x-hidden" style={{ background: 'transparent' }}>
+    <div className="min-h-screen bg-black relative overflow-x-hidden smooth-scroll" style={{ scrollBehavior: 'smooth', WebkitOverflowScrolling: 'touch' }}>
+      {/* Liquid Glass Back Button */}
+      <button
+        onClick={() => navigate('/')}
+        className="fixed top-6 left-6 md:top-8 md:left-8 z-[60] group"
+        aria-label="Go back to home"
+        style={{ margin: '0', padding: '0' }}
+      >
+        <div className="relative p-2">
+          <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-full blur-xl group-hover:blur-2xl transition-all duration-300"></div>
+          <div className="relative flex items-center gap-2 px-4 py-2 md:px-5 md:py-3 bg-white/10 backdrop-blur-xl border border-white/20 rounded-full hover:bg-white/15 hover:border-white/30 transition-all duration-300 shadow-lg text-white font-medium text-xs md:text-sm group-hover:text-purple-300">
+            <ArrowLeft className="w-4 h-4 md:w-5 md:h-5" />
+            Back
+          </div>
+        </div>
+      </button>
+      
       {/* Success Notification */}
       {showSuccessNotification && (
-        <div className="fixed top-8 right-8 z-50 animate-slide-in">
-          <div className="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-6 py-4 rounded-xl shadow-2xl flex items-center gap-3 border border-green-400/30">
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div className="fixed top-4 right-4 md:top-8 md:right-8 z-50 animate-slide-in max-w-[calc(100vw-2rem)]">
+          <div className="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-4 py-3 md:px-6 md:py-4 rounded-xl shadow-2xl flex items-center gap-2 md:gap-3 border border-green-400/30">
+            <svg className="w-5 h-5 md:w-6 md:h-6 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
             </svg>
             <div>
-              <p className="font-bold">Registration Successful!</p>
-              <p className="text-sm text-green-100">Redirecting to home...</p>
+              <p className="font-bold text-sm md:text-base">Registration Successful!</p>
+              <p className="text-xs md:text-sm text-green-100">Redirecting to home...</p>
             </div>
           </div>
         </div>
       )}
-      <div className="fixed inset-0 z-0" style={{ opacity: 0.53 }}>
-        <FloatingLines
-          linesGradient={['#3b82f6', '#8b5cf6', '#a855f7', '#ec4899']}
-          enabledWaves={['top', 'middle', 'bottom']}
-          lineCount={[8, 10, 8]}
-          lineDistance={[6, 7, 6]}
-          topWavePosition={{ x: -15.0, y: 1.2, rotate: -0.15 }}
-          middleWavePosition={{ x: -8.0, y: 0.0, rotate: 0.0 }}
-          bottomWavePosition={{ x: -2.0, y: -1.2, rotate: 0.15 }}
-          animationSpeed={0.5}
-          interactive={true}
-          parallax={true}
-          parallaxStrength={0.15}
-          bendRadius={8.0}
-          bendStrength={-0.3}
-          mouseDamping={0.1}
-          mixBlendMode="screen"
-        />
+      
+      {/* Background Layer */}
+      <div className="fixed inset-0 z-0 bg-black">
+        <div style={{ opacity: 0.35 }}>
+          <FloatingLines
+            linesGradient={['#3b82f6', '#8b5cf6', '#a855f7', '#ec4899']}
+            enabledWaves={['top', 'middle', 'bottom']}
+            lineCount={[8, 10, 8]}
+            lineDistance={[6, 7, 6]}
+            topWavePosition={{ x: -15.0, y: 1.2, rotate: -0.15 }}
+            middleWavePosition={{ x: -8.0, y: 0.0, rotate: 0.0 }}
+            bottomWavePosition={{ x: -2.0, y: -1.2, rotate: 0.15 }}
+            animationSpeed={0.5}
+            interactive={true}
+            parallax={true}
+            parallaxStrength={0.15}
+            bendRadius={8.0}
+            bendStrength={-0.3}
+            mouseDamping={0.1}
+            mixBlendMode="screen"
+          />
+        </div>
       </div>
-      <div className="relative z-10 container mx-auto px-4 py-12 md:py-16" style={{ background: 'transparent' }}>
-        <div className="text-center mb-16 md:mb-20 max-w-6xl mx-auto py-8">
-          <h1 className="text-6xl md:text-7xl lg:text-8xl font-black leading-tight tracking-tight mb-4">
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 pt-24 pb-16 md:pt-28 md:pb-20">
+        <div className="text-center mb-12 md:mb-16 lg:mb-20 max-w-6xl mx-auto py-4 md:py-8 animate-fade-in-up">
+          <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black leading-tight tracking-tight mb-3 md:mb-4 animate-bounce-in">
             <span className="hero-title-animated">Open Challenge</span>
           </h1>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 tracking-wide hero-subtitle">
+          <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 lg:mb-8 tracking-wide hero-subtitle animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
             ZIGNASA 2K25
           </h2>
-          <div className="flex items-center justify-center gap-4 mb-8">
-            <div className="h-px w-20 hero-line"></div>
-            <div className="w-2 h-2 rounded-full hero-dot"></div>
-            <div className="h-px w-20 hero-line"></div>
+          <div className="flex items-center justify-center gap-3 md:gap-4 mb-4 md:mb-6 lg:mb-8 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+            <div className="h-px w-12 md:w-20 hero-line"></div>
+            <div className="w-2 h-2 rounded-full hero-dot animate-pulse-smooth"></div>
+            <div className="h-px w-12 md:w-20 hero-line"></div>
           </div>
-          <p className="text-lg md:text-xl mb-6 font-light hero-paragraph">
+          <p className="text-base md:text-lg lg:text-xl mb-4 md:mb-6 font-light hero-paragraph animate-fade-in-up px-4" style={{ animationDelay: '0.3s' }}>
             Register your team for the <span className="hero-highlight font-semibold">ultimate challenge</span>
           </p>
-          <div className="inline-flex items-center gap-2 px-6 py-3 backdrop-blur-sm rounded-full" style={{ background: 'rgba(168, 85, 247, 0.2)', border: '1px solid rgba(168, 85, 247, 0.4)' }}>
-            <div className="w-2 h-2 rounded-full hero-dot"></div>
-            <span className="text-sm md:text-base font-medium hero-registration-text">Registration Open</span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 md:px-6 md:py-3 backdrop-blur-sm rounded-full animate-fade-in-up transition-transform duration-500 ease-out" style={{ background: 'rgba(168, 85, 247, 0.2)', border: '1px solid rgba(168, 85, 247, 0.4)', animationDelay: '0.4s', willChange: 'transform', transform: 'translateZ(0)' }}>
+            <div className="w-2 h-2 rounded-full hero-dot animate-pulse-smooth flex-shrink-0"></div>
+            <span className="text-xs md:text-sm lg:text-base font-medium hero-registration-text whitespace-nowrap">Registration Open</span>
           </div>
         </div>
         <div className="max-w-4xl mx-auto">
           <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="backdrop-blur-md border border-white/20 rounded-2xl p-6 md:p-8 hover:border-white/30 transition-all duration-300" style={{ backgroundColor: 'rgba(255, 255, 255, 0.05)' }}>
+            <div className="backdrop-blur-md border border-white/20 rounded-2xl p-6 md:p-8 hover:border-white/30 hover-scale transition-all duration-500 ease-out scroll-animate" style={{ backgroundColor: 'rgba(255, 255, 255, 0.05)' }}>
               <h2 className="text-xl md:text-2xl font-bold text-white mb-6 pb-3 border-b border-white/10 flex items-center gap-3">
                 <span className="w-2 h-8 bg-gradient-to-b from-purple-400 to-pink-400 rounded-full shadow-lg"></span>
                 Team Details
               </h2>
               <div className="mb-6">
                 <Label className="text-gray-300 mb-2 block font-medium text-sm">Team Name *</Label>
-                <input
-                  type="text"
-                  value={teamName}
-                  onChange={(e) => setTeamName(e.target.value)}
-                  required
-                  className={inputClass}
-                  placeholder="Enter your team name"
-                />
+                <div className="relative">
+                  <input
+                    type="text"
+                    value={teamName}
+                    onChange={(e) => handleTeamNameChange(e.target.value)}
+                    required
+                    className={`${inputClass} ${teamNameError ? 'border-red-400' : ''}`}
+                    placeholder="Enter your unique team name"
+                  />
+                  {isCheckingTeamName && (
+                    <div className="absolute right-4 top-1/2 -translate-y-1/2">
+                      <div className="w-4 h-4 border-2 border-purple-400 border-t-transparent rounded-full animate-spin"></div>
+                    </div>
+                  )}
+                </div>
+                {teamNameError && (
+                  <p className="text-red-400 text-xs mt-1 flex items-center gap-1">
+                    <span>⚠️</span>
+                    {teamNameError}
+                  </p>
+                )}
+                {teamName.trim() && !teamNameError && !isCheckingTeamName && (
+                  <p className="text-green-400 text-xs mt-1 flex items-center gap-1">
+                    <span>✓</span>
+                    Team name is available
+                  </p>
+                )}
               </div>
               <div>
                 <Label className="text-gray-300 mb-2 block font-medium text-sm">Select Team Size *</Label>
@@ -305,8 +408,8 @@ const OpenChallenge: React.FC = () => {
             {participants.slice(0, teamSize).map((participant, index) => (
               <div
                 key={`participant-${index}`}
-                className="backdrop-blur-md border border-white/20 rounded-2xl p-6 md:p-8 hover:border-white/30 transition-all duration-300"
-                style={{ backgroundColor: 'rgba(255, 255, 255, 0.05)' }}
+                className="backdrop-blur-md border border-white/20 rounded-2xl p-6 md:p-8 hover:border-white/30 hover-scale transition-all duration-500 ease-out scroll-animate"
+                style={{ backgroundColor: 'rgba(255, 255, 255, 0.05)', transitionDelay: `${index * 0.1}s` }}
               >
                 <h3 className="text-lg md:text-xl font-bold text-white mb-6 pb-3 border-b border-white/10 flex items-center gap-3">
                   <span className="flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 text-white text-sm font-bold shadow-lg">
@@ -415,11 +518,12 @@ const OpenChallenge: React.FC = () => {
                 </div>
               </div>
             ))}
-            <div className="flex justify-center pt-6 pb-8">
+            <div className="flex justify-center pt-6 pb-8 scroll-animate">
               <Button
                 type="submit"
                 disabled={isSubmitting || !isFormValid}
-                className="bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 hover:from-purple-700 hover:via-pink-700 hover:to-purple-700 text-white font-bold py-4 px-16 rounded-xl text-lg shadow-2xl hover:shadow-purple-500/50 transition-all duration-300 transform hover:scale-105 border border-white/20 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:hover:scale-100 will-change-transform"
+                className="bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 hover:from-purple-700 hover:via-pink-700 hover:to-purple-700 text-white font-bold py-4 px-16 rounded-xl text-lg shadow-2xl hover:shadow-purple-500/50 transition-all duration-500 ease-out hover:scale-110 active:scale-95 border border-white/20 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:hover:scale-100"
+                style={{ willChange: 'transform', transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
               >
                 {isSubmitting ? 'Submitting...' : 'Submit Registration'}
               </Button>
@@ -428,6 +532,155 @@ const OpenChallenge: React.FC = () => {
         </div>
       </div>
       <style>{`
+        /* Performance optimizations */
+        * {
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+        }
+        
+        html {
+          scroll-behavior: smooth;
+          overflow-y: scroll;
+          scroll-padding-top: 2rem;
+        }
+        
+        /* Smooth scrolling with momentum */
+        .smooth-scroll {
+          scroll-behavior: smooth;
+          -webkit-overflow-scrolling: touch;
+          overflow-y: auto;
+          overscroll-behavior-y: contain;
+        }
+        
+        /* Custom scrollbar styling */
+        .smooth-scroll::-webkit-scrollbar {
+          width: 8px;
+        }
+        
+        .smooth-scroll::-webkit-scrollbar-track {
+          background: rgba(0, 0, 0, 0.3);
+        }
+        
+        .smooth-scroll::-webkit-scrollbar-thumb {
+          background: linear-gradient(180deg, #a855f7, #ec4899);
+          border-radius: 4px;
+        }
+        
+        .smooth-scroll::-webkit-scrollbar-thumb:hover {
+          background: linear-gradient(180deg, #9333ea, #db2777);
+        }
+        
+        /* Firefox scrollbar */
+        .smooth-scroll {
+          scrollbar-width: thin;
+          scrollbar-color: #a855f7 rgba(0, 0, 0, 0.3);
+        }
+        
+        /* GPU acceleration for smooth animations */
+        .animate-bounce-in,
+        .animate-fade-in-up,
+        .animate-slide-in-up,
+        .animate-pulse-smooth {
+          will-change: transform, opacity;
+          transform: translateZ(0);
+          backface-visibility: hidden;
+          perspective: 1000px;
+        }
+        
+        /* Bouncy entrance animations */
+        @keyframes bounce-in {
+          0% {
+            opacity: 0;
+            transform: scale(0.3) translateY(-50px) translateZ(0);
+          }
+          50% {
+            opacity: 1;
+            transform: scale(1.05) translateZ(0);
+          }
+          70% {
+            transform: scale(0.95) translateZ(0);
+          }
+          100% {
+            opacity: 1;
+            transform: scale(1) translateZ(0);
+          }
+        }
+        
+        @keyframes fade-in-up {
+          0% {
+            opacity: 0;
+            transform: translateY(30px) translateZ(0);
+          }
+          100% {
+            opacity: 1;
+            transform: translateY(0) translateZ(0);
+          }
+        }
+        
+        @keyframes slide-in-up {
+          0% {
+            opacity: 0;
+            transform: translateY(50px) scale(0.95) translateZ(0);
+          }
+          100% {
+            opacity: 1;
+            transform: translateY(0) scale(1) translateZ(0);
+          }
+        }
+        
+        @keyframes pulse-smooth {
+          0%, 100% {
+            transform: scale(1) translateZ(0);
+            opacity: 1;
+          }
+          50% {
+            transform: scale(1.3) translateZ(0);
+            opacity: 0.8;
+          }
+        }
+        
+        .animate-bounce-in {
+          animation: bounce-in 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+        }
+        
+        .animate-fade-in-up {
+          animation: fade-in-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          opacity: 0;
+        }
+        
+        .animate-slide-in-up {
+          animation: slide-in-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          opacity: 0;
+        }
+        
+        .animate-pulse-smooth {
+          animation: pulse-smooth 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        /* Smooth hover transitions with GPU acceleration */
+        .hover-scale {
+          transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+          will-change: transform;
+          transform: translateZ(0);
+        }
+        
+        .hover-scale:hover {
+          transform: scale(1.01) translateZ(0);
+        }
+        
+        /* Scroll-triggered animations */
+        .scroll-animate {
+          opacity: 0;
+          transform: translateY(40px) scale(0.95) translateZ(0);
+          transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                      transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .scroll-animate.animate-in-view {
+          opacity: 1;
+          transform: translateY(0) scale(1) translateZ(0);
+        }
+        
         @keyframes float-slow {
           0%, 100% { transform: translateY(0px); }
           50% { transform: translateY(-10px); }
@@ -455,8 +708,6 @@ const OpenChallenge: React.FC = () => {
           background: transparent !important;
           background-color: transparent !important;
         }
-        
-
         
         /* Unified color animation for all hero elements */
         @keyframes smoothColorShift {
