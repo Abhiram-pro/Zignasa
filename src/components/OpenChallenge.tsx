@@ -3,12 +3,15 @@ import { useNavigate } from 'react-router-dom';
 import { Label } from './ui/label';
 import { Button } from './ui/button';
 import { ArrowLeft } from 'lucide-react';
-import FloatingLines from './FloatingLines';
+import Aurora from './Hyperspeed';
+import Hyperspeed from './Hyperspeed';
 
 interface ParticipantData {
   name: string;
   mobile: string;
   email: string;
+  institution: string;
+  clubs: string;
   skills: string;
   linkedin: string;
   github: string;
@@ -28,6 +31,8 @@ const OpenChallenge: React.FC = () => {
       name: '',
       mobile: '',
       email: '',
+      institution: '',
+      clubs: '',
       skills: '',
       linkedin: '',
       github: '',
@@ -68,6 +73,8 @@ const OpenChallenge: React.FC = () => {
             name: '',
             mobile: '',
             email: '',
+            institution: '',
+            clubs: '',
             skills: '',
             linkedin: '',
             github: '',
@@ -128,6 +135,28 @@ const OpenChallenge: React.FC = () => {
   const [validationErrors, setValidationErrors] = useState<{ [key: string]: string }>({});
   const [isCheckingTeamName, setIsCheckingTeamName] = useState(false);
   const [teamNameError, setTeamNameError] = useState<string>('');
+  const [showValidationMessage, setShowValidationMessage] = useState(false);
+  const [currentValidationMessage, setCurrentValidationMessage] = useState<string>('');
+
+  const getValidationMessage = useCallback(() => {
+    if (!teamName.trim()) return 'Team Name is required';
+    if (teamNameError) return 'Please choose a unique team name';
+    if (isCheckingTeamName) return 'Checking team name availability...';
+    
+    for (let i = 0; i < teamSize; i++) {
+      const p = participants[i];
+      if (!p?.name.trim()) return `Participant ${i + 1}: Full Name is required`;
+      if (!p?.mobile.trim()) return `Participant ${i + 1}: Mobile Number is required`;
+      if (p?.mobile.trim() && !/^[0-9]{10}$/.test(p.mobile.trim())) return `Participant ${i + 1}: Mobile Number must be 10 digits`;
+      if (!p?.email.trim()) return `Participant ${i + 1}: Email Address is required`;
+      if (p?.email.trim() && !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(p.email.trim())) return `Participant ${i + 1}: Invalid email format`;
+      if (!p?.institution.trim()) return `Participant ${i + 1}: Institution is required`;
+      if (!p?.skills.trim()) return `Participant ${i + 1}: Skills field is required`;
+      if (p?.linkedin.trim() && !/^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)$/.test(p.linkedin.trim())) return `Participant ${i + 1}: Invalid LinkedIn URL format`;
+      if (p?.github.trim() && !/^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)$/.test(p.github.trim())) return `Participant ${i + 1}: Invalid GitHub URL format`;
+    }
+    return '';
+  }, [teamName, teamNameError, isCheckingTeamName, teamSize, participants]);
 
   const isFormValid = useMemo(() => {
     if (!teamName.trim() || teamNameError || isCheckingTeamName) return false;
@@ -141,7 +170,7 @@ const OpenChallenge: React.FC = () => {
       const p = participants[i];
       
       // Check required fields
-      if (!p?.name.trim() || !p?.mobile.trim() || !p?.email.trim() || !p?.skills.trim()) {
+      if (!p?.name.trim() || !p?.mobile.trim() || !p?.email.trim() || !p?.institution.trim() || !p?.skills.trim()) {
         return false;
       }
       
@@ -176,7 +205,7 @@ const OpenChallenge: React.FC = () => {
     
     setIsCheckingTeamName(true);
     try {
-      const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyGlhve3s5X3Dxt-Mg6p5bwbtdFAf5-gmbpRV3Eg3upHI4C-oC3by-Zxu7gzcHFtrzf5Q/exec';
+      const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxv23zVZmS1SwPJU5ahu1qgw0GOma4_LW4ka5XnyHZCtozGkvmxQJiXf0y65H-kp3Ex8Q/exec';
       const response = await fetch(`${GOOGLE_SCRIPT_URL}?action=checkTeamName&teamName=${encodeURIComponent(name.trim())}`);
       const data = await response.json();
       
@@ -215,14 +244,14 @@ const OpenChallenge: React.FC = () => {
     }
     for (let i = 0; i < participants.length; i++) {
       const p = participants[i];
-      if (!p.name.trim() || !p.mobile.trim() || !p.email.trim() || !p.skills.trim()) {
+      if (!p.name.trim() || !p.mobile.trim() || !p.email.trim() || !p.institution.trim() || !p.skills.trim()) {
         alert(`Please fill all required fields for Participant ${i + 1}`);
         return;
       }
     }
     setIsSubmitting(true);
     try {
-      const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyGlhve3s5X3Dxt-Mg6p5bwbtdFAf5-gmbpRV3Eg3upHI4C-oC3by-Zxu7gzcHFtrzf5Q/exec';
+      const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbybEh8BbYW8SRyKs5Wf77AgT4DzZInw24aivM00aqXGUDw9pFsF5gFVpyUEmMW88Yochw/exec';
 
       // Prepare data for Google Sheets - each participant as a separate row
       const formData = participants.slice(0, teamSize).map(participant => ({
@@ -230,6 +259,8 @@ const OpenChallenge: React.FC = () => {
         fullName: participant.name,
         mobileNumber: participant.mobile,
         emailAddress: participant.email,
+        institution: participant.institution,
+        clubs: participant.clubs || '',
         skills: participant.skills,
         linkedinProfile: participant.linkedin || '',
         githubProfile: participant.github || '',
@@ -260,6 +291,8 @@ const OpenChallenge: React.FC = () => {
         name: '',
         mobile: '',
         email: '',
+        institution: '',
+        clubs: '',
         skills: '',
         linkedin: '',
         github: '',
@@ -312,27 +345,47 @@ const OpenChallenge: React.FC = () => {
         </div>
       )}
       
-      {/* Background Layer */}
-      <div className="fixed inset-0 z-0 bg-black">
-        <div style={{ opacity: 0.35 }}>
-          <FloatingLines
-            linesGradient={['#3b82f6', '#8b5cf6', '#a855f7', '#ec4899']}
-            enabledWaves={['top', 'middle', 'bottom']}
-            lineCount={[8, 10, 8]}
-            lineDistance={[6, 7, 6]}
-            topWavePosition={{ x: -15.0, y: 1.2, rotate: -0.15 }}
-            middleWavePosition={{ x: -8.0, y: 0.0, rotate: 0.0 }}
-            bottomWavePosition={{ x: -2.0, y: -1.2, rotate: 0.15 }}
-            animationSpeed={0.5}
-            interactive={true}
-            parallax={true}
-            parallaxStrength={0.15}
-            bendRadius={8.0}
-            bendStrength={-0.3}
-            mouseDamping={0.1}
-            mixBlendMode="screen"
-          />
-        </div>
+      {/* Background Layer - Aurora */}
+      <div className="fixed inset-0 z-0 bg-black pointer-events-none">
+        <Hyperspeed
+         effectOptions={{
+    onSpeedUp: () => { },
+    onSlowDown: () => { },
+    distortion: 'turbulentDistortion',
+    length: 400,
+    roadWidth: 10,
+    islandWidth: 2,
+    lanesPerRoad: 4,
+    fov: 90,
+    fovSpeedUp: 150,
+    speedUp: 2,
+    carLightsFade: 0.4,
+    totalSideLightSticks: 20,
+    lightPairsPerRoadWay: 40,
+    shoulderLinesWidthPercentage: 0.05,
+    brokenLinesWidthPercentage: 0.1,
+    brokenLinesLengthPercentage: 0.5,
+    lightStickWidth: [0.12, 0.5],
+    lightStickHeight: [1.3, 1.7],
+    movingAwaySpeed: [60, 80],
+    movingCloserSpeed: [-120, -160],
+    carLightsLength: [400 * 0.03, 400 * 0.2],
+    carLightsRadius: [0.05, 0.14],
+    carWidthPercentage: [0.3, 0.5],
+    carShiftX: [-0.8, 0.8],
+    carFloorSeparation: [0, 5],
+    colors: {
+      roadColor: 0x080808,
+      islandColor: 0x0a0a0a,
+      background: 0x000000,
+      shoulderLines: 0xFFFFFF,
+      brokenLines: 0xFFFFFF,
+      leftCars: [0xD856BF, 0x6750A2, 0xC247AC],
+      rightCars: [0x03B3C3, 0x0E5EA5, 0x324555],
+      sticks: 0x03B3C3,
+    }
+  }}
+        />
       </div>
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 pt-24 pb-16 md:pt-28 md:pb-20">
         <div className="text-center mb-12 md:mb-16 lg:mb-20 max-w-6xl mx-auto py-4 md:py-8 animate-fade-in-up">
@@ -356,7 +409,7 @@ const OpenChallenge: React.FC = () => {
           </div>
         </div>
         <div className="max-w-4xl mx-auto">
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6" autoComplete="on">
             <div className="backdrop-blur-md border border-white/20 rounded-2xl p-6 md:p-8 hover:border-white/30 hover-scale transition-all duration-500 ease-out scroll-animate" style={{ backgroundColor: 'rgba(255, 255, 255, 0.05)' }}>
               <h2 className="text-xl md:text-2xl font-bold text-white mb-6 pb-3 border-b border-white/10 flex items-center gap-3">
                 <span className="w-2 h-8 bg-gradient-to-b from-purple-400 to-pink-400 rounded-full shadow-lg"></span>
@@ -367,6 +420,9 @@ const OpenChallenge: React.FC = () => {
                 <div className="relative">
                   <input
                     type="text"
+                    name="team-name"
+                    id="team-name"
+                    autoComplete="off"
                     value={teamName}
                     onChange={(e) => handleTeamNameChange(e.target.value)}
                     required
@@ -395,6 +451,9 @@ const OpenChallenge: React.FC = () => {
               <div>
                 <Label className="text-gray-300 mb-2 block font-medium text-sm">Select Team Size *</Label>
                 <select
+                  name="team-size"
+                  id="team-size"
+                  autoComplete="off"
                   value={teamSize}
                   onChange={handleTeamSizeChange}
                   className={inputClass}
@@ -422,6 +481,9 @@ const OpenChallenge: React.FC = () => {
                     <Label className="text-gray-300 mb-2 block font-medium text-sm">Full Name *</Label>
                     <input
                       type="text"
+                      name={`participant-${index}-name`}
+                      id={`participant-${index}-name`}
+                      autoComplete="name"
                       value={participant.name}
                       onChange={(e) => handleParticipantChange(index, 'name', e.target.value)}
                       required
@@ -433,6 +495,9 @@ const OpenChallenge: React.FC = () => {
                     <Label className="text-gray-300 mb-2 block font-medium text-sm">Mobile Number *</Label>
                     <input
                       type="tel"
+                      name={`participant-${index}-mobile`}
+                      id={`participant-${index}-mobile`}
+                      autoComplete="tel-national"
                       value={participant.mobile}
                       onChange={(e) => {
                         const value = e.target.value.replace(/\D/g, '').slice(0, 10);
@@ -449,6 +514,9 @@ const OpenChallenge: React.FC = () => {
                     <Label className="text-gray-300 mb-2 block font-medium text-sm">Email Address *</Label>
                     <input
                       type="email"
+                      name={`participant-${index}-email`}
+                      id={`participant-${index}-email`}
+                      autoComplete="email"
                       value={participant.email}
                       onChange={(e) => handleParticipantChange(index, 'email', e.target.value)}
                       required
@@ -463,8 +531,38 @@ const OpenChallenge: React.FC = () => {
                     )}
                   </div>
                   <div>
+                    <Label className="text-gray-300 mb-2 block font-medium text-sm">Institution *</Label>
+                    <input
+                      type="text"
+                      name={`participant-${index}-institution`}
+                      id={`participant-${index}-institution`}
+                      autoComplete="organization"
+                      value={participant.institution}
+                      onChange={(e) => handleParticipantChange(index, 'institution', e.target.value)}
+                      required
+                      className={inputClass}
+                      placeholder="Enter your institution name"
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-gray-300 mb-2 block font-medium text-sm">Clubs</Label>
+                    <input
+                      type="text"
+                      name={`participant-${index}-clubs`}
+                      id={`participant-${index}-clubs`}
+                      autoComplete="off"
+                      value={participant.clubs}
+                      onChange={(e) => handleParticipantChange(index, 'clubs', e.target.value)}
+                      className={inputClass}
+                      placeholder="e.g., Coding Club, Robotics Club..."
+                    />
+                  </div>
+                  <div>
                     <Label className="text-gray-300 mb-2 block font-medium text-sm">Mention Your Skills *</Label>
                     <textarea
+                      name={`participant-${index}-skills`}
+                      id={`participant-${index}-skills`}
+                      autoComplete="off"
                       value={participant.skills}
                       onChange={(e) => handleParticipantChange(index, 'skills', e.target.value)}
                       required
@@ -477,6 +575,9 @@ const OpenChallenge: React.FC = () => {
                     <Label className="text-gray-300 mb-2 block font-medium text-sm">LinkedIn Profile</Label>
                     <input
                       type="url"
+                      name={`participant-${index}-linkedin`}
+                      id={`participant-${index}-linkedin`}
+                      autoComplete="url"
                       value={participant.linkedin}
                       onChange={(e) => handleParticipantChange(index, 'linkedin', e.target.value)}
                       className={`${inputClass} ${validationErrors[`${index}-linkedin`] ? 'border-red-400' : ''}`}
@@ -493,6 +594,9 @@ const OpenChallenge: React.FC = () => {
                     <Label className="text-gray-300 mb-2 block font-medium text-sm">GitHub Profile</Label>
                     <input
                       type="url"
+                      name={`participant-${index}-github`}
+                      id={`participant-${index}-github`}
+                      autoComplete="url"
                       value={participant.github}
                       onChange={(e) => handleParticipantChange(index, 'github', e.target.value)}
                       className={`${inputClass} ${validationErrors[`${index}-github`] ? 'border-red-400' : ''}`}
@@ -508,6 +612,9 @@ const OpenChallenge: React.FC = () => {
                   <div>
                     <Label className="text-gray-300 mb-2 block font-medium text-sm">Participated in any Hackathons? (If yes, mention details or share links)</Label>
                     <textarea
+                      name={`participant-${index}-hackathons`}
+                      id={`participant-${index}-hackathons`}
+                      autoComplete="off"
                       value={participant.hackathons}
                       onChange={(e) => handleParticipantChange(index, 'hackathons', e.target.value)}
                       rows={3}
@@ -519,14 +626,37 @@ const OpenChallenge: React.FC = () => {
               </div>
             ))}
             <div className="flex justify-center pt-6 pb-8 scroll-animate">
-              <Button
-                type="submit"
-                disabled={isSubmitting || !isFormValid}
-                className="bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 hover:from-purple-700 hover:via-pink-700 hover:to-purple-700 text-white font-bold py-4 px-16 rounded-xl text-lg shadow-2xl hover:shadow-purple-500/50 transition-all duration-500 ease-out hover:scale-110 active:scale-95 border border-white/20 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:hover:scale-100"
-                style={{ willChange: 'transform', transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
-              >
-                {isSubmitting ? 'Submitting...' : 'Submit Registration'}
-              </Button>
+              <div className="relative">
+                <Button
+                  type="submit"
+                  disabled={isSubmitting || !isFormValid}
+                  onClick={(e) => {
+                    if (!isFormValid && !isSubmitting) {
+                      e.preventDefault();
+                      const message = getValidationMessage();
+                      if (message) {
+                        setCurrentValidationMessage(message);
+                        setShowValidationMessage(true);
+                        setTimeout(() => setShowValidationMessage(false), 5000);
+                      }
+                    }
+                  }}
+                  className="bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 hover:from-purple-700 hover:via-pink-700 hover:to-purple-700 text-white font-bold py-4 px-16 rounded-xl text-lg shadow-2xl hover:shadow-purple-500/50 transition-all duration-500 ease-out hover:scale-110 active:scale-95 border border-white/20 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:hover:scale-100"
+                  style={{ willChange: 'transform', transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
+                >
+                  {isSubmitting ? 'Submitting...' : 'Submit Registration'}
+                </Button>
+                {showValidationMessage && currentValidationMessage && (
+                  <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-max max-w-sm animate-fade-in z-10">
+                    <div className="bg-red-500/95 backdrop-blur-md text-white px-5 py-3 rounded-lg shadow-2xl text-sm font-medium border border-red-400/40 flex items-start gap-2">
+                      <svg className="w-5 h-5 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                      </svg>
+                      <span>{currentValidationMessage}</span>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </form>
         </div>
@@ -858,6 +988,22 @@ const OpenChallenge: React.FC = () => {
         
         .animate-slide-in {
           animation: slide-in 0.4s ease-out;
+        }
+        
+        /* Fade in animation for validation message */
+        @keyframes fade-in {
+          from {
+            opacity: 0;
+            transform: translateY(10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        .animate-fade-in {
+          animation: fade-in 0.3s ease-out;
         }
 
       `}</style>
