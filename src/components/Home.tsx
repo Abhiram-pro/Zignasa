@@ -508,7 +508,7 @@ const Home: React.FC = () => {
                   {/* First set of logos */}
                   <div className="flex gap-4 md:gap-6 lg:gap-8 pr-4 md:pr-6 lg:pr-8">
                     <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl flex-shrink-0">
-                      <img src="/assets/img/mlrit.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
+                      <img src="/assets/new_images/MLRIT LOGO.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="MLRIT Logo" />
                     </div>
                     <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl flex-shrink-0">
                       <img src="/assets/img/codelogo.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
@@ -539,7 +539,7 @@ const Home: React.FC = () => {
                   {/* Duplicate for seamless loop */}
                   <div className="flex gap-4 md:gap-6 lg:gap-8 pr-4 md:pr-6 lg:pr-8">
                     <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl flex-shrink-0">
-                      <img src="/assets/img/mlrit.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
+                      <img src="/assets/new_images/MLRIT LOGO.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="MLRIT Logo" />
                     </div>
                     <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl flex-shrink-0">
                       <img src="/assets/img/codelogo.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
@@ -570,7 +570,7 @@ const Home: React.FC = () => {
                   {/* Third set for extra coverage */}
                   <div className="flex gap-4 md:gap-6 lg:gap-8 pr-4 md:pr-6 lg:pr-8">
                     <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl flex-shrink-0">
-                      <img src="/assets/img/mlrit.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
+                      <img src="/assets/new_images/MLRIT LOGO.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="MLRIT Logo" />
                     </div>
                     <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl flex-shrink-0">
                       <img src="/assets/img/codelogo.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
@@ -601,7 +601,7 @@ const Home: React.FC = () => {
                   {/* Fourth set for extra coverage */}
                   <div className="flex gap-4 md:gap-6 lg:gap-8 pr-4 md:pr-6 lg:pr-8">
                     <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl flex-shrink-0">
-                      <img src="/assets/img/mlrit.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
+                      <img src="/assets/new_images/MLRIT LOGO.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="MLRIT Logo" />
                     </div>
                     <div className="bg-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 w-36 md:w-44 lg:w-48 h-24 md:h-28 lg:h-32 flex items-center justify-center shadow-2xl flex-shrink-0">
                       <img src="/assets/img/codelogo.png" className="w-full h-12 md:h-14 lg:h-16 object-contain filter brightness-90" alt="" />
