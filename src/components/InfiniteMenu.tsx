@@ -1,4 +1,5 @@
 import { FC, useRef, useState, useEffect, MutableRefObject } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { mat4, quat, vec2, vec3 } from 'gl-matrix';
 import './InfiniteMenu.css';
 
@@ -1084,6 +1085,8 @@ const InfiniteMenu: FC<InfiniteMenuProps> = ({ items = [] }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null) as MutableRefObject<HTMLCanvasElement | null>;
   const [activeItem, setActiveItem] = useState<MenuItem | null>(null);
   const [isMoving, setIsMoving] = useState<boolean>(false);
+  const [isTransitioning, setIsTransitioning] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -1115,18 +1118,96 @@ const InfiniteMenu: FC<InfiniteMenuProps> = ({ items = [] }) => {
     };
   }, [items]);
 
+  // Separate effect for canvas click handler
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    let pointerDownTime = 0;
+    let pointerDownPos = { x: 0, y: 0 };
+    let hasMoved = false;
+
+    const handlePointerDown = (e: PointerEvent) => {
+      pointerDownTime = Date.now();
+      pointerDownPos = { x: e.clientX, y: e.clientY };
+      hasMoved = false;
+    };
+
+    const handlePointerMove = (e: PointerEvent) => {
+      const moveDistance = Math.sqrt(
+        Math.pow(e.clientX - pointerDownPos.x, 2) + 
+        Math.pow(e.clientY - pointerDownPos.y, 2)
+      );
+      if (moveDistance > 5) {
+        hasMoved = true;
+      }
+    };
+
+    const handlePointerUp = (e: PointerEvent) => {
+      const clickDuration = Date.now() - pointerDownTime;
+      const moveDistance = Math.sqrt(
+        Math.pow(e.clientX - pointerDownPos.x, 2) + 
+        Math.pow(e.clientY - pointerDownPos.y, 2)
+      );
+
+      // Consider it a click if: quick (< 300ms) and minimal movement (< 10px)
+      if (clickDuration < 300 && moveDistance < 10 && !hasMoved && activeItem?.link) {
+        if (activeItem.link.startsWith('http')) {
+          window.open(activeItem.link, '_blank');
+        } else {
+          // Smooth transition before navigation
+          setIsTransitioning(true);
+          setTimeout(() => {
+            navigate(activeItem.link);
+          }, 400);
+        }
+      }
+    };
+
+    canvas.addEventListener('pointerdown', handlePointerDown);
+    canvas.addEventListener('pointermove', handlePointerMove);
+    canvas.addEventListener('pointerup', handlePointerUp);
+
+    return () => {
+      canvas.removeEventListener('pointerdown', handlePointerDown);
+      canvas.removeEventListener('pointermove', handlePointerMove);
+      canvas.removeEventListener('pointerup', handlePointerUp);
+    };
+  }, [activeItem, navigate]);
+
   const handleButtonClick = () => {
     if (!activeItem?.link) return;
     if (activeItem.link.startsWith('http')) {
       window.open(activeItem.link, '_blank');
     } else {
-      window.location.href = activeItem.link;
+      // Smooth transition before navigation
+      setIsTransitioning(true);
+      setTimeout(() => {
+        navigate(activeItem.link);
+      }, 400);
     }
   };
 
   return (
     <div style={{ position: 'relative', width: '100%', height: '100%' }}>
-      <canvas id="infinite-grid-menu-canvas" ref={canvasRef} />
+      {/* Transition overlay */}
+      <div
+        style={{
+          position: 'fixed',
+          inset: 0,
+          backgroundColor: 'black',
+          opacity: isTransitioning ? 1 : 0,
+          transition: 'opacity 0.4s ease-in-out',
+          pointerEvents: isTransitioning ? 'all' : 'none',
+          zIndex: 9999
+        }}
+      />
+
+      <canvas 
+        id="infinite-grid-menu-canvas" 
+        ref={canvasRef} 
+        style={{ cursor: !isMoving && activeItem ? 'pointer' : 'grab' }}
+      />
 
       {activeItem && (
         <>
