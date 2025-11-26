@@ -54,12 +54,6 @@ const ProblemStatements: React.FC = () => {
       {/* Background Gradient */}
       <div className="fixed inset-0 z-0 pointer-events-none bg-gradient-to-br from-[#7753D1] via-[#8B5FE8] to-[#7753D1]"></div>
 
-      {/* Noise Texture Overlay */}
-      <div 
-        className="fixed inset-0 z-0 opacity-25 pointer-events-none bg-repeat"
-        style={{ backgroundImage: `url(${process.env.PUBLIC_URL}/assets/noise-texture.png)` }}
-      ></div>
-
 
 
       {/* Date Badge */}
