@@ -90,7 +90,7 @@ const ProblemStatementDetail: React.FC = () => {
             </div>
 
             {/* Animated Bento Grid */}
-            <AnimatedBentoGrid />
+            <AnimatedBentoGrid domain={domain} />
           </div>
         </div>
       </div>

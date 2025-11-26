@@ -335,13 +335,22 @@ const Home: React.FC = () => {
                 November <span style={{ color: '#ffffff', fontWeight: 'bold', background: 'none', backgroundImage: 'none', WebkitBackgroundClip: 'initial', WebkitTextFillColor: '#ffffff' }}>28th & 29th</span>
               </h2>
             </div>
-            <Button
-              size="lg"
-              className="bg-purple-500 hover:bg-purple-600 text-white px-8 py-3 text-lg font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
-              asChild
-            >
-              <Link to="/open-challenge">Open Challenge</Link>
-            </Button>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Button
+                size="lg"
+                className="bg-purple-500 hover:bg-purple-600 text-white px-8 py-3 text-lg font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
+                asChild
+              >
+                <Link to="/domains">Register Now</Link>
+              </Button>
+              <Button
+                size="lg"
+                className="bg-white/10 hover:bg-white/20 text-white border-2 border-purple-400 hover:border-purple-300 px-8 py-3 text-lg font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
+                asChild
+              >
+                <Link to="/open-challenge">Open Challenge</Link>
+              </Button>
+            </div>
           </div>
         </section>
 
