@@ -51,11 +51,7 @@ const ProblemStatements: React.FC = () => {
         </div>
       </button>
 
-      {/* Background Gradient */}
-      <div className="fixed inset-0 z-0 pointer-events-none bg-gradient-to-br from-[#7753D1] via-[#8B5FE8] to-[#7753D1]"></div>
-
-
-
+  
       {/* Date Badge */}
       <div className="fixed right-[2.7%] top-[5.4%] z-20 pointer-events-none">
         <div className="relative">
