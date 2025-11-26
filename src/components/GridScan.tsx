@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { EffectComposer, RenderPass, EffectPass, BloomEffect, ChromaticAberrationEffect } from 'postprocessing';
 import * as THREE from 'three';
 // @ts-ignore - face-api.js doesn't have type definitions
+// eslint-disable-next-line
 import * as faceapi from 'face-api.js';
 import './GridScan.css';
 
@@ -464,6 +465,7 @@ export const GridScan: React.FC<GridScanProps> = ({
     renderer.autoClear = false;
     renderer.setClearColor(0x000000, 0);
     container.appendChild(renderer.domElement);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
 
     const uniforms = {
       iResolution: {
@@ -611,7 +613,23 @@ export const GridScan: React.FC<GridScanProps> = ({
     lineStyle,
     lineJitter,
     scanDirection,
-    enablePost
+    enablePost,
+    bloomIntensity,
+    bloomThreshold,
+    bloomSmoothing,
+    chromaticAberration,
+    noiseIntensity,
+    scanGlow,
+    scanSoftness,
+    scanPhaseTaper,
+    scanDuration,
+    scanDelay,
+    skewScale,
+    tiltScale,
+    yawScale,
+    yBoost,
+    smoothTime,
+    maxSpeed
   ]);
 
   useEffect(() => {
@@ -707,6 +725,7 @@ export const GridScan: React.FC<GridScanProps> = ({
       if (!enableWebcam || !modelsReady) return;
       const video = videoRef.current;
       if (!video) return;
+      // eslint-disable-next-line react-hooks/exhaustive-deps
 
       try {
         const stream = await navigator.mediaDevices.getUserMedia({
@@ -801,6 +820,7 @@ export const GridScan: React.FC<GridScanProps> = ({
         video.srcObject = null;
       }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [enableWebcam, modelsReady, depthResponse]);
 
   return (

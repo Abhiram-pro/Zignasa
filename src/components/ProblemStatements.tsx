@@ -61,7 +61,7 @@ const ProblemStatements: React.FC = () => {
       ></div>
 
       {/* ZIGNASA Logo Letters - Individual SVGs positioned as per Figma */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none opacity-20 z-0">
+      <div className="fixed inset-0 overflow-hidden pointer-events-none opacity-20 z-0 hidden md:block">
         <img 
           src={`${process.env.PUBLIC_URL}/assets/letter-z.svg`}
           alt="" 
