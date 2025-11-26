@@ -60,75 +60,7 @@ const ProblemStatements: React.FC = () => {
         style={{ backgroundImage: `url(${process.env.PUBLIC_URL}/assets/noise-texture.png)` }}
       ></div>
 
-      {/* ZIGNASA Logo Letters - Individual SVGs positioned as per Figma */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none opacity-20 z-0 hidden md:block">
-        <img 
-          src={`${process.env.PUBLIC_URL}/assets/letter-z.svg`}
-          alt="" 
-          className="absolute"
-          style={{ 
-            left: '-9%', 
-            top: '41.6%',
-            width: '31.5%',
-            height: 'auto'
-          }}
-        />
-        <img 
-          src={`${process.env.PUBLIC_URL}/assets/letter-i.svg`}
-          alt="" 
-          className="absolute"
-          style={{ 
-            left: '3.8%', 
-            top: '12.6%',
-            width: '18.7%',
-            height: 'auto'
-          }}
-        />
-        <img 
-          src={`${process.env.PUBLIC_URL}/assets/letters-gn.svg`}
-          alt="" 
-          className="absolute"
-          style={{ 
-            left: '20.6%', 
-            top: '-24.6%',
-            width: '48.3%',
-            height: 'auto'
-          }}
-        />
-        <img 
-          src={`${process.env.PUBLIC_URL}/assets/letter-a1.svg`}
-          alt="" 
-          className="absolute"
-          style={{ 
-            left: '57.3%', 
-            top: '6.1%',
-            width: '34.7%',
-            height: 'auto'
-          }}
-        />
-        <img 
-          src={`${process.env.PUBLIC_URL}/assets/letter-s.svg`}
-          alt="" 
-          className="absolute"
-          style={{ 
-            left: '67.4%', 
-            top: '-12.9%',
-            width: '26.2%',
-            height: 'auto'
-          }}
-        />
-        <img 
-          src={`${process.env.PUBLIC_URL}/assets/letter-a2.svg`}
-          alt="" 
-          className="absolute"
-          style={{ 
-            left: '79.6%', 
-            top: '-12.3%',
-            width: '32.8%',
-            height: 'auto'
-          }}
-        />
-      </div>
+
 
       {/* Date Badge */}
       <div className="fixed right-[2.7%] top-[5.4%] z-20 pointer-events-none">
