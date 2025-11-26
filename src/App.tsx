@@ -10,6 +10,8 @@ import WebDevRegistration from './components/WebDevRegistration';
 import UX from './components/UX';
 import PaymentConfirmation from './components/PaymentConfirmation';
 import OpenChallenge from './components/OpenChallenge';
+import ProblemStatements from './components/ProblemStatements';
+import ProblemStatementDetail from './components/ProblemStatementDetail';
 
 function App() {
   return (
@@ -23,6 +25,8 @@ function App() {
           <Route path="/UX" element={<UX />} />
           <Route path="/confirmation" element={<PaymentConfirmation />} />
           <Route path="/open-challenge" element={<OpenChallenge />} />
+          <Route path="/problem-statements" element={<ProblemStatements />} />
+          <Route path="/problem-statements/:domain" element={<ProblemStatementDetail />} />
         </Routes>
       </div>
     </Router>

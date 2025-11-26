@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { Label } from './ui/label';
 import { Button } from './ui/button';
 import { ArrowLeft } from 'lucide-react';
-import Aurora from './Hyperspeed';
 import Hyperspeed from './Hyperspeed';
 
 interface ParticipantData {
