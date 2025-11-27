@@ -348,7 +348,7 @@ const Home: React.FC = () => {
                 className="bg-white/10 hover:bg-white/20 text-white border-2 border-purple-400 hover:border-purple-300 px-8 py-3 text-lg font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
                 asChild
               >
-                <Link to="/open-challenge">Open Challenge</Link>
+                <Link to="/problem-statements">Problem Statements</Link>
               </Button>
             </div>
           </div>
